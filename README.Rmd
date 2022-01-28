@@ -1,0 +1,27 @@
+---
+title: "zmisc"
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd -->
+
+```{r, include = FALSE}
+
+# Knitr options
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+
+```
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+```{r child="vignettes/zmisc.Rmd"}
+```
+
+
+
