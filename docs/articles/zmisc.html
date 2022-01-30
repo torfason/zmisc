@@ -95,11 +95,11 @@
 <div class="section level2">
 <h2 id="quick-and-easy-value-lookups">Quick and easy value lookups<a class="anchor" aria-label="anchor" href="#quick-and-easy-value-lookups"></a>
 </h2>
-<p>The functions <a href="https://github.com/torfason" class="external-link">lookup()</a> and <a href="https://github.com/torfason" class="external-link">lookuper()</a> are used to look up values from a lookup table, which can be supplied as a <code>vector</code>, a <code>list</code>, or a <code>data.frame</code>. The functions are in some ways similar to the Excel function <code>VLOOKUP()</code>, but are designed to work smoothly in an R workflow, in particular within pipes.</p>
+<p>The functions <a href="https://torfason.github.io/zmisc/reference/lookup.html" class="external-link">lookup()</a> and <a href="https://torfason.github.io/zmisc/reference/lookuper.html" class="external-link">lookuper()</a> are used to look up values from a lookup table, which can be supplied as a <code>vector</code>, a <code>list</code>, or a <code>data.frame</code>. The functions are in some ways similar to the Excel function <code>VLOOKUP()</code>, but are designed to work smoothly in an R workflow, in particular within pipes.</p>
 <div class="section level3">
 <h3 id="lookup-lookup-values-from-a-lookup-table">lookup: Lookup values from a lookup table<a class="anchor" aria-label="anchor" href="#lookup-lookup-values-from-a-lookup-table"></a>
 </h3>
-<p>The <a href="https://github.com/torfason" class="external-link">lookup()</a> function implements lookup of certain strings (such as variable names) from an lookup table which maps keys onto values (such as variable labels or descriptions). Original values are returned if they are not found in the lookup table.</p>
+<p>The <a href="https://torfason.github.io/zmisc/reference/lookup.html" class="external-link">lookup()</a> function implements lookup of certain strings (such as variable names) from an lookup table which maps keys onto values (such as variable labels or descriptions). Original values are returned if they are not found in the lookup table.</p>
 <p>The lookup table can be in the form of a two-column <code>data.frame</code>, in the form of a named <code>vector</code>, or in the form of a <code>list</code>. If the table is in the form of a <code>data.frame</code>, the lookup columns should be named <code>name</code> (for the key) and <code>value</code> (for the value). If the lookup table is in the form of a named <code>vector</code> or <code>list</code>, the name is used for the key, and the returned value is taken from the values in the vector or list.</p>
 <p>Any names in x are not included in the result.</p>
 <div class="section level4">
@@ -118,7 +118,7 @@
 <div class="section level3">
 <h3 id="lookuper-construct-lookup-function-based-on-a-specific-lookup-table">lookuper: Construct lookup function based on a specific lookup table<a class="anchor" aria-label="anchor" href="#lookuper-construct-lookup-function-based-on-a-specific-lookup-table"></a>
 </h3>
-<p>The <a href="https://github.com/torfason" class="external-link">lookuper()</a> function returns <em>a function</em> equivalent to the <a href="https://github.com/torfason" class="external-link">lookup()</a> function, except that instead of taking a lookup table as an argument, the lookup table is embedded in the function itself.</p>
+<p>The <a href="https://torfason.github.io/zmisc/reference/lookuper.html" class="external-link">lookuper()</a> function returns <em>a function</em> equivalent to the <a href="https://torfason.github.io/zmisc/reference/lookup.html" class="external-link">lookup()</a> function, except that instead of taking a lookup table as an argument, the lookup table is embedded in the function itself.</p>
 <p>This can be very useful, in particular when using the lookup function as an argument to other functions that expect a function which maps <code>character</code>-&gt;<code>character</code> but do not offer a good way to pass additional arguments to that function.</p>
 <div class="section level4">
 <h4 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a>
@@ -132,11 +132,11 @@
 <div class="section level2">
 <h2 id="safer-sampling-sequencing-and-aggregation">Safer sampling, sequencing and aggregation<a class="anchor" aria-label="anchor" href="#safer-sampling-sequencing-and-aggregation"></a>
 </h2>
-<p>The functions <a href="https://github.com/torfason" class="external-link">zample()</a>, <a href="https://github.com/torfason" class="external-link">zeq()</a>, and <a href="https://github.com/torfason" class="external-link">zingle()</a> are intended to make your code less likely to break in mysterious ways when you encounter unexpected boundary conditions. The <a href="https://github.com/torfason" class="external-link">zample()</a> and <a href="https://github.com/torfason" class="external-link">zeq()</a> are almost identical to the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sample" class="external-link">sample()</a> and <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/seq" class="external-link">seq()</a> functions, but a bit safer.</p>
+<p>The functions <a href="https://torfason.github.io/zmisc/reference/zample.html" class="external-link">zample()</a>, <a href="https://torfason.github.io/zmisc/reference/zeq.html" class="external-link">zeq()</a>, and <a href="https://torfason.github.io/zmisc/reference/zingle.html" class="external-link">zingle()</a> are intended to make your code less likely to break in mysterious ways when you encounter unexpected boundary conditions. The <a href="https://torfason.github.io/zmisc/reference/zample.html" class="external-link">zample()</a> and <a href="https://torfason.github.io/zmisc/reference/zeq.html" class="external-link">zeq()</a> are almost identical to the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sample" class="external-link">sample()</a> and <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/seq" class="external-link">seq()</a> functions, but a bit safer.</p>
 <div class="section level3">
 <h3 id="zample-sample-from-a-vector-in-a-safe-way">zample: Sample from a vector in a safe way<a class="anchor" aria-label="anchor" href="#zample-sample-from-a-vector-in-a-safe-way"></a>
 </h3>
-<p>The <a href="https://github.com/torfason" class="external-link">zample()</a> function duplicates the functionality of <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sample" class="external-link">sample()</a>, with the exception that it does not attempt the (sometimes dangerous) user-friendliness of switching the interpretation of the first element to a number if the length of the vector is 1. <code><a href="../reference/zample.html">zample()</a></code> <em>always</em> treats its first argument as a vector containing elements that should be sampled, so your code won’t break in unexpected ways when the input vector happens to be of length 1.</p>
+<p>The <a href="https://torfason.github.io/zmisc/reference/zample.html" class="external-link">zample()</a> function duplicates the functionality of <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sample" class="external-link">sample()</a>, with the exception that it does not attempt the (sometimes dangerous) user-friendliness of switching the interpretation of the first element to a number if the length of the vector is 1. <code><a href="../reference/zample.html">zample()</a></code> <em>always</em> treats its first argument as a vector containing elements that should be sampled, so your code won’t break in unexpected ways when the input vector happens to be of length 1.</p>
 <div class="section level4">
 <h4 id="examples-2">Examples<a class="anchor" aria-label="anchor" href="#examples-2"></a>
 </h4>
@@ -163,7 +163,7 @@
 <div class="section level3">
 <h3 id="zeq-generate-sequence-in-a-safe-way">zeq: Generate sequence in a safe way<a class="anchor" aria-label="anchor" href="#zeq-generate-sequence-in-a-safe-way"></a>
 </h3>
-<p>The <a href="https://github.com/torfason" class="external-link">zeq()</a> function creates an increasing integer sequence, but differs from the standard one in that it will not silently generate a decreasing sequence when the second argument is smaller than the first. If the second argument is one smaller than the first it will generate an empty sequence, if the difference is greater, the function will throw an error.</p>
+<p>The <a href="https://torfason.github.io/zmisc/reference/zeq.html" class="external-link">zeq()</a> function creates an increasing integer sequence, but differs from the standard one in that it will not silently generate a decreasing sequence when the second argument is smaller than the first. If the second argument is one smaller than the first it will generate an empty sequence, if the difference is greater, the function will throw an error.</p>
 <div class="section level4">
 <h4 id="examples-3">Examples<a class="anchor" aria-label="anchor" href="#examples-3"></a>
 </h4>
@@ -182,7 +182,7 @@
 <div class="section level3">
 <h3 id="zingle-return-the-single-unique-value-found-in-a-vector">zingle: Return the single (unique) value found in a vector<a class="anchor" aria-label="anchor" href="#zingle-return-the-single-unique-value-found-in-a-vector"></a>
 </h3>
-<p>The <a href="https://github.com/torfason" class="external-link">zingle()</a> function returns the first element in a vector, but only if all the other elements are identical to the first one (the vector only has a <code>zingle</code> value). If the elements are not all identical, it throws an error. The vector must contain at least one non-<code>NA</code> value, or the function errors out as well. This is especially useful in aggregations, when all values in a given group should be identical, but you want to make sure.</p>
+<p>The <a href="https://torfason.github.io/zmisc/reference/zingle.html" class="external-link">zingle()</a> function returns the first element in a vector, but only if all the other elements are identical to the first one (the vector only has a <code>zingle</code> value). If the elements are not all identical, it throws an error. The vector must contain at least one non-<code>NA</code> value, or the function errors out as well. This is especially useful in aggregations, when all values in a given group should be identical, but you want to make sure.</p>
 <div class="section level4">
 <h4 id="examples-4">Examples<a class="anchor" aria-label="anchor" href="#examples-4"></a>
 </h4>

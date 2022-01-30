@@ -37,19 +37,21 @@ library(zmisc)
 
 ## Quick and easy value lookups
 
-The functions [lookup()](https://github.com/torfason) and
-[lookuper()](https://github.com/torfason) are used to look up values
-from a lookup table, which can be supplied as a `vector`, a `list`, or a
-`data.frame`. The functions are in some ways similar to the Excel
-function `VLOOKUP()`, but are designed to work smoothly in an R
-workflow, in particular within pipes.
+The functions
+[lookup()](https://torfason.github.io/zmisc/reference/lookup.html) and
+[lookuper()](https://torfason.github.io/zmisc/reference/lookuper.html)
+are used to look up values from a lookup table, which can be supplied as
+a `vector`, a `list`, or a `data.frame`. The functions are in some ways
+similar to the Excel function `VLOOKUP()`, but are designed to work
+smoothly in an R workflow, in particular within pipes.
 
 ### lookup: Lookup values from a lookup table
 
-The [lookup()](https://github.com/torfason) function implements lookup
-of certain strings (such as variable names) from an lookup table which
-maps keys onto values (such as variable labels or descriptions).
-Original values are returned if they are not found in the lookup table.
+The [lookup()](https://torfason.github.io/zmisc/reference/lookup.html)
+function implements lookup of certain strings (such as variable names)
+from an lookup table which maps keys onto values (such as variable
+labels or descriptions). Original values are returned if they are not
+found in the lookup table.
 
 The lookup table can be in the form of a two-column `data.frame`, in the
 form of a named `vector`, or in the form of a `list`. If the table is in
@@ -74,8 +76,10 @@ lookup(names(mtcars), mtcars_lookup_data_frame)
 
 ### lookuper: Construct lookup function based on a specific lookup table
 
-The [lookuper()](https://github.com/torfason) function returns *a
-function* equivalent to the [lookup()](https://github.com/torfason)
+The
+[lookuper()](https://torfason.github.io/zmisc/reference/lookuper.html)
+function returns *a function* equivalent to the
+[lookup()](https://torfason.github.io/zmisc/reference/lookup.html)
 function, except that instead of taking a lookup table as an argument,
 the lookup table is embedded in the function itself.
 
@@ -93,12 +97,15 @@ lookup_fruits(letters[1:5])
 
 ## Safer sampling, sequencing and aggregation
 
-The functions [zample()](https://github.com/torfason),
-[zeq()](https://github.com/torfason), and
-[zingle()](https://github.com/torfason) are intended to make your code
-less likely to break in mysterious ways when you encounter unexpected
-boundary conditions. The [zample()](https://github.com/torfason) and
-[zeq()](https://github.com/torfason) are almost identical to the
+The functions
+[zample()](https://torfason.github.io/zmisc/reference/zample.html),
+[zeq()](https://torfason.github.io/zmisc/reference/zeq.html), and
+[zingle()](https://torfason.github.io/zmisc/reference/zingle.html) are
+intended to make your code less likely to break in mysterious ways when
+you encounter unexpected boundary conditions. The
+[zample()](https://torfason.github.io/zmisc/reference/zample.html) and
+[zeq()](https://torfason.github.io/zmisc/reference/zeq.html) are almost
+identical to the
 [sample()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sample)
 and
 [seq()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/seq)
@@ -106,8 +113,8 @@ functions, but a bit safer.
 
 ### zample: Sample from a vector in a safe way
 
-The [zample()](https://github.com/torfason) function duplicates the
-functionality of
+The [zample()](https://torfason.github.io/zmisc/reference/zample.html)
+function duplicates the functionality of
 [sample()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sample),
 with the exception that it does not attempt the (sometimes dangerous)
 user-friendliness of switching the interpretation of the first element
@@ -140,12 +147,13 @@ set.seed(42); tryCatch(zample(7, size=2), error=zmisc:::wrap_error)
 
 ### zeq: Generate sequence in a safe way
 
-The [zeq()](https://github.com/torfason) function creates an increasing
-integer sequence, but differs from the standard one in that it will not
-silently generate a decreasing sequence when the second argument is
-smaller than the first. If the second argument is one smaller than the
-first it will generate an empty sequence, if the difference is greater,
-the function will throw an error.
+The [zeq()](https://torfason.github.io/zmisc/reference/zeq.html)
+function creates an increasing integer sequence, but differs from the
+standard one in that it will not silently generate a decreasing sequence
+when the second argument is smaller than the first. If the second
+argument is one smaller than the first it will generate an empty
+sequence, if the difference is greater, the function will throw an
+error.
 
 #### Examples
 
@@ -163,13 +171,14 @@ tryCatch(zeq(11,9), error=zmisc:::wrap_error)
 
 ### zingle: Return the single (unique) value found in a vector
 
-The [zingle()](https://github.com/torfason) function returns the first
-element in a vector, but only if all the other elements are identical to
-the first one (the vector only has a `zingle` value). If the elements
-are not all identical, it throws an error. The vector must contain at
-least one non-`NA` value, or the function errors out as well. This is
-especially useful in aggregations, when all values in a given group
-should be identical, but you want to make sure.
+The [zingle()](https://torfason.github.io/zmisc/reference/zingle.html)
+function returns the first element in a vector, but only if all the
+other elements are identical to the first one (the vector only has a
+`zingle` value). If the elements are not all identical, it throws an
+error. The vector must contain at least one non-`NA` value, or the
+function errors out as well. This is especially useful in aggregations,
+when all values in a given group should be identical, but you want to
+make sure.
 
 #### Examples
 
