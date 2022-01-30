@@ -117,7 +117,7 @@ roxy_get_section(blocks, "zeq", "examples") |> kat_code()
 #### Examples
 
 ```{r, echo=FALSE}
-roxy_get_section(blocks, "zeq", "examples") |> kat_code()
+roxy_get_section(blocks, "zingle", "examples") |> kat_code()
 ```
 
 

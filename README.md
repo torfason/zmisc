@@ -183,13 +183,34 @@ make sure.
 #### Examples
 
 ``` r
-# For increasing sequences, zeq() and seq() are identical
-zeq(11,15)
-zeq(11,11)
+# If all elements are identical, all is good.
+# The value of the element is returned.
+zingle(c("Alpha", "Alpha", "Alpha"))
 
-# If second argument equals first-1, an empty sequence is returned
-zeq(11,10)
+# If any elements differ, an error is thrown
+tryCatch(zingle(c("Alpha", "Beta", "Alpha")), error=zmisc:::wrap_error)
 
-# If second argument is less than first-1, the function throws an error
-tryCatch(zeq(11,9), error=zmisc:::wrap_error)
+if (require("dplyr", quietly=TRUE, warn.conflicts=FALSE)) {
+  d <- tibble::tribble(
+    ~id, ~name, ~fouls,
+    1, "James", 3,
+    2, "Jack",  2,
+    1, "James", 4
+  )
+
+  # If the data is of the correct format, all is good
+  d %>%
+    dplyr::group_by(id) %>%
+    dplyr::summarise(name=zingle(name), total_fouls=sum(fouls))
+ }
+
+if (require("dplyr", quietly=TRUE, warn.conflicts=FALSE)) {
+  # If a name does not match its ID, we should get an error
+  d[1,"name"] <- "Jammes"
+  tryCatch({
+    d %>%
+      dplyr::group_by(id) %>%
+      dplyr::summarise(name=zingle(name), total_fouls=sum(fouls))
+  }, error=zmisc:::wrap_error)
+}
 ```
