@@ -4,12 +4,12 @@
 \name{zmisc}
 \alias{zmisc}
 \alias{zmisc-package}
-\title{zmisc: Vector Lookups and Safer Sampling}
+\title{zmisc: Vector Look-Ups and Safer Sampling}
 \description{
-This package contains several utility functions,
-including functions to look up vector values from a lookup
-table, and functions that support a safer approach to vector
-sampling, sequence generation, and aggregation.
+A collection of utility functions that facilitate
+looking up vector values from a lookup  table, and support a
+safer approach to vector  sampling, sequence generation,
+and aggregation.
 
 For more information, see vignette("zmisc").
 }

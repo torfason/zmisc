@@ -1,13 +1,13 @@
 Package: zmisc
 Type: Package
-Title: Vector Lookups and Safer Sampling
+Title: Vector Look-Ups and Safer Sampling
 Version: 0.2.1
 Author: Magnus Thor Torfason
 Maintainer: Magnus Thor Torfason <m@zulutime.net>
-Description: This package contains several utility functions, 
-  including functions to look up vector values from a lookup 
-  table, and functions that support a safer approach to vector 
-  sampling, sequence generation, and aggregation. 
+Description: A collection of utility functions that facilitate 
+  looking up vector values from a lookup  table, and support a 
+  safer approach to vector  sampling, sequence generation, 
+  and aggregation. 
 License: MIT + file LICENSE
 Language: en-US
 Encoding: UTF-8
