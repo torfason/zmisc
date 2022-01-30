@@ -12,8 +12,8 @@
 #'
 #' @details
 #' If what you really want is to sample from an interval between 1 and n, you can
-#' use `sample(n)` or `sample.int(n)` (but make sure to) only pass vectors of
-#' length one to those functions.
+#' use `sample(n)` or `sample.int(n)` (but make sure to only pass vectors of
+#' length one to those functions).
 #'
 #' @param x       The vector to sample from
 #' @param size    The number of elements to sample from `x` (defaults to `length(x)`)

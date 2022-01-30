@@ -29,8 +29,8 @@ won't break in unexpected ways when the input vector happens to be of length
 }
 \details{
 If what you really want is to sample from an interval between 1 and n, you can
-use \code{sample(n)} or \code{sample.int(n)} (but make sure to) only pass vectors of
-length one to those functions.
+use \code{sample(n)} or \code{sample.int(n)} (but make sure to only pass vectors of
+length one to those functions).
 }
 \examples{
 # For vectors of length 2 or more, zample() and sample() are identical
