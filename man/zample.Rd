@@ -49,6 +49,6 @@ set.seed(42); sample(7:11, size=13, replace=TRUE, prob=(5:1)^3)
 
 # Of course, sampling more than the available elements without
 # setting replace=TRUE will result in an error
-set.seed(42); tryCatch(zample(7, size=2), error=zmisc:::wrap_error)
+set.seed(42); tryCatch(zample(7, size=2), error=wrap_error)
 
 }

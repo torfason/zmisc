@@ -7,14 +7,21 @@
 wrap_error(e, wrap = 50)
 }
 \arguments{
-\item{e}{The error to wrap}
+\item{e}{The error to wrap.}
 
-\item{wrap}{How many characters before wrapping}
+\item{wrap}{How many characters per line before wrapping.}
 }
 \value{
-The error is returned invisibly
+The original error is returned invisibly.
 }
 \description{
-This function is used to output errors in examples in a tidy manner.
+This function is used to capture errors, typically inside a \code{tryCatch()}
+statement and output them in a clean and readable way. The function provides
+line-wrapping, with a configurable width. When printing the error message, it
+prefixes the text with "\verb{#E> }" to make it easier to look for the error.
+}
+\examples{
+tryCatch(stop("This is an error"), error=wrap_error)
+
 }
 \keyword{internal}

@@ -2,6 +2,7 @@
 
 export(lookup)
 export(lookuper)
+export(wrap_error)
 export(zample)
 export(zeq)
 export(zingle)

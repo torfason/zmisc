@@ -39,7 +39,7 @@
 #'
 #' # Of course, sampling more than the available elements without
 #' # setting replace=TRUE will result in an error
-#' set.seed(42); tryCatch(zample(7, size=2), error=zmisc:::wrap_error)
+#' set.seed(42); tryCatch(zample(7, size=2), error=wrap_error)
 #'
 #' @md
 #' @export

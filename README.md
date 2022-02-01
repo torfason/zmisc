@@ -142,7 +142,7 @@ set.seed(42); sample(7:11, size=13, replace=TRUE, prob=(5:1)^3)
 
 # Of course, sampling more than the available elements without
 # setting replace=TRUE will result in an error
-set.seed(42); tryCatch(zample(7, size=2), error=zmisc:::wrap_error)
+set.seed(42); tryCatch(zample(7, size=2), error=wrap_error)
 ```
 
 ### zeq: Generate sequence in a safe way
@@ -166,7 +166,7 @@ zeq(11,11)
 zeq(11,10)
 
 # If second argument is less than first-1, the function throws an error
-tryCatch(zeq(11,9), error=zmisc:::wrap_error)
+tryCatch(zeq(11,9), error=wrap_error)
 ```
 
 ### zingle: Return the single (unique) value found in a vector
@@ -188,7 +188,7 @@ make sure.
 zingle(c("Alpha", "Alpha", "Alpha"))
 
 # If any elements differ, an error is thrown
-tryCatch(zingle(c("Alpha", "Beta", "Alpha")), error=zmisc:::wrap_error)
+tryCatch(zingle(c("Alpha", "Beta", "Alpha")), error=wrap_error)
 
 if (require("dplyr", quietly=TRUE, warn.conflicts=FALSE)) {
   d <- tibble::tribble(
@@ -211,6 +211,6 @@ if (require("dplyr", quietly=TRUE, warn.conflicts=FALSE)) {
     d %>%
       dplyr::group_by(id) %>%
       dplyr::summarise(name=zingle(name), total_fouls=sum(fouls))
-  }, error=zmisc:::wrap_error)
+  }, error=wrap_error)
 }
 ```

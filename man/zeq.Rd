@@ -30,6 +30,6 @@ zeq(11,11)
 zeq(11,10)
 
 # If second argument is less than first-1, the function throws an error
-tryCatch(zeq(11,9), error=zmisc:::wrap_error)
+tryCatch(zeq(11,9), error=wrap_error)
 
 }

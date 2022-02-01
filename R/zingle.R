@@ -26,7 +26,7 @@
 #' zingle(c("Alpha", "Alpha", "Alpha"))
 #'
 #' # If any elements differ, an error is thrown
-#' tryCatch(zingle(c("Alpha", "Beta", "Alpha")), error=zmisc:::wrap_error)
+#' tryCatch(zingle(c("Alpha", "Beta", "Alpha")), error=wrap_error)
 #'
 #' if (require("dplyr", quietly=TRUE, warn.conflicts=FALSE)) {
 #'   d <- tibble::tribble(
@@ -49,7 +49,7 @@
 #'     d %>%
 #'       dplyr::group_by(id) %>%
 #'       dplyr::summarise(name=zingle(name), total_fouls=sum(fouls))
-#'   }, error=zmisc:::wrap_error)
+#'   }, error=wrap_error)
 #' }
 #
 #' @md
