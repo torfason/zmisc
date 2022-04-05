@@ -9,6 +9,8 @@ Description: A collection of utility functions that facilitate
   safer approach to vector  sampling, sequence generation, 
   and aggregation. 
 License: MIT + file LICENSE
+URL: https://torfason.github.io/zfit/,
+  https://github.com/torfason/zfit/
 Language: en-US
 Encoding: UTF-8
 RoxygenNote: 7.1.2

@@ -13,4 +13,12 @@ and aggregation.
 
 For more information, see vignette("zmisc").
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://torfason.github.io/zfit/}
+  \item \url{https://github.com/torfason/zfit/}
+}
+
+}
 \keyword{internal}

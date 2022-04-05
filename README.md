@@ -85,7 +85,7 @@ the lookup table is embedded in the function itself.
 
 This can be very useful, in particular when using the lookup function as
 an argument to other functions that expect a function which maps
-`character`->`character` but do not offer a good way to pass additional
+`character`-\>`character` but do not offer a good way to pass additional
 arguments to that function.
 
 #### Examples
