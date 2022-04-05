@@ -3,6 +3,8 @@ zmisc
 
 <!-- README.md is generated from README.Rmd -->
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/torfason/zmisc/workflows/R-CMD-check/badge.svg)](https://github.com/torfason/zmisc/actions)
 <!-- badges: end -->
 
 ## Vector Look-Ups and Safer Sampling

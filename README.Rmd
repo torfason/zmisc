@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 ```
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/torfason/zmisc/workflows/R-CMD-check/badge.svg)](https://github.com/torfason/zmisc/actions)
 <!-- badges: end -->
 
 ```{r child="vignettes/zmisc.Rmd"}

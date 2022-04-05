@@ -10,3 +10,4 @@
 ^pkgdown$
 ^scratch$
 ^CRAN-SUBMISSION$
+^\.github$
