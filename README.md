@@ -5,6 +5,8 @@ zmisc
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/torfason/zmisc/workflows/R-CMD-check/badge.svg)](https://github.com/torfason/zmisc/actions)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/zmisc)](https://CRAN.R-project.org/package=zmisc)
 <!-- badges: end -->
 
 ## Vector Look-Ups and Safer Sampling
