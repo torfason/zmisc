@@ -1,7 +1,0 @@
-pandoc: 2.16.2
-pkgdown: 2.0.2
-pkgdown_sha: ~
-articles:
-  zmisc: zmisc.html
-last_built: 2022-02-01T10:40Z
-
