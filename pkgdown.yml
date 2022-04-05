@@ -1,0 +1,10 @@
+pandoc: 2.7.3
+pkgdown: 2.0.2
+pkgdown_sha: ~
+articles:
+  zmisc: zmisc.html
+last_built: 2022-04-05T21:54Z
+urls:
+  reference: https://torfason.github.io/zmisc/reference
+  article: https://torfason.github.io/zmisc/articles
+
