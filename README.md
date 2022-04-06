@@ -4,9 +4,9 @@ zmisc
 <!-- README.md is generated from README.Rmd -->
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/torfason/zmisc/workflows/R-CMD-check/badge.svg)](https://github.com/torfason/zmisc/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/zmisc)](https://CRAN.R-project.org/package=zmisc)
+[![R-CMD-check](https://github.com/torfason/zmisc/workflows/R-CMD-check/badge.svg)](https://github.com/torfason/zmisc/actions)
 <!-- badges: end -->
 
 ## Vector Look-Ups and Safer Sampling
@@ -24,11 +24,11 @@ You can install the released version of `zmisc` from
 install.packages("zmisc")
 ```
 
-You can install the development version of `zmisc` from
+You can use `pak` to install the development version of `zmisc` from
 [GitHub](https://github.com/torfason/zmisc) with:
 
 ``` r
-remotes::install_github("torfason/zmisc")
+pak::pak("torfason/zmisc")
 ```
 
 ## Usage
