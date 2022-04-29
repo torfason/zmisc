@@ -3,16 +3,9 @@
 
 There were no ERRORs or WARNINGs.
 
-On r-hub.io Linux platforms and winbuilder, there was one NOTE:
+On r-hub.io Linux platforms and winbuilder, there were no NOTEs:
 
-    +---
-    | * checking CRAN incoming feasibility ... NOTE
-    | Maintainer: ‘Magnus Thor Torfason <m@zulutime.net>’
-    | 
-    | New submission
-    +---
-
-On r-hub.io, Windows Server 2022, R-devel, 64 bit platform, there was one additional note relating to MiKTeX:
+On r-hub.io, Windows Server 2022, R-devel, 64 bit platform, there was one note relating to MiKTeX:
 
     +---
     | * checking for detritus in the temp directory ... NOTE
@@ -32,11 +25,9 @@ There are currently no downstream dependencies for this package.
 
 ## Release summary
 
-* This is the 0.2.1 release of zfit
+* This is the 0.2.2 release of zfit
 
-* This is the first version that has been released to CRAN
-
-* All functions that are used in examples are now exported
+* The release is motivated by a change in roxygen2 which caused issues with vignette building. The release fixes those issues.
 
 * Package has been checked locally, on r-hub.io, and on winbuilder
 
