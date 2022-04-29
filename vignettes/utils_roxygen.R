@@ -61,8 +61,8 @@ roxy_get_blocks <- function (package.dir = ".") {
 # @param name_tag The name of the tag/section (@title/@description/@examples)
 roxy_get_section <- function(blocks, name_topic, name_tag) {
 
-  # Better to work with unclassed structure
-  b <- blocks |> rapply(unclass, how="list")
+  # Do not unclass, because that fails with roxygen2 v7.1.3 onward
+  b <- blocks # |> rapply(unclass, how="list")
 
   # Get the list of all topics (function names) that are
   # documented in the package, and assign as names to b
