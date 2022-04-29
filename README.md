@@ -53,9 +53,9 @@ smoothly in an R workflow, in particular within pipes.
 
 The [lookup()](https://torfason.github.io/zmisc/reference/lookup.html)
 function implements lookup of certain strings (such as variable names)
-from an lookup table which maps keys onto values (such as variable
-labels or descriptions). Original values are returned if they are not
-found in the lookup table.
+from a lookup table which maps keys onto values (such as variable labels
+or descriptions). Original values are returned if they are not found in
+the lookup table.
 
 The lookup table can be in the form of a two-column `data.frame`, in the
 form of a named `vector`, or in the form of a `list`. If the table is in
