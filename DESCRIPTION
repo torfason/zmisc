@@ -1,7 +1,7 @@
 Package: zmisc
 Type: Package
 Title: Vector Look-Ups and Safer Sampling
-Version: 0.2.2
+Version: 0.2.2.9001
 Author: Magnus Thor Torfason
 Maintainer: Magnus Thor Torfason <m@zulutime.net>
 Description: A collection of utility functions that facilitate 
@@ -13,7 +13,7 @@ URL: https://github.com/torfason/zmisc/,
     https://torfason.github.io/zmisc/
 Language: en-US
 Encoding: UTF-8
-RoxygenNote: 7.1.2.9000
+RoxygenNote: 7.2.3
 Suggests: 
     roxygen2,
     rmarkdown,
