@@ -28,6 +28,21 @@
     <loc>https://torfason.github.io/zmisc/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://torfason.github.io/zmisc/reference/ll_assert_labelled.html</loc>
+  </url>
+  <url>
+    <loc>https://torfason.github.io/zmisc/reference/ll_labelled.html</loc>
+  </url>
+  <url>
+    <loc>https://torfason.github.io/zmisc/reference/ll_to_character.html</loc>
+  </url>
+  <url>
+    <loc>https://torfason.github.io/zmisc/reference/ll_val_labels.html</loc>
+  </url>
+  <url>
+    <loc>https://torfason.github.io/zmisc/reference/ll_var_label.html</loc>
+  </url>
+  <url>
     <loc>https://torfason.github.io/zmisc/reference/lookup.html</loc>
   </url>
   <url>
@@ -35,6 +50,9 @@
   </url>
   <url>
     <loc>https://torfason.github.io/zmisc/reference/standardize_lookup_table.html</loc>
+  </url>
+  <url>
+    <loc>https://torfason.github.io/zmisc/reference/threadbare.html</loc>
   </url>
   <url>
     <loc>https://torfason.github.io/zmisc/reference/wrap_error.html</loc>
