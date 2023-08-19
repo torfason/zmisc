@@ -2,6 +2,7 @@
 
 export("ll_val_labels<-")
 export("ll_var_label<-")
+export(ddply_helper)
 export(ll_assert_labelled)
 export(ll_labelled)
 export(ll_to_character)
