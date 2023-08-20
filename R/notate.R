@@ -4,7 +4,7 @@
 #' @description
 #' This function adds level/label information as an annotation to either factors
 #' or `labelled` variables. This function is called `notate()` rather than
-#' `annotate()` to avoid conflict with [ggplot2::annotate()]. It is a generic that
+#' `annotate()` to avoid conflict with `ggplot2::annotate()`. It is a generic that
 #' can operate either on individual vectors or on a `data.frame`.
 #'
 #' When printing `labelled` variables from a `tibble` in a console, both the
@@ -25,7 +25,6 @@
 #'   through the `View()` function.
 #'
 #' @examples
-#' labs <-
 #' d <- data.frame(
 #'   chr = letters[1:4],
 #'   fct = factor(c("alpha", "bravo", "chrly", "delta")),

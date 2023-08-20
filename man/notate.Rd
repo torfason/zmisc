@@ -17,7 +17,7 @@ through the \code{View()} function.
 \description{
 This function adds level/label information as an annotation to either factors
 or \code{labelled} variables. This function is called \code{notate()} rather than
-\code{annotate()} to avoid conflict with \code{\link[ggplot2:annotate]{ggplot2::annotate()}}. It is a generic that
+\code{annotate()} to avoid conflict with \code{ggplot2::annotate()}. It is a generic that
 can operate either on individual vectors or on a \code{data.frame}.
 
 When printing \code{labelled} variables from a \code{tibble} in a console, both the
@@ -32,7 +32,6 @@ time, this function converts both \code{factor} and \code{labelled} variables to
 values (\code{labelled} labels) in the output.
 }
 \examples{
-labs <-
 d <- data.frame(
   chr = letters[1:4],
   fct = factor(c("alpha", "bravo", "chrly", "delta")),

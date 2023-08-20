@@ -76,7 +76,7 @@ ll_labelled <- function(x = double(), labels = NULL, label = NULL) {
 #' @export
 ll_assert_labelled <- function(x) {
 
-  # Retrieve atributes
+  # Retrieve attributes
   labels <- attr(x, "labels", exact = TRUE)
   label  <- attr(x, "label",  exact = TRUE)
 
@@ -174,7 +174,7 @@ ll_val_labels <- function(x, always = FALSE) {
 #' Get the character representation of a labelled variable
 #'
 #' @description
-#' Returns a character representation of a labelelled variable, using the value
+#' Returns a character representation of a labelled variable, using the value
 #' labels to look up the label for a given value.
 #'
 #' The default behavior of this function is similar to
@@ -189,7 +189,7 @@ ll_val_labels <- function(x, always = FALSE) {
 #' @param x A labelled variable
 #' @param default Vector providing a default label for any values not found in
 #'   the `val_labels` (unlabelled values). Must be of length 1 or of the same
-#'   length as x. Useful possibilites are `x` (use values where labels are not
+#'   length as x. Useful possibilities are `x` (use values where labels are not
 #'   found), `NA` (return NA for such values), and `""` (an empty string).
 #'   Missing (`NA`) values in `x`, however, are never replaced with the default,
 #'   they remain `NA`.

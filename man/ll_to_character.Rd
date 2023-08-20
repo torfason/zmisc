@@ -11,7 +11,7 @@ ll_to_character(x, default = x, preserve_var_label = FALSE)
 
 \item{default}{Vector providing a default label for any values not found in
 the \code{val_labels} (unlabelled values). Must be of length 1 or of the same
-length as x. Useful possibilites are \code{x} (use values where labels are not
+length as x. Useful possibilities are \code{x} (use values where labels are not
 found), \code{NA} (return NA for such values), and \code{""} (an empty string).
 Missing (\code{NA}) values in \code{x}, however, are never replaced with the default,
 they remain \code{NA}.}
@@ -21,7 +21,7 @@ should they be dropped from the result (ensuring that the result is bare
 and without any attributes).}
 }
 \description{
-Returns a character representation of a labelelled variable, using the value
+Returns a character representation of a labelled variable, using the value
 labels to look up the label for a given value.
 
 The default behavior of this function is similar to

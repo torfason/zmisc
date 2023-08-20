@@ -45,7 +45,7 @@
 zample = function (x, size=length(x), replace = FALSE, prob = NULL)
 {
     # Bail out of sampling from data.frames, use dplyr::sample_X() for that
-    if (inherits(x,"data.frame"))
+    if (inherits(x, "data.frame"))
     {
         stop("zulutils::zample() does not support data.frames")
     }
