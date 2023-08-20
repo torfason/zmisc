@@ -131,8 +131,7 @@ length one to those functions).</p>
 <span class="r-in"><span><span class="co"># Of course, sampling more than the available elements without</span></span></span>
 <span class="r-in"><span><span class="co"># setting replace=TRUE will result in an error</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu">zample</span><span class="op">(</span><span class="fl">7</span>, size<span class="op">=</span><span class="fl">2</span><span class="op">)</span>, error<span class="op">=</span><span class="va">wrap_error</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #E&gt; cannot take a sample larger than the population</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #E&gt; when 'replace = FALSE'</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'wrap_error' not found</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
