@@ -32,7 +32,6 @@
 #'   value = c("Miles/(US) gallon", "Gross horsepower", "Weight (1000 lbs)"))
 #' lookup(names(mtcars), mtcars_lookup_data_frame)
 #'
-#' @md
 #' @export
 lookup <- function(x, lookup_table) {
 
@@ -81,7 +80,6 @@ lookup <- function(x, lookup_table) {
 #' lookup_fruits <- lookuper(list(a="Apple", b="Banana", c="Cherry"))
 #' lookup_fruits(letters[1:5])
 #'
-#' @md
 #' @export
 lookuper <- function(lookup_table) {
 
@@ -106,7 +104,6 @@ lookuper <- function(lookup_table) {
 #'
 #' @return The lookup table as a list.
 #'
-#' @md
 #' @keywords internal
 standardize_lookup_table <- function(lookup_table) {
 

@@ -14,7 +14,6 @@
 #' @examples
 #' tryCatch(stop("This is an error"), error=wrap_error)
 #'
-#' @md
 #' @keywords internal
 #' @export
 wrap_error <- function(e, wrap=50) {
@@ -44,7 +43,6 @@ wrap_error <- function(e, wrap=50) {
 #' result <- ddply_helper(df, sum_fun)
 #' print(result)
 #'
-#' @md
 #' @keywords internal
 #' @export
 ddply_helper <- function(d, fun) {

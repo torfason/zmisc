@@ -12,7 +12,6 @@
 #' @return A vector with the same core values as `x`, but with no [attributes()]
 #'   at all, not even [names()].
 #'
-#' @md
 #' @family labelled light
 #' @keywords internal
 threadbare <- function(x) {
@@ -45,7 +44,6 @@ threadbare <- function(x) {
 #'
 #' @return A valid labelled variable.
 #'
-#' @md
 #' @family labelled light
 #' @keywords internal
 #' @export
@@ -73,7 +71,6 @@ ll_labelled <- function(x = double(), labels = NULL, label = NULL) {
 #' @param x A labelled variable
 #' @return Invisibly returns x if the check is successful.
 #'
-#' @md
 #' @family labelled light
 #' @keywords internal
 #' @export
@@ -120,7 +117,6 @@ ll_assert_labelled <- function(x) {
 #'
 #' @param x A labelled variable
 #'
-#' @md
 #' @family labelled light
 #' @keywords internal
 #' @rdname ll_var_label
@@ -148,7 +144,6 @@ ll_var_label <- function(x) {
 #' @param always Always return at least an empty vector of the correct
 #'   type, even if the attribute is not set.
 #'
-#' @md
 #' @family labelled light
 #' @keywords internal
 #' @rdname ll_val_labels
@@ -202,7 +197,6 @@ ll_val_labels <- function(x, always = FALSE) {
 #'   should they be dropped from the result (ensuring that the result is bare
 #'   and without any attributes).
 #'
-#' @md
 #' @family labelled light
 #' @keywords internal
 #' @export

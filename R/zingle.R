@@ -56,7 +56,6 @@
 #'   }, error=wrap_error)
 #' }
 #
-#' @md
 #' @export
 zingle = function(x, na.rm = FALSE)
 {
