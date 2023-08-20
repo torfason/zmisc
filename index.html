@@ -32,7 +32,7 @@
     
     <a class="navbar-brand me-2" href="index.html">zmisc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,7 +78,7 @@
 <div class="section level2">
 <h2 id="vector-look-ups-and-safer-sampling">Vector Look-Ups and Safer Sampling<a class="anchor" aria-label="anchor" href="#vector-look-ups-and-safer-sampling"></a>
 </h2>
-<p>A collection of utility functions that facilitate looking up vector values from a lookup table, and support a safer approach to vector sampling, sequence generation, and aggregation.</p>
+<p>A collection of utility functions that facilitate looking up vector values from a lookup table, annotate values in at table for clearer viewing, and support a safer approach to vector sampling, sequence generation, and aggregation.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -104,8 +104,9 @@
 <div class="section level3">
 <h3 id="lookup-lookup-values-from-a-lookup-table">lookup: Lookup values from a lookup table<a class="anchor" aria-label="anchor" href="#lookup-lookup-values-from-a-lookup-table"></a>
 </h3>
-<p>The <a href="https://torfason.github.io/zmisc/reference/lookup.html">lookup()</a> function implements lookup of certain strings (such as variable names) from a lookup table which maps keys onto values (such as variable labels or descriptions). Original values are returned if they are not found in the lookup table.</p>
+<p>The <a href="https://torfason.github.io/zmisc/reference/lookup.html">lookup()</a> function implements lookup of certain strings (such as variable names) from a lookup table which maps keys onto values (such as variable labels or descriptions).</p>
 <p>The lookup table can be in the form of a two-column <code>data.frame</code>, in the form of a named <code>vector</code>, or in the form of a <code>list</code>. If the table is in the form of a <code>data.frame</code>, the lookup columns should be named <code>name</code> (for the key) and <code>value</code> (for the value). If the lookup table is in the form of a named <code>vector</code> or <code>list</code>, the name is used for the key, and the returned value is taken from the values in the vector or list.</p>
+<p>Original values are returned if they are not found in the lookup table. Alternatively, a <code>default</code> can be specified for values that are not found. Note that an <code>NA</code> in x will never be found and will be replaced with the default value. To specify different defaults for values that are not found and for <code>NA</code> values in <code>x</code>, the <code>default</code> must be crafted manually to achieve this.</p>
 <p>Any names in x are not included in the result.</p>
 <div class="section level4">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
@@ -113,6 +114,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fruit_lookup_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a<span class="op">=</span><span class="st">"Apple"</span>, b<span class="op">=</span><span class="st">"Banana"</span>, c<span class="op">=</span><span class="st">"Cherry"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">fruit_lookup_vector</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">fruit_lookup_vector</span>, default <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mtcars_lookup_data_frame</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mpg"</span>, <span class="st">"hp"</span>, <span class="st">"wt"</span><span class="op">)</span>,</span>
