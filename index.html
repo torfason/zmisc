@@ -139,11 +139,11 @@
 <div class="section level2">
 <h2 id="safer-sampling-sequencing-and-aggregation">Safer sampling, sequencing and aggregation<a class="anchor" aria-label="anchor" href="#safer-sampling-sequencing-and-aggregation"></a>
 </h2>
-<p>The functions <a href="https://torfason.github.io/zmisc/reference/zample.html">zample()</a>, <a href="https://torfason.github.io/zmisc/reference/zeq.html">zeq()</a>, and <a href="https://torfason.github.io/zmisc/reference/zingle.html">zingle()</a> are intended to make your code less likely to break in mysterious ways when you encounter unexpected boundary conditions. The <a href="https://torfason.github.io/zmisc/reference/zample.html">zample()</a> and <a href="https://torfason.github.io/zmisc/reference/zeq.html">zeq()</a> are almost identical to the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sample" class="external-link">sample()</a> and <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/seq" class="external-link">seq()</a> functions, but a bit safer.</p>
+<p>The functions <a href="https://torfason.github.io/zmisc/reference/zample.html">zample()</a>, <a href="https://torfason.github.io/zmisc/reference/zeq.html">zeq()</a>, and <a href="https://torfason.github.io/zmisc/reference/zingle.html">zingle()</a> are intended to make your code less likely to break in mysterious ways when you encounter unexpected boundary conditions. The <a href="https://torfason.github.io/zmisc/reference/zample.html">zample()</a> and <a href="https://torfason.github.io/zmisc/reference/zeq.html">zeq()</a> are almost identical to the <a href="https://rdrr.io/r/base/sample.html" class="external-link">sample()</a> and <a href="https://rdrr.io/r/base/seq.html" class="external-link">seq()</a> functions, but a bit safer.</p>
 <div class="section level3">
 <h3 id="zample-sample-from-a-vector-in-a-safe-way">zample: Sample from a vector in a safe way<a class="anchor" aria-label="anchor" href="#zample-sample-from-a-vector-in-a-safe-way"></a>
 </h3>
-<p>The <a href="https://torfason.github.io/zmisc/reference/zample.html">zample()</a> function duplicates the functionality of <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sample" class="external-link">sample()</a>, with the exception that it does not attempt the (sometimes dangerous) user-friendliness of switching the interpretation of the first element to a number if the length of the vector is 1. <code><a href="reference/zample.html">zample()</a></code> <em>always</em> treats its first argument as a vector containing elements that should be sampled, so your code won’t break in unexpected ways when the input vector happens to be of length 1.</p>
+<p>The <a href="https://torfason.github.io/zmisc/reference/zample.html">zample()</a> function duplicates the functionality of <a href="https://rdrr.io/r/base/sample.html" class="external-link">sample()</a>, with the exception that it does not attempt the (sometimes dangerous) user-friendliness of switching the interpretation of the first element to a number if the length of the vector is 1. <code><a href="reference/zample.html">zample()</a></code> <em>always</em> treats its first argument as a vector containing elements that should be sampled, so your code won’t break in unexpected ways when the input vector happens to be of length 1.</p>
 <div class="section level4">
 <h4 id="examples-2">Examples<a class="anchor" aria-label="anchor" href="#examples-2"></a>
 </h4>
@@ -224,6 +224,33 @@
 <span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>name<span class="op">=</span><span class="fu"><a href="reference/zingle.html">zingle</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span>, total_fouls<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">fouls</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">}</span>, error<span class="op">=</span><span class="va">wrap_error</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="getting-a-better-view-on-variables">Getting a better view on variables<a class="anchor" aria-label="anchor" href="#getting-a-better-view-on-variables"></a>
+</h2>
+<p>The <a href="https://torfason.github.io/zmisc/reference/zingle.html">notate()</a> function adds annotations to <code>factor</code> and <code>labelled</code> variables that make it easier to see both values and labels/levels when using the <a href="https://rdrr.io/r/utils/View.html" class="external-link">View()</a> function</p>
+<div class="section level3">
+<h3 id="notate-embed-factor-levels-and-value-labels-in-values">notate: Embed factor levels and value labels in values.<a class="anchor" aria-label="anchor" href="#notate-embed-factor-levels-and-value-labels-in-values"></a>
+</h3>
+<p>This function adds level/label information as an annotation to either factors or <code>labelled</code> variables. This function is called <code><a href="reference/notate.html">notate()</a></code> rather than <code>annotate()</code> to avoid conflict with <code>ggplot2::annotate()</code>. It is a generic that can operate either on individual vectors or on a <code>data.frame</code>.</p>
+<p>When printing <code>labelled</code> variables from a <code>tibble</code> in a console, both the numeric value and the text label are shown, but no variable labels. When using the <code><a href="https://rdrr.io/r/utils/View.html" class="external-link">View()</a></code> function, only variable labels are shown but no value labels. For factors, there is no way to view the integer levels and values at the same time.</p>
+<p>In order to allow the viewing of both variable and value labels at the same time, this function converts both <code>factor</code> and <code>labelled</code> variables to <code>character</code>, including both numeric levels (<code>labelled</code> values) and character values (<code>labelled</code> labels) in the output.</p>
+<div class="section level4">
+<h4 id="examples-5">Examples<a class="anchor" aria-label="anchor" href="#examples-5"></a>
+</h4>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  chr <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>,</span>
+<span>  fct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"alpha"</span>, <span class="st">"bravo"</span>, <span class="st">"chrly"</span>, <span class="st">"delta"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  lbl <span class="op">=</span> <span class="fu"><a href="reference/ll_labelled.html">ll_labelled</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>                    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>one<span class="op">=</span><span class="fl">1</span>, two<span class="op">=</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>                    label <span class="op">=</span> <span class="st">"A labelled vector"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">dn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/notate.html">notate</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span><span class="va">dn</span></span>
+<span><span class="co"># View(dn)</span></span></code></pre></div>
 </div>
 </div>
 </div>
