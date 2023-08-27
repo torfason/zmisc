@@ -6,6 +6,8 @@ zmisc
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/zmisc)](https://CRAN.R-project.org/package=zmisc)
+[![CRAN status
+shields](https://img.shields.io/badge/Git-0.2.3-success)](https://github.com/torfason/zmisc)
 [![R-CMD-check](https://github.com/torfason/zmisc/workflows/R-CMD-check/badge.svg)](https://github.com/torfason/zmisc/actions)
 <!-- badges: end -->
 
