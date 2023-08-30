@@ -57,6 +57,15 @@ notate.data.frame <- function(x) {
 }
 
 #' @export
+notate.ordered <- function(x) {
+  is.ordered(x) || stop("x must be ordered")
+  r <- rep(c(character(0), NA), length(x))
+  r[!is.na(x)] <- paste0("[", as.numeric(x[!is.na(x)]), "] ", as.character(x[!is.na(x)]))
+  attr(r, "label") <- paste_na("<ord>", attr(x, "label")) # (ll_var_label() requires correct class)
+  r
+}
+
+#' @export
 notate.factor <- function(x) {
   is.factor(x) || stop("x must be a factor")
   r <- rep(c(character(0), NA), length(x))

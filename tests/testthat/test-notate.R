@@ -15,6 +15,8 @@ test_that("notate converts factor and labelled variables as expected", {
   df <- data.frame(
     var_fct     = factor(c("A", "B", "C")),
     var_fct_na  = factor(c("X", "Y", NA)),
+    var_ord     = ordered(c("A", "B", "C")),
+    var_ord_na  = ordered(c("X", "Y", NA)),
     var_lbl_dbl = ll_labelled(c(1, 2, 3), labels = c("One"=1, "Two"=2, "Three"=3), label = "Labelled doubles"),
     var_lbl_int = ll_labelled(7:9, labels = c("Int7"=7L, "Int8"=8L, "Int9"=9L), label = "Labelled integers"),
     var_lbl_chr = ll_labelled(c("d", "e", "f"), labels = c("delta"="d", "echo"="e", "foxtrot"="f"), label = "Labelled characters"),
@@ -25,8 +27,12 @@ test_that("notate converts factor and labelled variables as expected", {
     var_chr = letters[1:3],
     var_cpl = 1:3 * 1+1i,
     var_raw = as.raw(1:3),
+    var_fct_varlabel = factor(c("A", "B", "C")),
+    var_ord_varlabel = ordered(c("A", "B", "C")),
     var_dbl_varlabel = 1:3 / 2
   )
+  label(df$var_fct_varlabel) <- "A factor with variable label"
+  label(df$var_ord_varlabel) <- "An ordered with variable label"
   label(df$var_dbl_varlabel) <- "Unlassed with variable label"
 
   # Test notate function
@@ -54,6 +60,8 @@ test_that("notate converts factor and labelled variables as expected", {
   # Check if variable labels are updated correctly
   expect_equal(label(noted_df$var_fct), "<fct>")
   expect_equal(label(noted_df$var_fct_na), "<fct>")
+  expect_equal(label(noted_df$var_ord), "<ord>")
+  expect_equal(label(noted_df$var_ord_na), "<ord>")
   expect_equal(label(noted_df$var_lbl_dbl), "<lbl> Labelled doubles")
   expect_equal(label(noted_df$var_lbl_int), "<lbl> Labelled integers")
   expect_equal(label(noted_df$var_lbl_chr), "<lbl> Labelled characters")
@@ -65,6 +73,8 @@ test_that("notate converts factor and labelled variables as expected", {
   expect_equal(label(noted_df$var_chr), "<chr>")
   expect_equal(label(noted_df$var_cpl), "<cpl>")
   expect_equal(label(noted_df$var_int), "<int>")
+  expect_equal(label(noted_df$var_fct_varlabel), "<fct> A factor with variable label")
+  expect_equal(label(noted_df$var_ord_varlabel), "<ord> An ordered with variable label")
   expect_equal(label(noted_df$var_dbl_varlabel), "<dbl> Unlassed with variable label")
 
 })
