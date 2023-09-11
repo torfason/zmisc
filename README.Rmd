@@ -18,13 +18,12 @@ knitr::opts_chunk$set(
 ```
 
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/zmisc)](https://CRAN.R-project.org/package=zmisc)
-[![CRAN status shields](https://img.shields.io/badge/Git-`r desc::desc_get_version() `-success)](https://github.com/torfason/zmisc)
+[![CRAN version](https://www.r-pkg.org/badges/version/zmisc)](https://CRAN.R-project.org/package=zmisc)
+[![GitHub version](https://img.shields.io/badge/Git-`r desc::desc_get_version() `-success)](https://github.com/torfason/zmisc)
 [![R-CMD-check](https://github.com/torfason/zmisc/workflows/R-CMD-check/badge.svg)](https://github.com/torfason/zmisc/actions)
 <!-- badges: end -->
 
 ```{r child="vignettes/zmisc.Rmd"}
 ```
-
 
 

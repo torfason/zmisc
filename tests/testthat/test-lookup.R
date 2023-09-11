@@ -3,15 +3,15 @@
 test_that("lookup works", {
 
   # Extremely simple test with letters
-  expect_equal(lookup(letters, c(a="A",b="B")), c("A","B",letters[3:26]))
+  expect_equal(lookup(letters, c(a="A", b="B")), c("A", "B", letters[3:26]))
 
   # Validation data
   d.pets <- data.frame(
     name  = c("cat",    "lizard",  "parrot"),
     value = c("mammal", "reptile", "bird")
   )
-  x.species  = c("lizard", "cat")
-  x.kingdoms = c("reptile","mammal")
+  x.species  = c("lizard",  "cat")
+  x.kingdoms = c("reptile", "mammal")
 
   # Standard lookup
   expect_equal( lookup(x.species,d.pets),  x.kingdoms  )
@@ -55,17 +55,15 @@ test_that("lookuper works", {
 #### test standardize_lookup_table() ####
 test_that("standardize_lookup_table works", {
 
+  l.in <- list("house cat" = "mammal", lizard = "reptile", parrot = "bird")
+  d.have <- standardize_lookup_table(l.in)
+
   # house cat, because spaces should not pose a problem
-  d.in <- data.frame(
-    name  = c("house cat", "lizard",  "parrot"),
+  d.want <- data.frame(
+    key   = c("house cat", "lizard",  "parrot"),
     value = c("mammal",    "reptile", "bird")
-  ) #|> standardize_lookup_table() |> dput()
-
-
-  l.want <- list("house cat" = "mammal", lizard = "reptile", parrot = "bird")
-  l.have <- standardize_lookup_table(d.in)
-
-  expect_equal(l.have, l.want)
+  )
+  expect_equal(d.have, d.want)
 
 })
 
@@ -124,10 +122,93 @@ test_that("looking up missing values works", {
 
   # .default == NULL implies x
   abc <- letters[1:3]
-  lookup(letters[1:3], c(a="A"), NULL)
+  lookup(letters[1:3], c(a = "A"), .default = NULL)
 })
 
 
+#### test non-char input ####
+test_that("non-char input works", {
+
+  x <- 1:3
+  d <- data.frame(key = 2, value = 200)
+
+  # Default
+  have.default <- c(1, 200, 3)
+  expect_equal(lookup(x, d), have.default)
+
+  # Pass .default = NULL
+  expect_equal(lookup(x, d, .default = NULL), have.default)
+
+  # Default NA
+  have.na <- c(NA, 200, NA)
+  expect_equal(lookup(x, d, .default = NA), have.na)
+
+  # Default scalar
+  have.scalar <- c(100, 200, 100)
+  expect_equal(lookup(x, d, .default = 100), have.scalar)
+
+  # Default vector
+  have.vector <- c(3, 200, 1)
+  expect_equal(lookup(x, d, .default = 3:1), have.vector)
+
+
+  # Raw (note that NA is not allowed for raw)
+  x.raw <- as.raw(x)
+  d.raw <- d
+  d.raw[] <- lapply(d.raw, as.raw)
+  dflt.raw <- as.raw(3:1)
+  expect_equal(lookup(x.raw, d.raw), as.raw(have.default))
+  expect_equal(lookup(x.raw, d.raw, .default = NULL), as.raw(have.default))
+  expect_equal(lookup(x.raw, d.raw, .default = as.raw(100)), as.raw(have.scalar))
+  expect_equal(lookup(x.raw, d.raw, .default = as.raw(3:1)), as.raw(have.vector))
+
+
+})
+
+#### test non-char input ####
+test_that("looking up NA values works", {
+
+  x <- c(TRUE, NA)
+
+  # Look up NA
+  expect_equal(
+    lookup(x, data.frame(key = NA, value = TRUE)),
+    c(TRUE, TRUE) )
+
+  # Look up NA, but the value is actually missing
+  expect_equal(
+    lookup(x, data.frame(key = NA, value = TRUE), .default = FALSE),
+    c(FALSE, TRUE) )
+
+  expect_equal(
+    lookup(c("cat", "dog", "horse", NA, "lion"),
+           data.frame(name = c("dog", NA), value = c("SPOT", "MISSING")),
+           .default = "NOT FOUND"),
+    c("NOT FOUND", "SPOT", "NOT FOUND", "MISSING", "NOT FOUND"))
+
+
+})
+
+#### test name handling ####
+test_that("names and attributes of x are preserved", {
+
+  x <- c(1, 2, 3, 4, 5)
+  names(x) <- c("one", "two", "three", "four", "five")
+  lab <- "A vector of numbers"
+  attr(x, "label") <- lab
+  d <- data.frame(key = c(2, 4, 6), value = c(200L, 400L, 600L))
+
+  have <- lookup(x, d)
+  expect_equal( as.vector(have), c(1, 200, 3, 400, 5))
+  expect_equal( names(have), names(x))
+  expect_equal( attr(have, "label"), lab)
+
+  have <- lookup(x, d, .default = 0)
+  expect_equal( as.vector(have), c(0, 200, 0, 400, 0))
+  expect_equal( names(have), names(x))
+  expect_equal( attr(have, "label"), lab)
+
+})
 
 #### test zero-length input ####
 test_that("zero-length input works", {
@@ -148,3 +229,26 @@ test_that("zero-length input works", {
     expect_equal(lookup(x.zl, d.zl), x.zl)
 })
 
+
+test_that("type mismatch errors out", {
+
+  x <- c(1, 2, 3, 4, 5)
+  d <- data.frame(key = c(2, 4, 6), value = c(200L, 400L, 600L))
+  dflt <- 10
+
+  expect_equal(lookup(x, d, .default = dflt),
+               c(10, 200, 10, 400, 10))
+
+  expect_error(lookup(x, d, .default = TRUE))
+  expect_error(lookup(x, c(a = 4), .default = dflt))
+  expect_error(lookup(x, data.frame(key = 1, value = as.raw(3), .default = dflt)))
+
+
+})
+
+test_that("lookup() should error with factors", {
+  expect_error(
+    lookup(factor(letters), c("a"="alpha")),
+    "lookup.* does not support factors" )
+
+})

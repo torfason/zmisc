@@ -5,51 +5,59 @@
 \alias{lookuper}
 \title{Lookup values from a lookup table}
 \usage{
-lookup(x, lookup_table, default = x)
+lookup(x, lookup_table, ..., .default = x)
 
-lookuper(lookup_table, default = NULL)
+lookuper(lookup_table, ..., .default = NULL)
 }
 \arguments{
-\item{x}{A string vector whose elements are to be looked up.}
+\item{x}{A vector whose elements are to be looked up.}
 
 \item{lookup_table}{The lookup table to use.}
 
-\item{default}{If a value is not found in the lookup table, the value will be
-taken from \code{default}. This must be a character vector of length 1 or the
-same length as x. Useful values include \code{x} (the default setting), \code{NA}, or
-\code{""} (an empty string).}
+\item{...}{Reserved for future use.}
+
+\item{.default}{If a value is not found in the lookup table, the value will
+be taken from \code{.default}. This must be a vector of the same mode as x, and
+either of length 1 or the same length as x. Useful values include \code{x} (the
+default setting), \code{NA}, or \code{""} (an empty string). Specifying \code{.default = NULL} implies that \code{x} will be used for missing values.}
 }
 \value{
-The \code{\link[=lookup]{lookup()}} function returns string vector based on \code{x}, with
+The \code{\link[=lookup]{lookup()}} function returns a vector based on \code{x}, with
 values replaced with the lookup values from \code{lookup_table}. Any values not
-found in the lookup table are taken from \code{default}.
+found in the lookup table are taken from \code{.default}.
 
-The \code{\link[=lookuper]{lookuper()}} function returns \emph{a function} that takes \code{character}
-vectors as its argument \code{x}, and returns either the corresponding values
-from the underlying lookup table, or the original values from x for those
-elements that are not found in the lookup table (or looks them up from the
+The \code{\link[=lookuper]{lookuper()}} function returns \emph{a function} that takes vectors as
+its argument \code{x}, and returns either the corresponding values from the
+underlying lookup table, or the original values from x for those elements
+that are not found in the lookup table (or looks them up from the
 \code{default}).
 }
 \description{
-The \code{\link[=lookup]{lookup()}} function implements lookup of certain strings (such as
-variable names) from a lookup table which maps keys onto values (such as
-variable labels or descriptions).
+The \code{\link[=lookup]{lookup()}} function implements lookup of values (such as variable names)
+from a lookup table which maps keys onto values (such as variable labels or
+descriptions).
 
 The lookup table can be in the form of a two-column \code{data.frame}, in the form
 of a named \code{vector}, or in the form of a \code{list}. If the table is in the form
-of a \code{data.frame}, the lookup columns should be named \code{name} (for the key)
-and \code{value} (for the value). If the lookup table is in the form of a named
-\code{vector} or \code{list}, the name is used for the key, and the returned value is
-taken from the values in the vector or list.
+of a \code{data.frame}, the key column should be named either \code{key} or \code{name}, and
+the value column should be named \code{value} (for the value). If the lookup table
+is in the form of a named \code{vector} or \code{list}, the names are used as the key,
+and the returned value is taken from the values in the vector or list.
+
+The underlying lookup is done using \code{base::match()}, and all atomic data
+types except \code{factor} are supported. Factors are omitted due to the ambiguity
+in what should be looked up (the values or the levels). It is important that
+\code{x}, \code{.default} and the columns of \code{lookup_table} are all of the same type
+(specifically of the same \code{base::mode()}). If the lookup table is specified
+as a \code{vector} or \code{list}, only the \code{character} variables are supported,
+because \code{name(lookup_table)} is always of mode \code{character}.
 
 Original values are returned if they are not found in the lookup table.
-Alternatively, a \code{default} can be specified for values that are not found.
-Note that an \code{NA} in x will never be found and will be replaced with the
-default value. To specify different defaults for values that are not found
-and for \code{NA} values in \code{x}, the \code{default} must be crafted manually to achieve
-this.
+Alternatively, a \code{.default} can be specified for values that are not found.
+Note that it is possible to specify \code{NA} as one of the keys to look up
+NA values (only when using a \code{data.frame} as lookup table).
 
-Any names in x are not included in the result.
+Any names or attributes of x are preserved.
 
 The \code{\link[=lookuper]{lookuper()}} function returns \emph{a function} equivalent to the \code{\link[=lookup]{lookup()}}
 function, except that instead of taking a lookup table as an argument, the
@@ -57,20 +65,28 @@ lookup table is embedded in the function itself.
 
 This can be very useful, in particular when using the lookup function as an
 argument to other functions that expect a function which maps
-\code{character}->\code{character} but do not offer a good way to pass additional
-arguments to that function.
+\code{character}->\code{character} (or other data types), but do not offer a good way
+to pass additional arguments to that function.
 }
 \examples{
-fruit_lookup_vector <- c(a="Apple", b="Banana", c="Cherry")
+fruit_lookup_vector <- c(a = "Apple", b = "Banana", c = "Cherry")
 lookup(letters[1:5], fruit_lookup_vector)
-lookup(letters[1:5], fruit_lookup_vector, default = NA)
+lookup(letters[1:5], fruit_lookup_vector, .default = NA)
 
 mtcars_lookup_data_frame <- data.frame(
   name = c("mpg", "hp", "wt"),
   value = c("Miles/(US) gallon", "Gross horsepower", "Weight (1000 lbs)"))
 lookup(names(mtcars), mtcars_lookup_data_frame)
 
-lookup_fruits <- lookuper(list(a="Apple", b="Banana", c="Cherry"))
+# A more complex example, with numeric and NA values
+numeric_lookup_table <- data.frame(
+  key = c(1:5, NA), value = c(sqrt(1:5), 99999))
+lookup(c(0:6, NA), numeric_lookup_table)
+
+lookup_fruits <- lookuper(list(a = "Apple", b = "Banana", c = "Cherry"))
 lookup_fruits(letters[1:5])
+lookup_fruits_nomatch_na <-
+  lookuper(list(a = "Apple", b = "Banana", c = "Cherry"), .default = NA)
+lookup_fruits_nomatch_na(letters[1:5])
 
 }
