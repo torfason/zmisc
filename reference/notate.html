@@ -108,26 +108,6 @@ desires to annotate and/or view.</p></dd>
 through the <code><a href="https://rdrr.io/r/utils/View.html" class="external-link">View()</a></code> function.</p>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  chr <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>  fct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"alpha"</span>, <span class="st">"bravo"</span>, <span class="st">"chrly"</span>, <span class="st">"delta"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  lbl <span class="op">=</span> <span class="fu"><a href="ll_labelled.html">ll_labelled</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="cn">NA</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>one<span class="op">=</span><span class="fl">1</span>, two<span class="op">=</span><span class="fl">2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                    label <span class="op">=</span> <span class="st">"A labelled vector"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dn</span> <span class="op">&lt;-</span> <span class="fu">notate</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dn</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   chr       fct     lbl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   a [1] alpha [1] one</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   b [2] bravo [2] two</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   c [3] chrly     [3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   d [4] delta    &lt;NA&gt;</span>
-<span class="r-in"><span><span class="co"># View(dn)</span></span></span>
-<span class="r-in"><span></span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
