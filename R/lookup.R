@@ -26,12 +26,13 @@
 #'
 #' @param lookup_table The lookup table to use.
 #'
-#' @param default If a value is not found in the lookup table, the value will be
-#'   taken from `default`. This must be a character vector of length 1 or the
-#'   same length as x. Useful values include `x` (the default setting), `NA`, or
-#'   `""` (an empty string).
+#' @param .default If a value is not found in the lookup table, the value will
+#'   be taken from `.default`. This must be a character vector of length 1 or
+#'   the same length as x. Useful values include `x` (the default setting),
+#'   `NA`, or `""` (an empty string). `NULL` implies that `x` will be used for
+#'   missing values.
 #'
-#' @return The [lookup()] function returns string vector based on `x`, with
+#' @return The [lookup()] function returns a vector based on `x`, with
 #'   values replaced with the lookup values from `lookup_table`. Any values not
 #'   found in the lookup table are taken from `default`.
 #'
@@ -46,12 +47,16 @@
 #' lookup(names(mtcars), mtcars_lookup_data_frame)
 #'
 #' @export
-lookup <- function(x, lookup_table, default = x) {
+lookup <- function(x, lookup_table, ..., .default = x) {
+
+  # NULL default indicates using x
+  if (is.null(.default))
+    .default <- x
 
   # Check args (lookup table is checked separately)
-  is.character(x)       || is.factor(x)        || stop("x must be a character or a factor")
-  is.character(default) || all(is.na(default)) || stop("default must be a character vector or NA")
-  length(default) %in% c(1, length(x))         || stop("length(default) must be 1 or length(x)")
+  is.character(x)   || is.factor(x) || stop("x must be a character or a factor")
+  is.null(.default) || is.character(.default) || all(is.na(.default)) || stop("default must be NULL, a character vector or NA")
+  is.null(.default) || length(.default) %in% c(1, length(x))          || stop("length(default) must be 1 or length(x)")
 
   # If x is a factor, we look up the levels of x instead of the values of x
   # Note that levels of x will always be a character vector
@@ -67,12 +72,16 @@ lookup <- function(x, lookup_table, default = x) {
   result <- lookup_table[x]
   names(result) <- NULL
   not.found <- unlist(lapply(result, is.null))
-  if (length(default) == 1) {
-    result[not.found] <- default
+  # Unlisting a zero-lenght list gives NULL, so we must coerce to zero-length string
+  if (is.null(not.found)) not.found <- character()
+  if (length(.default) == 1) {
+    result[not.found] <- .default
   } else {
-    result[not.found] <- default[not.found]
+    result[not.found] <- .default[not.found]
   }
   result <- unlist(result)
+  # Unlisting a zero-lenght list gives NULL, so we must coerce to zero-length string
+  if (is.null(result)) result <- character()
 
   # Return the result
   result
@@ -102,20 +111,17 @@ lookup <- function(x, lookup_table, default = x) {
 #'
 #' @rdname lookup
 #' @export
-lookuper <- function(lookup_table, default = NULL) {
+lookuper <- function(lookup_table, ..., .default = NULL) {
 
-  # Standardize the lookup_table
+  # Check args, standardize the lookup_table
   lookup_table <- standardize_lookup_table(lookup_table)
+  is.null(.default) ||
+    (is.atomic(.default) && (length(.default) == 1)) ||
+    stop(".default must be NULL or a vector of length 1")
 
   # Return a function suitable for lookups
-  if (is.null(default)) {
-    result <- function(x) {
-      lookup(x, lookup_table = lookup_table)
-    }
-  } else {
-    result <- function(x) {
-      lookup(x, lookup_table = lookup_table, default = default)
-    }
+  result <- function(x) {
+    lookup(x, lookup_table = lookup_table, .default = .default)
   }
 
   # Return result
@@ -140,7 +146,7 @@ standardize_lookup_table <- function(lookup_table) {
   # Progressively convert data.frame -> vector -> list
   if (is.data.frame(lookup_table)) {
     stopifnot(
-      "name" %in% names(lookup_table),
+      sum(c("name", "key") %in% names(lookup_table)) == 1,
       "value" %in% names(lookup_table)
     )
     attributes(lookup_table$name) <- NULL
