@@ -32,7 +32,7 @@
     
     <a class="navbar-brand me-2" href="index.html">zmisc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3.9001</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3.9002</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,35 +104,44 @@
 <div class="section level3">
 <h3 id="lookup-lookup-values-from-a-lookup-table">lookup: Lookup values from a lookup table<a class="anchor" aria-label="anchor" href="#lookup-lookup-values-from-a-lookup-table"></a>
 </h3>
-<p>The <a href="https://torfason.github.io/zmisc/reference/lookup.html">lookup()</a> function implements lookup of certain strings (such as variable names) from a lookup table which maps keys onto values (such as variable labels or descriptions).</p>
-<p>The lookup table can be in the form of a two-column <code>data.frame</code>, in the form of a named <code>vector</code>, or in the form of a <code>list</code>. If the table is in the form of a <code>data.frame</code>, the lookup columns should be named <code>name</code> (for the key) and <code>value</code> (for the value). If the lookup table is in the form of a named <code>vector</code> or <code>list</code>, the name is used for the key, and the returned value is taken from the values in the vector or list.</p>
-<p>Original values are returned if they are not found in the lookup table. Alternatively, a <code>default</code> can be specified for values that are not found. Note that an <code>NA</code> in x will never be found and will be replaced with the default value. To specify different defaults for values that are not found and for <code>NA</code> values in <code>x</code>, the <code>default</code> must be crafted manually to achieve this.</p>
-<p>Any names in x are not included in the result.</p>
+<p>The <a href="https://torfason.github.io/zmisc/reference/lookup.html">lookup()</a> function implements lookup of values (such as variable names) from a lookup table which maps keys onto values (such as variable labels or descriptions).</p>
+<p>The lookup table can be in the form of a two-column <code>data.frame</code>, in the form of a named <code>vector</code>, or in the form of a <code>list</code>. If the table is in the form of a <code>data.frame</code>, the key column should be named either <code>key</code> or <code>name</code>, and the value column should be named <code>value</code> (for the value). If the lookup table is in the form of a named <code>vector</code> or <code>list</code>, the names are used as the key, and the returned value is taken from the values in the vector or list.</p>
+<p>The underlying lookup is done using <code><a href="https://rdrr.io/r/base/match.html" class="external-link">base::match()</a></code>, and all atomic data types except <code>factor</code> are supported. Factors are omitted due to the ambiguity in what should be looked up (the values or the levels). It is important that <code>x</code>, <code>.default</code> and the columns of <code>lookup_table</code> are all of the same type (specifically of the same <code><a href="https://rdrr.io/r/base/mode.html" class="external-link">base::mode()</a></code>). If the lookup table is specified as a <code>vector</code> or <code>list</code>, only the <code>character</code> variables are supported, because <code>name(lookup_table)</code> is always of mode <code>character</code>.</p>
+<p>Original values are returned if they are not found in the lookup table. Alternatively, a <code>.default</code> can be specified for values that are not found. Note that it is possible to specify <code>NA</code> as one of the keys to look up NA values (only when using a <code>data.frame</code> as lookup table).</p>
+<p>Any names or attributes of x are preserved.</p>
 <div class="section level4">
 <h4 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h4>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fruit_lookup_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a<span class="op">=</span><span class="st">"Apple"</span>, b<span class="op">=</span><span class="st">"Banana"</span>, c<span class="op">=</span><span class="st">"Cherry"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">fruit_lookup_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span>, c <span class="op">=</span> <span class="st">"Cherry"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">fruit_lookup_vector</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">fruit_lookup_vector</span>, default <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">fruit_lookup_vector</span>, .default <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mtcars_lookup_data_frame</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mpg"</span>, <span class="st">"hp"</span>, <span class="st">"wt"</span><span class="op">)</span>,</span>
 <span>  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Miles/(US) gallon"</span>, <span class="st">"Gross horsepower"</span>, <span class="st">"Weight (1000 lbs)"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="va">mtcars_lookup_data_frame</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="va">mtcars_lookup_data_frame</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># A more complex example, with numeric and NA values</span></span>
+<span><span class="va">numeric_lookup_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="cn">NA</span><span class="op">)</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, <span class="fl">99999</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">6</span>, <span class="cn">NA</span><span class="op">)</span>, <span class="va">numeric_lookup_table</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
 <h3 id="lookuper-construct-lookup-function-based-on-a-specific-lookup-table">lookuper: Construct lookup function based on a specific lookup table<a class="anchor" aria-label="anchor" href="#lookuper-construct-lookup-function-based-on-a-specific-lookup-table"></a>
 </h3>
 <p>The <a href="https://torfason.github.io/zmisc/reference/lookuper.html">lookuper()</a> function returns <em>a function</em> equivalent to the <a href="https://torfason.github.io/zmisc/reference/lookup.html">lookup()</a> function, except that instead of taking a lookup table as an argument, the lookup table is embedded in the function itself.</p>
-<p>This can be very useful, in particular when using the lookup function as an argument to other functions that expect a function which maps <code>character</code>-&gt;<code>character</code> but do not offer a good way to pass additional arguments to that function.</p>
+<p>This can be very useful, in particular when using the lookup function as an argument to other functions that expect a function which maps <code>character</code>-&gt;<code>character</code> (or other data types), but do not offer a good way to pass additional arguments to that function.</p>
 <div class="section level4">
 <h4 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a>
 </h4>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lookup_fruits</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lookup.html">lookuper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a<span class="op">=</span><span class="st">"Apple"</span>, b<span class="op">=</span><span class="st">"Banana"</span>, c<span class="op">=</span><span class="st">"Cherry"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">lookup_fruits</span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">lookup_fruits</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lookup.html">lookuper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span>, c <span class="op">=</span> <span class="st">"Cherry"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">lookup_fruits</span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">lookup_fruits_nomatch_na</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="reference/lookup.html">lookuper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span>, c <span class="op">=</span> <span class="st">"Cherry"</span><span class="op">)</span>, .default <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="fu">lookup_fruits_nomatch_na</span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -289,8 +298,8 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://CRAN.R-project.org/package=zmisc" class="external-link"><img src="https://www.r-pkg.org/badges/version/zmisc" alt="CRAN status"></a></li>
-<li><a href="https://github.com/torfason/zmisc" class="external-link"><img src="https://img.shields.io/badge/Git-0.2.3.9001-success" alt="CRAN status shields"></a></li>
+<li><a href="https://CRAN.R-project.org/package=zmisc" class="external-link"><img src="https://www.r-pkg.org/badges/version/zmisc" alt="CRAN version"></a></li>
+<li><a href="https://github.com/torfason/zmisc" class="external-link"><img src="https://img.shields.io/badge/Git-0.2.3.9002-success" alt="GitHub version"></a></li>
 <li><a href="https://github.com/torfason/zmisc/actions" class="external-link"><img src="https://github.com/torfason/zmisc/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
