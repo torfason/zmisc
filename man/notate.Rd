@@ -31,16 +31,3 @@ time, this function converts both \code{factor} and \code{labelled} variables to
 \code{character}, including both numeric levels (\code{labelled} values) and character
 values (\code{labelled} labels) in the output.
 }
-\examples{
-d <- data.frame(
-  chr = letters[1:4],
-  fct = factor(c("alpha", "bravo", "chrly", "delta")),
-  lbl = ll_labelled(c(1, 2, 3, NA),
-                    labels = c(one=1, two=2),
-                    label = "A labelled vector")
-)
-dn <- notate(d)
-dn
-# View(dn)
-
-}

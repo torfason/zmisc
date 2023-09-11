@@ -167,9 +167,14 @@ test_equal_modes <- function(...) {
 #' @keywords internal
 standardize_lookup_table <- function(lookup_table) {
 
-  # Shim to convert the everything that is not a data.frame to one
-  if (!is.data.frame(lookup_table))
-    lookup_table <- as.data.frame(tibble::enframe(unlist(lookup_table)))
+  # Convert everything that is not a data.frame to one
+  if (!is.data.frame(lookup_table)) {
+    lookup_table <- unlist(lookup_table)
+    if (length(names(lookup_table)) != length(lookup_table))
+      stop("all elements of non-data-frame lookup_table must have names")
+    lookup_table <- data.frame(
+      key = names(lookup_table), value = as.vector(lookup_table))
+  }
 
   # Check column names (if list or vector was passed, this should never fail)
   (sum(c("name", "key") %in% names(lookup_table)) == 1) ||
