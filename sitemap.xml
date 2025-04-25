@@ -1,75 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://torfason.github.io/zmisc/404.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/articles/zmisc.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/index.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/ddply_helper.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/ll_assert_labelled.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/ll_labelled.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/ll_to_character.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/ll_val_labels.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/ll_var_label.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/lookup.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/notate.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/standardize_lookup_table.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/threadbare.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/wrap_error.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/zample.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/zeq.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/zingle.html</loc>
-  </url>
-  <url>
-    <loc>https://torfason.github.io/zmisc/reference/zmisc.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://torfason.github.io/zmisc/404.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/LICENSE-text.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/LICENSE.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/articles/index.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/articles/zmisc.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/authors.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/index.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/news/index.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/ddply_helper.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/index.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/ll_assert_labelled.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/ll_labelled.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/ll_to_character.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/ll_val_labels.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/ll_var_label.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/lookup.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/notate.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/standardize_lookup_table.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/threadbare.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/wrap_error.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/zample.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/zeq.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/zingle.html</loc></url>
+<url><loc>https://torfason.github.io/zmisc/reference/zmisc.html</loc></url>
 </urlset>
+
