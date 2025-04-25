@@ -25,7 +25,7 @@
 #'   through the `View()` function.
 #'
 #' @examples
-#' if (getRversion() >= "4") {}
+#' if (getRversion() >= "4") {
 #'   d <- data.frame(
 #'     chr = letters[1:4],
 #'     fct = factor(c("alpha", "bravo", "chrly", "delta")),

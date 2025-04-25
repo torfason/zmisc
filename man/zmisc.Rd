@@ -2,8 +2,8 @@
 % Please edit documentation in R/zmisc-package.R
 \docType{package}
 \name{zmisc}
-\alias{zmisc}
 \alias{zmisc-package}
+\alias{zmisc}
 \title{zmisc: Vector Look-Ups and Safer Sampling}
 \description{
 A collection of utility functions that facilitate looking up

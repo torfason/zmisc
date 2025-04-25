@@ -1,7 +1,7 @@
 Type: Package
 Package: zmisc
 Title: Vector Look-Ups and Safer Sampling
-Version: 0.2.3.9002
+Version: 0.2.3.9003
 Author: Magnus Thor Torfason
 Maintainer: Magnus Thor Torfason <m@zulutime.net>
 Description: A collection of utility functions that facilitate looking up
@@ -28,4 +28,4 @@ VignetteBuilder:
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
