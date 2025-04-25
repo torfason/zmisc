@@ -1,16 +1,14 @@
-# Workflow derived from https://github.com/r-lib/actions/tree/master/examples
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
-
-# Standard R-CMD-check process, on current releases
 # Branches containing 'x/...' prefix may be rebased
-
 on:
   push:
     branches: [main, dev, x/main, x/dev, x/check]
   pull_request:
     branches: [main, dev, x/main, x/dev, x/check]
+name: R-CMD-check.yaml
 
-name: R-CMD-check
+permissions: read-all
 
 jobs:
   R-CMD-check:
@@ -33,7 +31,7 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
 
@@ -51,3 +49,4 @@ jobs:
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'

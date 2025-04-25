@@ -2,13 +2,15 @@ zmisc
 ================
 
 <!-- README.md is generated from README.Rmd -->
+
 <!-- badges: start -->
 
 [![CRAN
 version](https://www.r-pkg.org/badges/version/zmisc)](https://CRAN.R-project.org/package=zmisc)
 [![GitHub
-version](https://img.shields.io/badge/Git-0.2.3.9002-success)](https://github.com/torfason/zmisc)
+version](https://img.shields.io/badge/Git-0.2.3.9003-success)](https://github.com/torfason/zmisc)
 [![R-CMD-check](https://github.com/torfason/zmisc/workflows/R-CMD-check/badge.svg)](https://github.com/torfason/zmisc/actions)
+[![R-CMD-check](https://github.com/torfason/zmisc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/torfason/zmisc/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## Vector Look-Ups and Safer Sampling
@@ -271,4 +273,16 @@ character values (`labelled` labels) in the output.
 #### Examples
 
 ``` r
+if (getRversion() >= "4") {
+  d <- data.frame(
+    chr = letters[1:4],
+    fct = factor(c("alpha", "bravo", "chrly", "delta")),
+    lbl = ll_labelled(c(1, 2, 3, NA),
+                      labels = c(one=1, two=2),
+                      label = "A labelled vector")
+  )
+  dn <- notate(d)
+  dn
+  # View(dn)
+}
 ```
