@@ -1,9 +1,9 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
   zmisc: zmisc.html
-last_built: 2025-04-25T15:51Z
+last_built: 2025-04-29T18:47Z
 urls:
   reference: https://torfason.github.io/zmisc/reference
   article: https://torfason.github.io/zmisc/articles
