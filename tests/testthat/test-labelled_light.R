@@ -1,19 +1,23 @@
 
 test_that("threadbare() works",{
+
   # Data
   attach(test_data_labelled_light)
+  withr::defer(detach(test_data_labelled_light))
 
   # Test regular function
   expect_equal(threadbare(zulu_vec), letters)
 
   # Lists should throw errors
   expect_error(threadbare(cars))
+
 })
 
 test_that("labelled_light ll_labelled() works", {
 
   # Data
   attach(test_data_labelled_light)
+  withr::defer(detach(test_data_labelled_light))
 
   # Empty constructor
   expect_silent(ll_labelled(letters))
@@ -37,6 +41,7 @@ test_that("labelled_light ll_assert_*() works", {
 
   # Data
   attach(test_data_labelled_light)
+  withr::defer(detach(test_data_labelled_light))
 
   # Test valid labelled variables
   expect_silent(ll_assert_labelled(fruit_lbl))
@@ -47,6 +52,7 @@ test_that("labelled_light ll_assert_*() works", {
 
   # Test invalid labelled variables
   expect_error(ll_assert_labelled(fruit_fct))
+
 })
 
 
@@ -54,6 +60,7 @@ test_that("labelled_light ll_var_label() get/set works", {
 
   # Data
   attach(test_data_labelled_light)
+  withr::defer(detach(test_data_labelled_light))
 
   # Get label
   expect_null(ll_var_label(fruit_lbl))
@@ -73,6 +80,9 @@ test_that("labelled_light ll_val_labels() get/set works", {
 
   # Data
   attach(test_data_labelled_light)
+  withr::defer(detach(test_data_labelled_light))
+
+  # Set some variables
   letters_lbl <- ll_labelled(letters)
   char_veggie_labels <- c(Carrot = 2, Potato = 3,
     Tomato = 5, Cucumber = 7, Broccoli = 11 )
@@ -100,6 +110,9 @@ test_that("labelled_light ll_to_character() works", {
 
   # Data
   attach(test_data_labelled_light)
+  withr::defer(detach(test_data_labelled_light))
+
+  # Set some variables
   result_fruit_lbl_default <-
     c("Lime", "Peach", "Orange", "Lime", "Apple", "Banana", "Apple",
       "Orange", "Apple", "Apple", "Banana", "Apple", "Peach", "Orange",
