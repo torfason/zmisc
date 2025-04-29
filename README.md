@@ -8,7 +8,7 @@ zmisc
 [![CRAN
 version](https://www.r-pkg.org/badges/version/zmisc)](https://CRAN.R-project.org/package=zmisc)
 [![GitHub
-version](https://img.shields.io/badge/Git-0.2.3.9003-success)](https://github.com/torfason/zmisc)
+version](https://img.shields.io/badge/Git-0.2.3.9004-success)](https://github.com/torfason/zmisc)
 [![R-CMD-check](https://github.com/torfason/zmisc/workflows/R-CMD-check/badge.svg)](https://github.com/torfason/zmisc/actions)
 [![R-CMD-check](https://github.com/torfason/zmisc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/torfason/zmisc/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->

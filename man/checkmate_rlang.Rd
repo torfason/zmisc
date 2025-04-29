@@ -66,11 +66,11 @@ assert_date(x, ...)
 \arguments{
 \item{x}{The variable to assert}
 
-\item{...}{Additional parameters passed to corresponding
-\code{checkmate::qtest()}, \code{checkmate::check_flag()}, et.c.}
+\item{...}{Additional parameters passed to corresponding \link{checkmate}
+functions \code{\link[checkmate:qassert]{checkmate::qtest()}}, \code{\link[checkmate:checkFlag]{checkmate::check_flag()}}, etc.}
 }
 \value{
-The original object if the asertion passes
+The original object if the assertion passes.
 }
 \description{
 Most common \link{checkmate} functions, adapted to output \link{rlang} style error

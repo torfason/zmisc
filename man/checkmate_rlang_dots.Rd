@@ -25,7 +25,7 @@ mentioned in error messages as the source of the error. See the
 \item{action}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 }
 \description{
-\code{assert_dots_empty()} is an alias for \code{\link[rlang:check_dots_empty]{rlang::check_dots_empty()}}, provided for
-naming consistency with other assertion functions. It throws an error if any
-arguments are passed through \code{...}.
+\code{assert_dots_empty()} is an alias for \code{\link[rlang:check_dots_empty]{rlang::check_dots_empty()}}, provided
+for naming consistency with other assertion functions. It throws an error if
+any arguments are passed through \code{...}.
 }

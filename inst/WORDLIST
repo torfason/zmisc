@@ -3,6 +3,8 @@ lookuper
 zample
 zeq
 zingle
+dplyr
+rlang
 roxygen
 getters
 setters
@@ -12,3 +14,7 @@ CMD
 https
 img
 io
+Recode
+recode
+recoded
+recoding

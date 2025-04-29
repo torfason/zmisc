@@ -50,17 +50,26 @@ check_naturalish <- function (x, tol = sqrt(.Machine$double.eps), positive = FAL
                               any.missing = TRUE, all.missing = TRUE, len = NULL, min.len = NULL,
                               max.len = NULL, unique = FALSE, sorted = FALSE, names = NULL,
                               typed.missing = FALSE, null.ok = FALSE) {
-  check_integerish(x, tol = tol, lower = ifelse(positive, 1, 0), upper = Inf,
+  result <- check_integerish(x, tol = tol, lower = ifelse(positive, 1, 0), upper = Inf,
                      any.missing = any.missing, all.missing = all.missing, len = len, min.len = min.len,
                      max.len = max.len, unique = unique, sorted = sorted, names = names,
                      typed.missing = typed.missing, null.ok = null.ok)
+  ifelse(isTRUE(result), result, sub(x = result, "integerish", "naturalish"))
 }
-
-
 
 # Check for single day (scalar Date)
 check_day <- function(x, na.ok = FALSE, lower = -Inf, upper = Inf, null.ok = FALSE) {
-  check_date(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, null.ok = null.ok)
+  if (!isTRUE(check_date(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, null.ok = null.ok))) {
+    result <- check_date(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, null.ok = null.ok)
+    if (is.null(x) && !null.ok) {
+      return("Must be of type 'day', not 'NULL'")
+    } else  if (!is.null(x) && length(x) ==1 && all(is.na(x)) && !na.ok) {
+      return("May not be NA")
+    }  else {
+      return(result)
+    }
+  }
+  TRUE
 }
 
 
@@ -111,9 +120,9 @@ assert_dots_empty <- rlang::check_dots_empty
 #' | a | b | c |
 #'
 #' @param x The variable to assert
-#' @param ... Additional parameters passed to corresponding
-#'   `checkmate::qtest()`, `checkmate::check_flag()`, et.c.
-#' @return The original object if the asertion passes
+#' @param ... Additional parameters passed to corresponding [checkmate]
+#'   functions [checkmate::qtest()], [checkmate::check_flag()], etc.
+#' @return The original object if the assertion passes.
 #'
 #' @rdname checkmate_rlang
 #' @export
@@ -191,7 +200,7 @@ assert_count <- function(x, ...) {
 #' @export
 assert_day <- function(x, ...) {
   if (!isTRUE(check_day(x, ...))) {
-    result <- check_inumber(x, ...)
+    result <- check_day(x, ...)
     if (result == "Contains missing values (element 1)")
       result <- "May not be NA"
     rlang::abort(result)
