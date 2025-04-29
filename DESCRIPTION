@@ -28,7 +28,9 @@ Suggests:
     knitr,
     purrr,
     withr,
-    desc
+    desc,
+    here,
+    spelling
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
