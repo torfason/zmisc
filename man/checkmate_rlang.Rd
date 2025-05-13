@@ -21,6 +21,10 @@
 \alias{assert_complex}
 \alias{assert_raw}
 \alias{assert_date}
+\alias{assert_list}
+\alias{assert_data_frame}
+\alias{assert_data_table}
+\alias{assert_tibble}
 \title{Assertion functions adapted for rlang output}
 \usage{
 qassert(x, ...)
@@ -62,6 +66,14 @@ assert_complex(x, ...)
 assert_raw(x, ...)
 
 assert_date(x, ...)
+
+assert_list(x, ...)
+
+assert_data_frame(x, ...)
+
+assert_data_table(x, ...)
+
+assert_tibble(x, ...)
 }
 \arguments{
 \item{x}{The variable to assert}

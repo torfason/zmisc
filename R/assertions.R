@@ -298,3 +298,38 @@ assert_date <- function(x, ...) {
   invisible(x)
 }
 
+
+#### Lists and tibbles
+
+
+#' @rdname checkmate_rlang
+#' @export
+assert_list <- function(x, ...) {
+  if (!isTRUE(check_list(x, ...)))
+    rlang::abort(check_list(x, ...))
+  invisible(x)
+}
+
+#' @rdname checkmate_rlang
+#' @export
+assert_data_frame <- function(x, ...) {
+  if (!isTRUE(check_data_frame(x, ...)))
+    rlang::abort(check_data_frame(x, ...))
+  invisible(x)
+}
+
+#' @rdname checkmate_rlang
+#' @export
+assert_data_table <- function(x, ...) {
+  if (!isTRUE(check_data_table(x, ...)))
+    rlang::abort(check_data_table(x, ...))
+  invisible(x)
+}
+
+#' @rdname checkmate_rlang
+#' @export
+assert_tibble <- function(x, ...) {
+  if (!isTRUE(check_tibble(x, ...)))
+    rlang::abort(check_tibble(x, ...))
+  invisible(x)
+}
