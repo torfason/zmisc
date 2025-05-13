@@ -145,7 +145,15 @@ numbers (zero and positive numbers</p></li>
 <span></span>
 <span><span class="fu">assert_raw</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">assert_date</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">assert_date</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_list</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_data_frame</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_data_table</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">assert_tibble</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -157,13 +165,13 @@ numbers (zero and positive numbers</p></li>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional parameters passed to corresponding
-<code><a href="https://mllg.github.io/checkmate/reference/qassert.html" class="external-link">checkmate::qtest()</a></code>, <code><a href="https://mllg.github.io/checkmate/reference/checkFlag.html" class="external-link">checkmate::check_flag()</a></code>, et.c.</p></dd>
+<dd><p>Additional parameters passed to corresponding checkmate
+functions <code><a href="https://mllg.github.io/checkmate/reference/qassert.html" class="external-link">checkmate::qtest()</a></code>, <code><a href="https://mllg.github.io/checkmate/reference/checkFlag.html" class="external-link">checkmate::check_flag()</a></code>, etc.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>The original object if the asertion passes</p>
+    <p>The original object if the assertion passes.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

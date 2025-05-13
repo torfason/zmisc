@@ -3,7 +3,7 @@ pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
   zmisc: zmisc.html
-last_built: 2025-04-29T18:47Z
+last_built: 2025-05-13T16:14Z
 urls:
   reference: https://torfason.github.io/zmisc/reference
   article: https://torfason.github.io/zmisc/articles
