@@ -28,7 +28,6 @@
 \alias{assert_data_frame}
 \alias{assert_data_table}
 \alias{assert_tibble}
-\alias{assert_choice}
 \title{Assertion functions adapted for rlang output}
 \usage{
 qassert(x, ...)
@@ -86,8 +85,6 @@ assert_data_frame(x, ...)
 assert_data_table(x, ...)
 
 assert_tibble(x, ...)
-
-assert_choice(x, choices, ...)
 }
 \arguments{
 \item{x}{The variable to assert}

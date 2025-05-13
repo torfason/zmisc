@@ -4,6 +4,7 @@
 #'   check_numeric check_logical check_character check_raw check_date
 #'   check_integerish check_complex check_factor qtest test_integer
 #'   check_list check_data_frame check_data_table check_tibble
+#'   check_scalar check_atomic
 NULL
 
 #' @importFrom rlang arg_match seq2 abort
@@ -373,7 +374,16 @@ assert_tibble <- function(x, ...) {
 # --- Set and value assertions ----
 
 
-#' @rdname checkmate_rlang
+#' Assert specific values and set memberships
+#'
+#' @param x The variable to assert
+#' @param choices A vector of values representing the which x must be an
+#'   element of.
+#' @param ... Additional parameters passed to corresponding [checkmate]
+#'   functions [checkmate::qtest()], [checkmate::check_flag()], etc.
+#' @return The original object if the assertion passes.
+#'
+#' @rdname checkmate_rlang_values
 #' @export
 assert_choice <- function(x, choices, ...) {
   if (!isTRUE(check_choice(x, choices, ...)))
