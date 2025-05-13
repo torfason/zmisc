@@ -1,8 +1,9 @@
 
 #' @importFrom checkmate check_flag check_string check_number check_int
-#'   check_count check_list check_class check_choice check_integer check_double
+#'   check_count check_class check_choice check_integer check_double
 #'   check_numeric check_logical check_character check_raw check_date
 #'   check_integerish check_complex check_factor qtest test_integer
+#'   check_list check_data_frame check_data_table check_tibble
 NULL
 
 #' @importFrom rlang arg_match seq2 abort
