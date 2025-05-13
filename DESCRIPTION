@@ -1,7 +1,7 @@
 Type: Package
 Package: zmisc
 Title: Vector Look-Ups and Safer Sampling
-Version: 0.2.3.9005
+Version: 0.2.3.9006
 Author: Magnus Thor Torfason
 Maintainer: Magnus Thor Torfason <m@zulutime.net>
 Description: A collection of utility functions that facilitate looking up

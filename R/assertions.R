@@ -299,9 +299,23 @@ assert_date <- function(x, ...) {
   invisible(x)
 }
 
+# --- Type, class, and structure assertions ----
 
-#### Lists and tibbles
+#' @rdname checkmate_rlang
+#' @export
+assert_scalar <- function(x, ...) {
+  if (!isTRUE(check_scalar(x, ...)))
+    rlang::abort(check_scalar(x, ...))
+  invisible(x)
+}
 
+#' @rdname checkmate_rlang
+#' @export
+assert_atomic <- function(x, ...) {
+  if (!isTRUE(check_atomic(x, ...)))
+    rlang::abort(check_atomic(x, ...))
+  invisible(x)
+}
 
 #' @rdname checkmate_rlang
 #' @export
@@ -310,6 +324,26 @@ assert_list <- function(x, ...) {
     rlang::abort(check_list(x, ...))
   invisible(x)
 }
+
+#' @rdname checkmate_rlang
+#' @export
+assert_list <- function(x, ...) {
+  if (!isTRUE(check_list(x, ...)))
+    rlang::abort(check_list(x, ...))
+  invisible(x)
+}
+
+
+#' @rdname checkmate_rlang
+#' @export
+assert_class <- function(x, ...) {
+  if (!isTRUE(check_class(x, ...)))
+    rlang::abort(check_class(x, ...))
+  invisible(x)
+}
+
+
+# --- Tibble and data.frame assertions ----
 
 #' @rdname checkmate_rlang
 #' @export
@@ -334,3 +368,16 @@ assert_tibble <- function(x, ...) {
     rlang::abort(check_tibble(x, ...))
   invisible(x)
 }
+
+
+# --- Set and value assertions ----
+
+
+#' @rdname checkmate_rlang
+#' @export
+assert_choice <- function(x, choices, ...) {
+  if (!isTRUE(check_choice(x, choices, ...)))
+    rlang::abort(check_choice(x, choices, ...))
+  invisible(x)
+}
+
