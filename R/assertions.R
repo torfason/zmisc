@@ -4,7 +4,7 @@
 #'   check_numeric check_logical check_character check_raw check_date
 #'   check_integerish check_complex check_factor qtest test_integer
 #'   check_list check_data_frame check_data_table check_tibble
-#'   check_scalar check_atomic
+#'   check_scalar check_atomic check_environment
 NULL
 
 #' @importFrom rlang arg_match seq2 abort
@@ -391,3 +391,10 @@ assert_choice <- function(x, choices, ...) {
   invisible(x)
 }
 
+#' @rdname checkmate_rlang_values
+#' @export
+assert_environment <- function(x,  ...) {
+  if (!isTRUE(check_environment(x, ...)))
+    rlang::abort(check_environment(x, ...))
+  invisible(x)
+}

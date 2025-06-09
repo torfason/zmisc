@@ -2,9 +2,12 @@
 % Please edit documentation in R/assertions.R
 \name{assert_choice}
 \alias{assert_choice}
+\alias{assert_environment}
 \title{Assert specific values and set memberships}
 \usage{
 assert_choice(x, choices, ...)
+
+assert_environment(x, ...)
 }
 \arguments{
 \item{x}{The variable to assert}
