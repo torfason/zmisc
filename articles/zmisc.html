@@ -153,31 +153,13 @@ safer.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="zeq-recode-values-using-tilde-syntax">zeq: Recode values using tilde syntax<a class="anchor" aria-label="anchor" href="#zeq-recode-values-using-tilde-syntax"></a>
+<h3 id="zeq">zeq:<a class="anchor" aria-label="anchor" href="#zeq"></a>
 </h3>
-<p>Recode elements of a vector using a series of formulas
-(<code>lhs ~ rhs</code>) passed via <code>...</code>. Each
-<code>lhs</code> is matched against elements of <code>x</code>, and the
-corresponding <code>rhs</code> provides the new value.</p>
-<p>This function is closely based on [dplyr::case_match()] with minimal
-changes to make it more intuitive for re-coding tasks. In particular,
-rather than setting unmatched values to <code>NA</code> by default, they
-remain unchanged <code>.default</code>, which itself defaults to
-<code>x</code>. The output type can be controlled with
-<code>.ptype</code>. <code>.ptype</code> defaults to
-<code>.default</code>, which means that type can be changed by setting
-<code>.default</code> to either <code>NA</code> or to a value of the
-same type as the <code>rhs</code> formula values. Incompatibility
-between the <code>rhs</code> values and the <code>.ptype</code> results
-in a type error.</p>
 <div class="section level4">
 <h4 id="examples-3">Examples<a class="anchor" aria-label="anchor" href="#examples-3"></a>
 </h4>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/recode_tilde.html">recode_tilde</a></span><span class="op">(</span><span class="va">letters</span>, <span class="st">"a"</span> <span class="op">~</span> <span class="st">"first"</span>, <span class="st">"z"</span> <span class="op">~</span> <span class="st">"last"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/recode_tilde.html">recode_tilde</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span> <span class="op">~</span> <span class="fl">10</span>, <span class="fl">2</span> <span class="op">~</span> <span class="fl">20</span><span class="op">)</span></span>
-<span><span class="co"># Recoding to different type requires explicit .default values</span></span>
-<span><span class="fu"><a href="../reference/recode_tilde.html">recode_tilde</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">1</span> <span class="op">~</span> <span class="st">"low"</span>, <span class="fl">2</span> <span class="op">~</span> <span class="st">"medium"</span>, <span class="fl">3</span> <span class="op">~</span> <span class="st">"high"</span>, .default <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"></code></pre></div>
 </div>
 </div>
 <div class="section level3">

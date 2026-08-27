@@ -91,29 +91,11 @@ identical to the [sample()](https://rdrr.io/r/base/sample.html) and
 ``` r
 ```
 
-### zeq: Recode values using tilde syntax
-
-Recode elements of a vector using a series of formulas (`lhs ~ rhs`)
-passed via `...`. Each `lhs` is matched against elements of `x`, and the
-corresponding `rhs` provides the new value.
-
-This function is closely based on \[dplyr::case_match()\] with minimal
-changes to make it more intuitive for re-coding tasks. In particular,
-rather than setting unmatched values to `NA` by default, they remain
-unchanged `.default`, which itself defaults to `x`. The output type can
-be controlled with `.ptype`. `.ptype` defaults to `.default`, which
-means that type can be changed by setting `.default` to either `NA` or
-to a value of the same type as the `rhs` formula values. Incompatibility
-between the `rhs` values and the `.ptype` results in a type error.
+### zeq:
 
 #### Examples
 
 ``` r
-
-recode_tilde(letters, "a" ~ "first", "z" ~ "last")
-recode_tilde(1:5, 1 ~ 10, 2 ~ 20)
-# Recoding to different type requires explicit .default values
-recode_tilde(1:4, 1 ~ "low", 2 ~ "medium", 3 ~ "high", .default = NA)
 ```
 
 ### zingle: Sample from a vector in a safe way
