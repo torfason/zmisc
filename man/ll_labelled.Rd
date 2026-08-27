@@ -32,12 +32,12 @@ The constructor, \code{ll_labelled()}, creates a labelled variable satisfying th
 specification.
 }
 \seealso{
-Other labelled light: 
-\code{\link{ll_assert_labelled}()},
-\code{\link{ll_to_character}()},
-\code{\link{ll_val_labels}()},
-\code{\link{ll_var_label}()},
-\code{\link{threadbare}()}
+Other labelled light:
+\code{\link[=ll_assert_labelled]{ll_assert_labelled()}},
+\code{\link[=ll_to_character]{ll_to_character()}},
+\code{\link[=ll_val_labels]{ll_val_labels()}},
+\code{\link[=ll_var_label]{ll_var_label()}},
+\code{\link[=threadbare]{threadbare()}}
 }
 \concept{labelled light}
 \keyword{internal}

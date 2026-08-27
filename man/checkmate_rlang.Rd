@@ -10,6 +10,7 @@
 \alias{assert_int}
 \alias{assert_count}
 \alias{assert_day}
+\alias{assert_scalar}
 \alias{assert_logical}
 \alias{assert_character}
 \alias{assert_numeric}
@@ -21,13 +22,14 @@
 \alias{assert_complex}
 \alias{assert_raw}
 \alias{assert_date}
-\alias{assert_scalar}
 \alias{assert_atomic}
+\alias{assert_environment}
 \alias{assert_list}
-\alias{assert_class}
 \alias{assert_data_frame}
 \alias{assert_data_table}
 \alias{assert_tibble}
+\alias{assert_class}
+\alias{assert_choice}
 \title{Assertion functions adapted for rlang output}
 \usage{
 qassert(x, ...)
@@ -47,6 +49,8 @@ assert_int(x, ...)
 assert_count(x, ...)
 
 assert_day(x, ...)
+
+assert_scalar(x, ...)
 
 assert_logical(x, ...)
 
@@ -70,35 +74,41 @@ assert_raw(x, ...)
 
 assert_date(x, ...)
 
-assert_scalar(x, ...)
-
 assert_atomic(x, ...)
 
-assert_list(x, ...)
+assert_environment(x, ...)
 
 assert_list(x, ...)
-
-assert_class(x, ...)
 
 assert_data_frame(x, ...)
 
 assert_data_table(x, ...)
 
 assert_tibble(x, ...)
+
+assert_class(x, ...)
+
+assert_choice(x, choices, ...)
 }
 \arguments{
 \item{x}{The variable to assert}
 
-\item{...}{Additional parameters passed to corresponding \link{checkmate}
-functions \code{\link[checkmate:qassert]{checkmate::qtest()}}, \code{\link[checkmate:checkFlag]{checkmate::check_flag()}}, etc.}
+\item{...}{Additional parameters passed to corresponding \link[checkmate:checkmate]{checkmate}
+functions \code{\link[checkmate:qtest]{checkmate::qtest()}}, \code{\link[checkmate:check_flag]{checkmate::check_flag()}}, etc.}
+
+\item{choices}{A vector of values representing the which x must be an
+element of.}
 }
 \value{
 The original object if the assertion passes.
+
+The original object if the assertion passes.
 }
 \description{
-Most common \link{checkmate} functions, adapted to output \link{rlang} style error
+Most common \link[checkmate:checkmate]{checkmate} functions, adapted to output \link[rlang:rlang]{rlang} style error
 messages on failed assertions. The actual checking is done by
-\code{\link[checkmate:qassert]{checkmate::qtest()}}, \code{\link[checkmate:checkFlag]{checkmate::check_flag()}} and related functions.\tabular{lll}{
+\code{\link[checkmate:qtest]{checkmate::qtest()}}, \code{\link[checkmate:check_flag]{checkmate::check_flag()}} and related functions.
+\subsection{Scalars and (atomic) vectors}{\tabular{lll}{
    \strong{R Type} \tab \strong{Scalar} \tab \strong{Vector} \cr
    \code{logical} \tab \code{assert_flag(x)} \tab \code{assert_logical(x)} \cr
    \code{character} \tab \code{assert_string(x)} \tab \code{assert_character(x)} \cr
@@ -110,7 +120,9 @@ messages on failed assertions. The actual checking is done by
    \code{factor} \tab ³ \tab \code{assert_factor(x)} \cr
    \code{complex} \tab ³ \tab \code{assert_complex(x)} \cr
    \code{raw} \tab ³ \tab \code{assert_raw(x)} \cr
-   \code{Date} \tab \code{assert_day(x)} \tab \code{assert_date(x)} \cr
+   \code{Date} \tab \code{assert_day(x)}⁴ \tab \code{assert_date(x)} \cr
+   \code{POSIXct} \tab \code{assert_instant(x)}⁴ \tab \code{assert_posixct(x)} \cr
+   Any type \tab \code{assert_scalar(x)} \tab \code{assert_atomic()}⁵ \cr
 }
 
 \itemize{
@@ -119,9 +131,24 @@ to integer values), regardless of type (\code{integer} or \code{double} )
 \item ² \code{naturalish} refers to functional integers restricted to the natural
 numbers (zero and positive numbers
 \item ³ No assertion functions are provided for scalar \code{factor}, \code{complex}, or \code{raw}
-\item ⁴ Not available in the \link{checkmate} package
-}\tabular{lll}{
+\item ⁴ Not available in the \link[checkmate:checkmate]{checkmate} package
+\item ⁵ Not that \code{\link[checkmate:assert_vector]{checkmate::assert_vector()}} accepts either a \code{vector} or a \code{list},
+which is seldom what is wanted and is therefore \emph{not} implemented here.
+}
+}
+
+\subsection{Composite Objects}{\tabular{lll}{
+   \strong{R Type} \tab \strong{Function} \tab \strong{Note} \cr
+   \code{environment} \tab \code{assert_environment(x)} \tab \code{is.environment(x)} \cr
+   \code{list} \tab \code{assert_list(x)} \tab \code{is.list(x)} \emph{and} x is unclassed. \cr
+   \code{data.frame} \tab \code{assert_data_frame(x)} \tab \code{is.list(x)}, with class \code{data.frame} and correct structure. \cr
+   \code{data.table} \tab \code{assert_data_table(x)}⁴ \tab \code{data.table::is.data.table(x)} \emph{and} x is a \code{data.frame}. \cr
+   \code{tibble} (\code{tbl_df}) \tab \code{assert_tibble(x)} \tab \code{tibble::is_tibble(x)} \emph{and} x is a \code{data.frame}. \cr
+}
+\tabular{lll}{
    a \tab b \tab c \cr
    a \tab b \tab c \cr
+}
+
 }
 }

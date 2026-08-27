@@ -16,17 +16,17 @@ at all, not even \code{\link[=names]{names()}}.
 }
 \description{
 A bare object is an R object that has no class attributes (see
-\code{\link[rlang:bare-type-predicates]{rlang::is_bare_character()}}). A threadbare object is an atomic object (i.e.
+\code{\link[rlang:is_bare_character]{rlang::is_bare_character()}}). A threadbare object is an atomic object (i.e.
 not a \code{\link[=list]{list()}}, see \code{\link[=is.atomic]{is.atomic()}}), with no attributes at all. The function
 returns an error if a list is passed.
 }
 \seealso{
-Other labelled light: 
-\code{\link{ll_assert_labelled}()},
-\code{\link{ll_labelled}()},
-\code{\link{ll_to_character}()},
-\code{\link{ll_val_labels}()},
-\code{\link{ll_var_label}()}
+Other labelled light:
+\code{\link[=ll_assert_labelled]{ll_assert_labelled()}},
+\code{\link[=ll_labelled]{ll_labelled()}},
+\code{\link[=ll_to_character]{ll_to_character()}},
+\code{\link[=ll_val_labels]{ll_val_labels()}},
+\code{\link[=ll_var_label]{ll_var_label()}}
 }
 \concept{labelled light}
 \keyword{internal}

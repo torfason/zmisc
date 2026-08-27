@@ -22,12 +22,12 @@ since these functions perform checks to ensure that the result, and the
 resulting labelled variable, are valid.
 }
 \seealso{
-Other labelled light: 
-\code{\link{ll_assert_labelled}()},
-\code{\link{ll_labelled}()},
-\code{\link{ll_to_character}()},
-\code{\link{ll_var_label}()},
-\code{\link{threadbare}()}
+Other labelled light:
+\code{\link[=ll_assert_labelled]{ll_assert_labelled()}},
+\code{\link[=ll_labelled]{ll_labelled()}},
+\code{\link[=ll_to_character]{ll_to_character()}},
+\code{\link[=ll_var_label]{ll_var_label()}},
+\code{\link[=threadbare]{threadbare()}}
 }
 \concept{labelled light}
 \keyword{internal}
