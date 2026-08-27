@@ -1,10 +1,10 @@
 
-#' @importFrom checkmate check_flag check_string check_number check_int
-#'   check_count check_class check_choice check_integer check_double
-#'   check_numeric check_logical check_character check_raw check_date
-#'   check_integerish check_complex check_factor qtest test_integer
-#'   check_list check_data_frame check_data_table check_tibble
-#'   check_scalar check_atomic check_environment
+#' @importFrom checkmate  check_flag check_string check_number check_int
+#' @importFrom checkmate  check_count check_class check_choice check_integer check_double
+#' @importFrom checkmate  check_numeric check_logical check_character check_raw check_date
+#' @importFrom checkmate  check_integerish check_complex check_factor qtest test_integer
+#' @importFrom checkmate  check_list check_data_frame check_data_table check_tibble
+#' @importFrom checkmate  check_scalar check_atomic check_environment
 NULL
 
 #' @importFrom rlang arg_match seq2 abort
@@ -96,6 +96,8 @@ assert_dots_empty <- rlang::check_dots_empty
 #' messages on failed assertions. The actual checking is done by
 #' [checkmate::qtest()], [checkmate::check_flag()] and related functions.
 #'
+#' ### Scalars and (atomic) vectors
+#'
 #' | **R Type**    | **Scalar**           | **Vector**              |
 #' | ------------- | -------------------- | ----------------------- |
 #' | `logical`     | `assert_flag(x)`     | `assert_logical(x)`     |
@@ -108,7 +110,10 @@ assert_dots_empty <- rlang::check_dots_empty
 #' | `factor`      | ³                    | `assert_factor(x)`      |
 #' | `complex`     | ³                    | `assert_complex(x)`     |
 #' | `raw`         | ³                    | `assert_raw(x)`         |
-#' | `Date`        | `assert_day(x)`      | `assert_date(x)`        |
+#' | `Date`        | `assert_day(x)`⁴     | `assert_date(x)`        |
+#' | `POSIXct`     | `assert_instant(x)`⁴ | `assert_posixct(x)`     |
+#' | Any type      | `assert_scalar(x)`   | `assert_atomic()`⁵      |
+#'
 #'
 #' - ¹ `integerish` refers to functional integers (numbers that are very close
 #'   to integer values), regardless of type (`integer` or `double` )
@@ -116,6 +121,19 @@ assert_dots_empty <- rlang::check_dots_empty
 #'   numbers (zero and positive numbers
 #' - ³ No assertion functions are provided for scalar `factor`, `complex`, or `raw`
 #' - ⁴ Not available in the [checkmate] package
+#' - ⁵ Not that [checkmate::assert_vector()] accepts either a `vector` or a `list`,
+#'   which is seldom what is wanted and is therefore *not* implemented here.
+#'
+#' ### Composite Objects
+#'
+#' | **R Type**          | **Function**            | **Note**                                                      |
+#' | ------------------- | ----------------------- | ------------------------------------------------------------- |
+#' | `environment`       | `assert_environment(x)` | `is.environment(x)`                                           |
+#' | `list`              | `assert_list(x)`        | `is.list(x)` *and* x is unclassed.                            |
+#' | `data.frame`        | `assert_data_frame(x)`  | `is.list(x)`, with class `data.frame` and correct structure.  |
+#' | `data.table`        | `assert_data_table(x)`⁴ | `data.table::is.data.table(x)` *and* x is a `data.frame`.     |
+#' | `tibble` (`tbl_df`) | `assert_tibble(x)`      | `tibble::is_tibble(x)` *and* x is a `data.frame`.             |
+
 #'
 #' | a | b | c |
 #' |---|---|---|
@@ -133,6 +151,8 @@ qassert <- function(x, ...) {
     rlang::abort(qtest(x, ...))
   invisible(x)
 }
+
+#### SCALAR AND VECTOR ASSERTIONS ####
 
 # --- Scalar assertions ----
 
@@ -207,6 +227,14 @@ assert_day <- function(x, ...) {
       result <- "May not be NA"
     rlang::abort(result)
   }
+  invisible(x)
+}
+
+#' @rdname checkmate_rlang
+#' @export
+assert_scalar <- function(x, ...) {
+  if (!isTRUE(check_scalar(x, ...)))
+    rlang::abort(check_scalar(x, ...))
   invisible(x)
 }
 
@@ -300,16 +328,6 @@ assert_date <- function(x, ...) {
   invisible(x)
 }
 
-# --- Type, class, and structure assertions ----
-
-#' @rdname checkmate_rlang
-#' @export
-assert_scalar <- function(x, ...) {
-  if (!isTRUE(check_scalar(x, ...)))
-    rlang::abort(check_scalar(x, ...))
-  invisible(x)
-}
-
 #' @rdname checkmate_rlang
 #' @export
 assert_atomic <- function(x, ...) {
@@ -318,11 +336,13 @@ assert_atomic <- function(x, ...) {
   invisible(x)
 }
 
+#### COMPOSITE OBJECTS ####
+
 #' @rdname checkmate_rlang
 #' @export
-assert_list <- function(x, ...) {
-  if (!isTRUE(check_list(x, ...)))
-    rlang::abort(check_list(x, ...))
+assert_environment <- function(x,  ...) {
+  if (!isTRUE(check_environment(x, ...)))
+    rlang::abort(check_environment(x, ...))
   invisible(x)
 }
 
@@ -333,18 +353,6 @@ assert_list <- function(x, ...) {
     rlang::abort(check_list(x, ...))
   invisible(x)
 }
-
-
-#' @rdname checkmate_rlang
-#' @export
-assert_class <- function(x, ...) {
-  if (!isTRUE(check_class(x, ...)))
-    rlang::abort(check_class(x, ...))
-  invisible(x)
-}
-
-
-# --- Tibble and data.frame assertions ----
 
 #' @rdname checkmate_rlang
 #' @export
@@ -370,9 +378,20 @@ assert_tibble <- function(x, ...) {
   invisible(x)
 }
 
+#### SPECIAL CASES ####
+
+# --- Type, class, and structure assertions ----
+
+
+#' @rdname checkmate_rlang
+#' @export
+assert_class <- function(x, ...) {
+  if (!isTRUE(check_class(x, ...)))
+    rlang::abort(check_class(x, ...))
+  invisible(x)
+}
 
 # --- Set and value assertions ----
-
 
 #' Assert specific values and set memberships
 #'
@@ -383,7 +402,7 @@ assert_tibble <- function(x, ...) {
 #'   functions [checkmate::qtest()], [checkmate::check_flag()], etc.
 #' @return The original object if the assertion passes.
 #'
-#' @rdname checkmate_rlang_values
+#' @rdname checkmate_rlang
 #' @export
 assert_choice <- function(x, choices, ...) {
   if (!isTRUE(check_choice(x, choices, ...)))
@@ -391,10 +410,3 @@ assert_choice <- function(x, choices, ...) {
   invisible(x)
 }
 
-#' @rdname checkmate_rlang_values
-#' @export
-assert_environment <- function(x,  ...) {
-  if (!isTRUE(check_environment(x, ...)))
-    rlang::abort(check_environment(x, ...))
-  invisible(x)
-}
