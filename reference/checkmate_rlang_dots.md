@@ -1,6 +1,6 @@
 # Assert that no dots arguments are passed
 
-`assert_dots_empty()` is an alias for
+`chk_dots_empty()` is an alias for
 [`rlang::check_dots_empty()`](https://rlang.r-lib.org/reference/check_dots_empty.html),
 provided for naming consistency with other assertion functions. It
 throws an error if any arguments are passed through `...`.
@@ -8,7 +8,7 @@ throws an error if any arguments are passed through `...`.
 ## Usage
 
 ``` r
-assert_dots_empty(
+chk_dots_empty(
   env = caller_env(),
   error = NULL,
   call = caller_env(),

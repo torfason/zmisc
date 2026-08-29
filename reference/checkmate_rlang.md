@@ -9,30 +9,39 @@ error messages on failed assertions. The actual checking is done by
 [`checkmate::check_flag()`](https://mllg.github.io/checkmate/reference/checkFlag.html)
 and related functions.
 
+### Performance
+
+These functions are meant to be cheap enough to leave in place at the
+top of any function, so the passing case is kept to the smallest amount
+of work that will do: a single call to the underlying `check_*()`
+function, a test of the result, and a return. Anything more expensive
+belongs on the failing path, which runs once and then stops, and where
+the cost of assembling a better message does not matter.
+
 ### Scalars and (atomic) vectors
 
-|               |                      |                         |
-|---------------|----------------------|-------------------------|
-| **R Type**    | **Scalar**           | **Vector**              |
-| `logical`     | `assert_flag(x)`     | `assert_logical(x)`     |
-| `character`   | `assert_string(x)`   | `assert_character(x)`   |
-| `numeric`     | `assert_number(x)`   | `assert_numeric(x)`     |
-| `integer`     | `assert_inumber(x)`⁴ | `assert_integer(x)`     |
-| `double`      | `assert_dnumber(x)`⁴ | `assert_double(x)`      |
-| `integerish`¹ | `assert_int(x)`      | `assert_integerish(x)`  |
-| `naturalish`² | `assert_count(x)`    | `assert_naturalish(x)`⁴ |
-| `factor`      | ³                    | `assert_factor(x)`      |
-| `complex`     | ³                    | `assert_complex(x)`     |
-| `raw`         | ³                    | `assert_raw(x)`         |
-| `Date`        | `assert_day(x)`⁴     | `assert_date(x)`        |
-| `POSIXct`     | `assert_instant(x)`⁴ | `assert_posixct(x)`     |
-| Any type      | `assert_scalar(x)`   | `assert_atomic()`⁵      |
+|               |                   |                      |
+|---------------|-------------------|----------------------|
+| **R Type**    | **Scalar**        | **Vector**           |
+| `logical`     | `chk_flag(x)`     | `chk_logical(x)`     |
+| `character`   | `chk_string(x)`   | `chk_character(x)`   |
+| `numeric`     | `chk_number(x)`   | `chk_numeric(x)`     |
+| `integer`     | `chk_inumber(x)`⁴ | `chk_integer(x)`     |
+| `double`      | `chk_dnumber(x)`⁴ | `chk_double(x)`      |
+| `integerish`¹ | `chk_znumber(x)`  | `chk_integerish(x)`  |
+| `naturalish`² | `chk_count(x)`    | `chk_naturalish(x)`⁴ |
+| `factor`      | ³                 | `chk_factor(x)`      |
+| `complex`     | ³                 | `chk_complex(x)`     |
+| `raw`         | ³                 | `chk_raw(x)`         |
+| `Date`        | `chk_day(x)`⁴     | `chk_date(x)`        |
+| `POSIXct`     | `chk_instant(x)`⁴ | `chk_posixct(x)`     |
+| Any type      | `chk_scalar(x)`   | `chk_atomic(x)`⁵     |
 
 - ¹ `integerish` refers to functional integers (numbers that are very
   close to integer values), regardless of type (`integer` or `double` )
 
 - ² `naturalish` refers to functional integers restricted to the natural
-  numbers (zero and positive numbers
+  numbers (zero and positive numbers)
 
 - ³ No assertion functions are provided for scalar `factor`, `complex`,
   or `raw`
@@ -41,7 +50,7 @@ and related functions.
   [checkmate](https://mllg.github.io/checkmate/reference/checkmate-package.html)
   package
 
-- ⁵ Not that
+- ⁵ Note that
   [`checkmate::assert_vector()`](https://mllg.github.io/checkmate/reference/checkVector.html)
   accepts either a `vector` or a `list`, which is seldom what is wanted
   and is therefore *not* implemented here.
@@ -51,77 +60,76 @@ and related functions.
 |  |  |  |
 |----|----|----|
 | **R Type** | **Function** | **Note** |
-| `environment` | `assert_environment(x)` | `is.environment(x)` |
-| `list` | `assert_list(x)` | `is.list(x)` *and* x is unclassed. |
-| `data.frame` | `assert_data_frame(x)` | `is.list(x)`, with class `data.frame` and correct structure. |
-| `data.table` | `assert_data_table(x)`⁴ | `data.table::is.data.table(x)` *and* x is a `data.frame`. |
-| `tibble` (`tbl_df`) | `assert_tibble(x)` | `tibble::is_tibble(x)` *and* x is a `data.frame`. |
-
-|     |     |     |
-|-----|-----|-----|
-| a   | b   | c   |
-| a   | b   | c   |
+| `environment` | `chk_environment(x)` | `is.environment(x)` |
+| `list` | `chk_list(x)` | `is.list(x)` *and* x is unclassed. |
+| `data.frame` | `chk_data_frame(x)` | `is.list(x)`, with class `data.frame` and correct structure. |
+| `data.table` | `chk_data_table(x)`⁴ | `data.table::is.data.table(x)` *and* x is a `data.frame`. |
+| `tibble` (`tbl_df`) | `chk_tibble(x)` | `tibble::is_tibble(x)` *and* x is a `data.frame`. |
 
 ## Usage
 
 ``` r
 qassert(x, ...)
 
-assert_flag(x, ...)
+chk_flag(x, ...)
 
-assert_string(x, ...)
+chk_string(x, ...)
 
-assert_number(x, ...)
+chk_number(x, ...)
 
-assert_inumber(x, ...)
+chk_inumber(x, ...)
 
-assert_dnumber(x, ...)
+chk_dnumber(x, ...)
 
-assert_int(x, ...)
+chk_znumber(x, ...)
 
-assert_count(x, ...)
+chk_count(x, ...)
 
-assert_day(x, ...)
+chk_day(x, ...)
 
-assert_scalar(x, ...)
+chk_instant(x, ...)
 
-assert_logical(x, ...)
+chk_scalar(x, ...)
 
-assert_character(x, ...)
+chk_logical(x, ...)
 
-assert_numeric(x, ...)
+chk_character(x, ...)
 
-assert_integer(x, ...)
+chk_numeric(x, ...)
 
-assert_double(x, ...)
+chk_integer(x, ...)
 
-assert_integerish(x, ...)
+chk_double(x, ...)
 
-assert_naturalish(x, ...)
+chk_integerish(x, ...)
 
-assert_factor(x, ...)
+chk_naturalish(x, ...)
 
-assert_complex(x, ...)
+chk_factor(x, ...)
 
-assert_raw(x, ...)
+chk_complex(x, ...)
 
-assert_date(x, ...)
+chk_raw(x, ...)
 
-assert_atomic(x, ...)
+chk_date(x, ...)
 
-assert_environment(x, ...)
+chk_posixct(x, ...)
 
-assert_list(x, ...)
+chk_atomic(x, ...)
 
-assert_data_frame(x, ...)
+chk_environment(x, ...)
 
-assert_data_table(x, ...)
+chk_list(x, ...)
 
-assert_tibble(x, ...)
+chk_data_frame(x, ...)
 
-assert_class(x, ...)
+chk_data_table(x, ...)
 
-assert_choice(x, choices, ...)
+chk_tibble(x, ...)
+
+chk_class(x, ...)
+
+chk_choice(x, choices, ...)
 ```
 
 ## Arguments
@@ -144,7 +152,5 @@ assert_choice(x, choices, ...)
   A vector of values representing the which x must be an element of.
 
 ## Value
-
-The original object if the assertion passes.
 
 The original object if the assertion passes.
