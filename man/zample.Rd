@@ -16,21 +16,22 @@ zample(x, size = length(x), replace = FALSE, prob = NULL)
 \item{prob}{A vector of probability weights (defaults to equal probabilities)}
 }
 \value{
-The resulting sample
+The resulting sample, of the same class as \code{x}
 }
 \description{
 The \code{\link[=zample]{zample()}} function duplicates the functionality of \code{\link[=sample]{sample()}}, with the
 exception that it does not attempt the (sometimes dangerous)
 user-friendliness of switching the interpretation of the first element to a
-number if the length of the vector is 1. \code{zample()} \emph{always} treats its first
-argument as a vector containing elements that should be sampled, so your code
-won't break in unexpected ways when the input vector happens to be of length
-1.
-}
-\details{
-If what you really want is to sample from an interval between 1 and n, you can
-use \code{sample(n)} or \code{sample.int(n)} (but make sure to only pass vectors of
-length one to those functions).
+number if the length of the vector is 1.
+
+\code{zample()} \emph{always} treats its first argument as a vector containing elements
+that should be sampled, so code won't break in unexpected ways when the input
+vector happens to be of length 1. The sample is taken by subsetting \code{x}, so
+the class and attributes of \code{x} are preserved.
+
+If the goal is indeed to sample from an interval between 1 and n, use use
+\code{sample(n)} or \code{sample.int(n)} (but make sure to only pass vectors of length
+one to those functions).
 }
 \examples{
 # For vectors of length 2 or more, zample() and sample() are identical
