@@ -12,7 +12,8 @@ zeq(from, to)
 \item{to}{The higher bound of the sequence}
 }
 \value{
-A sequence ranging from \code{from} to \code{to}
+An \code{integer} sequence ranging from \code{from} to \code{to}, or an empty
+\code{integer} vector if \code{to} equals \code{from - 1}.
 }
 \description{
 The \code{\link[=zeq]{zeq()}} function creates an increasing integer sequence, but differs from
@@ -20,6 +21,10 @@ the standard one in that it will not silently generate a decreasing sequence
 when the second argument is smaller than the first. If the second argument is
 one smaller than the first it will generate an empty sequence, if the
 difference is greater, the function will throw an error.
+
+Both arguments must be a single \code{integerish} value (an \code{integer}, or a
+\code{double} that is very close to one), and neither may be \code{NA}. Passing a
+vector of length other than one is an error.
 }
 \examples{
 # For increasing sequences, zeq() and seq() are identical
@@ -31,5 +36,8 @@ zeq(11,10)
 
 # If second argument is less than first-1, the function throws an error
 tryCatch(zeq(11,9), error=wrap_error)
+
+# Each bound must be a single whole number, so this errors as well
+tryCatch(zeq(c(11,12),15), error=wrap_error)
 
 }

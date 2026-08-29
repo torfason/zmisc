@@ -8,10 +8,15 @@
 #' one smaller than the first it will generate an empty sequence, if the
 #' difference is greater, the function will throw an error.
 #'
+#' Both arguments must be a single `integerish` value (an `integer`, or a
+#' `double` that is very close to one), and neither may be `NA`. Passing a
+#' vector of length other than one is an error.
+#'
 #' @param from The lower bound of the sequence
 #' @param to   The higher bound of the sequence
 #'
-#' @return A sequence ranging from `from` to `to`
+#' @return An `integer` sequence ranging from `from` to `to`, or an empty
+#'   `integer` vector if `to` equals `from - 1`.
 #'
 #' @examples
 #' # For increasing sequences, zeq() and seq() are identical
@@ -24,12 +29,22 @@
 #' # If second argument is less than first-1, the function throws an error
 #' tryCatch(zeq(11,9), error=wrap_error)
 #'
+#' # Each bound must be a single whole number, so this errors as well
+#' tryCatch(zeq(c(11,12),15), error=wrap_error)
+#'
 #' @export
-zeq = function(from, to)
-{
-    stopifnot ( round(from) == from )
-    stopifnot ( round(to)   == to   )
-    stopifnot ( to >= from - 1      )
-    return (seq_len(1+to-from)+from-1)
-}
+zeq <- function(from, to) {
 
+  # Both bounds must be a single, non-NA, integerish value
+  assert_int(from)
+  assert_int(to)
+
+  # A decreasing sequence is not allowed here, so error out
+  if (to < from - 1) {
+    abort(paste0("`to` must not be smaller than `from` - 1 ",
+                 "(got from = ", from, ", to = ", to, ")"))
+  }
+
+  # seq2() returns an empty integer vector when to == from - 1
+  seq2(from, to)
+}
