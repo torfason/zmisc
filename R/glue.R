@@ -30,7 +30,7 @@ glue_vector <- function(., template = "{.}", ...,
 
   # Check inputs
   checkmate::assert_atomic_vector(.)
-  assert_dots_empty()
+  chk_dots_empty()
 
   # Call glue with arg <.> embedded in a list
   glue::glue_data(template, .x = list(. = .),

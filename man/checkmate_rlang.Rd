@@ -2,93 +2,99 @@
 % Please edit documentation in R/assertions.R
 \name{qassert}
 \alias{qassert}
-\alias{assert_flag}
-\alias{assert_string}
-\alias{assert_number}
-\alias{assert_inumber}
-\alias{assert_dnumber}
-\alias{assert_int}
-\alias{assert_count}
-\alias{assert_day}
-\alias{assert_scalar}
-\alias{assert_logical}
-\alias{assert_character}
-\alias{assert_numeric}
-\alias{assert_integer}
-\alias{assert_double}
-\alias{assert_integerish}
-\alias{assert_naturalish}
-\alias{assert_factor}
-\alias{assert_complex}
-\alias{assert_raw}
-\alias{assert_date}
-\alias{assert_atomic}
-\alias{assert_environment}
-\alias{assert_list}
-\alias{assert_data_frame}
-\alias{assert_data_table}
-\alias{assert_tibble}
-\alias{assert_class}
-\alias{assert_choice}
+\alias{chk_flag}
+\alias{chk_string}
+\alias{chk_number}
+\alias{chk_inumber}
+\alias{chk_dnumber}
+\alias{chk_znumber}
+\alias{chk_count}
+\alias{chk_day}
+\alias{chk_instant}
+\alias{chk_scalar}
+\alias{chk_logical}
+\alias{chk_character}
+\alias{chk_numeric}
+\alias{chk_integer}
+\alias{chk_double}
+\alias{chk_integerish}
+\alias{chk_naturalish}
+\alias{chk_factor}
+\alias{chk_complex}
+\alias{chk_raw}
+\alias{chk_date}
+\alias{chk_posixct}
+\alias{chk_atomic}
+\alias{chk_environment}
+\alias{chk_list}
+\alias{chk_data_frame}
+\alias{chk_data_table}
+\alias{chk_tibble}
+\alias{chk_class}
+\alias{chk_choice}
 \title{Assertion functions adapted for rlang output}
 \usage{
 qassert(x, ...)
 
-assert_flag(x, ...)
+chk_flag(x, ...)
 
-assert_string(x, ...)
+chk_string(x, ...)
 
-assert_number(x, ...)
+chk_number(x, ...)
 
-assert_inumber(x, ...)
+chk_inumber(x, ...)
 
-assert_dnumber(x, ...)
+chk_dnumber(x, ...)
 
-assert_int(x, ...)
+chk_znumber(x, ...)
 
-assert_count(x, ...)
+chk_count(x, ...)
 
-assert_day(x, ...)
+chk_day(x, ...)
 
-assert_scalar(x, ...)
+chk_instant(x, ...)
 
-assert_logical(x, ...)
+chk_scalar(x, ...)
 
-assert_character(x, ...)
+chk_logical(x, ...)
 
-assert_numeric(x, ...)
+chk_character(x, ...)
 
-assert_integer(x, ...)
+chk_numeric(x, ...)
 
-assert_double(x, ...)
+chk_integer(x, ...)
 
-assert_integerish(x, ...)
+chk_double(x, ...)
 
-assert_naturalish(x, ...)
+chk_integerish(x, ...)
 
-assert_factor(x, ...)
+chk_naturalish(x, ...)
 
-assert_complex(x, ...)
+chk_factor(x, ...)
 
-assert_raw(x, ...)
+chk_complex(x, ...)
 
-assert_date(x, ...)
+chk_raw(x, ...)
 
-assert_atomic(x, ...)
+chk_date(x, ...)
 
-assert_environment(x, ...)
+chk_posixct(x, ...)
 
-assert_list(x, ...)
+chk_atomic(x, ...)
 
-assert_data_frame(x, ...)
+chk_environment(x, ...)
 
-assert_data_table(x, ...)
+chk_list(x, ...)
 
-assert_tibble(x, ...)
+chk_data_frame(x, ...)
 
-assert_class(x, ...)
+chk_data_table(x, ...)
 
-assert_choice(x, choices, ...)
+chk_tibble(x, ...)
+
+chk_class(x, ...)
+
+chk_choice(x, choices, ...)
 }
 \arguments{
 \item{x}{The variable to assert}
@@ -101,53 +107,58 @@ element of.}
 }
 \value{
 The original object if the assertion passes.
-
-The original object if the assertion passes.
 }
 \description{
 Most common \link[checkmate:checkmate]{checkmate} functions, adapted to output \link[rlang:rlang]{rlang} style error
 messages on failed assertions. The actual checking is done by
 \code{\link[checkmate:qtest]{checkmate::qtest()}}, \code{\link[checkmate:check_flag]{checkmate::check_flag()}} and related functions.
+\subsection{Performance}{
+
+These functions are meant to be cheap enough to leave in place at the top of
+any function, so the passing case is kept to the smallest amount of work
+that will do: a single call to the underlying \verb{check_*()} function, a test of
+the result, and a return. Anything more expensive belongs on the failing
+path, which runs once and then stops, and where the cost of assembling a
+better message does not matter.
+}
+
 \subsection{Scalars and (atomic) vectors}{\tabular{lll}{
    \strong{R Type} \tab \strong{Scalar} \tab \strong{Vector} \cr
-   \code{logical} \tab \code{assert_flag(x)} \tab \code{assert_logical(x)} \cr
-   \code{character} \tab \code{assert_string(x)} \tab \code{assert_character(x)} \cr
-   \code{numeric} \tab \code{assert_number(x)} \tab \code{assert_numeric(x)} \cr
-   \code{integer} \tab \code{assert_inumber(x)}⁴ \tab \code{assert_integer(x)} \cr
-   \code{double} \tab \code{assert_dnumber(x)}⁴ \tab \code{assert_double(x)} \cr
-   \code{integerish}¹ \tab \code{assert_int(x)} \tab \code{assert_integerish(x)} \cr
-   \code{naturalish}² \tab \code{assert_count(x)} \tab \code{assert_naturalish(x)}⁴ \cr
-   \code{factor} \tab ³ \tab \code{assert_factor(x)} \cr
-   \code{complex} \tab ³ \tab \code{assert_complex(x)} \cr
-   \code{raw} \tab ³ \tab \code{assert_raw(x)} \cr
-   \code{Date} \tab \code{assert_day(x)}⁴ \tab \code{assert_date(x)} \cr
-   \code{POSIXct} \tab \code{assert_instant(x)}⁴ \tab \code{assert_posixct(x)} \cr
-   Any type \tab \code{assert_scalar(x)} \tab \code{assert_atomic()}⁵ \cr
+   \code{logical} \tab \code{chk_flag(x)} \tab \code{chk_logical(x)} \cr
+   \code{character} \tab \code{chk_string(x)} \tab \code{chk_character(x)} \cr
+   \code{numeric} \tab \code{chk_number(x)} \tab \code{chk_numeric(x)} \cr
+   \code{integer} \tab \code{chk_inumber(x)}⁴ \tab \code{chk_integer(x)} \cr
+   \code{double} \tab \code{chk_dnumber(x)}⁴ \tab \code{chk_double(x)} \cr
+   \code{integerish}¹ \tab \code{chk_znumber(x)} \tab \code{chk_integerish(x)} \cr
+   \code{naturalish}² \tab \code{chk_count(x)} \tab \code{chk_naturalish(x)}⁴ \cr
+   \code{factor} \tab ³ \tab \code{chk_factor(x)} \cr
+   \code{complex} \tab ³ \tab \code{chk_complex(x)} \cr
+   \code{raw} \tab ³ \tab \code{chk_raw(x)} \cr
+   \code{Date} \tab \code{chk_day(x)}⁴ \tab \code{chk_date(x)} \cr
+   \code{POSIXct} \tab \code{chk_instant(x)}⁴ \tab \code{chk_posixct(x)} \cr
+   Any type \tab \code{chk_scalar(x)} \tab \code{chk_atomic(x)}⁵ \cr
 }
 
 \itemize{
 \item ¹ \code{integerish} refers to functional integers (numbers that are very close
 to integer values), regardless of type (\code{integer} or \code{double} )
 \item ² \code{naturalish} refers to functional integers restricted to the natural
-numbers (zero and positive numbers
+numbers (zero and positive numbers)
 \item ³ No assertion functions are provided for scalar \code{factor}, \code{complex}, or \code{raw}
 \item ⁴ Not available in the \link[checkmate:checkmate]{checkmate} package
-\item ⁵ Not that \code{\link[checkmate:assert_vector]{checkmate::assert_vector()}} accepts either a \code{vector} or a \code{list},
-which is seldom what is wanted and is therefore \emph{not} implemented here.
+\item ⁵ Note that \code{\link[checkmate:assert_vector]{checkmate::assert_vector()}} accepts either a \code{vector} or a
+\code{list}, which is seldom what is wanted and is therefore \emph{not} implemented
+here.
 }
 }
 
 \subsection{Composite Objects}{\tabular{lll}{
    \strong{R Type} \tab \strong{Function} \tab \strong{Note} \cr
-   \code{environment} \tab \code{assert_environment(x)} \tab \code{is.environment(x)} \cr
-   \code{list} \tab \code{assert_list(x)} \tab \code{is.list(x)} \emph{and} x is unclassed. \cr
-   \code{data.frame} \tab \code{assert_data_frame(x)} \tab \code{is.list(x)}, with class \code{data.frame} and correct structure. \cr
-   \code{data.table} \tab \code{assert_data_table(x)}⁴ \tab \code{data.table::is.data.table(x)} \emph{and} x is a \code{data.frame}. \cr
-   \code{tibble} (\code{tbl_df}) \tab \code{assert_tibble(x)} \tab \code{tibble::is_tibble(x)} \emph{and} x is a \code{data.frame}. \cr
-}
-\tabular{lll}{
-   a \tab b \tab c \cr
-   a \tab b \tab c \cr
+   \code{environment} \tab \code{chk_environment(x)} \tab \code{is.environment(x)} \cr
+   \code{list} \tab \code{chk_list(x)} \tab \code{is.list(x)} \emph{and} x is unclassed. \cr
+   \code{data.frame} \tab \code{chk_data_frame(x)} \tab \code{is.list(x)}, with class \code{data.frame} and correct structure. \cr
+   \code{data.table} \tab \code{chk_data_table(x)}⁴ \tab \code{data.table::is.data.table(x)} \emph{and} x is a \code{data.frame}. \cr
+   \code{tibble} (\code{tbl_df}) \tab \code{chk_tibble(x)} \tab \code{tibble::is_tibble(x)} \emph{and} x is a \code{data.frame}. \cr
 }
 
 }

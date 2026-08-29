@@ -36,8 +36,8 @@
 zeq <- function(from, to) {
 
   # Both bounds must be a single, non-NA, integerish value
-  assert_int(from)
-  assert_int(to)
+  chk_znumber(from)
+  chk_znumber(to)
 
   # A decreasing sequence is not allowed here, so error out
   if (to < from - 1) {

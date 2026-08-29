@@ -8,7 +8,7 @@
 #' @return A character string containing `@importFrom` statements and `NULL`.
 #' @keywords internal
 #' @export
-import_assertion_functions <- function(prefix = "assert_", width = 80) {
+import_all_chk <- function(prefix = "chk_", width = 80) {
   cat(import_all_with_prefix(prefix, width))
 }
 
