@@ -4,64 +4,44 @@
 \alias{zingle}
 \title{Return the single (unique) value found in a vector}
 \usage{
-zingle(x, na.rm = FALSE)
+zingle(
+  x,
+  ...,
+  empty.ok = FALSE,
+  na.ok.partial = FALSE,
+  na.ok.all = FALSE,
+  nan.ok.all = FALSE
+)
 }
 \arguments{
 \item{x}{Vector of elements that should all be identical}
 
-\item{na.rm}{Should \code{NA} elements be removed prior to comparison}
+\item{...}{Unused, reserved to force later arguments to be named}
+
+\item{empty.ok}{Is an empty vector ok?}
+
+\item{na.ok.partial}{Is a mix of \code{NA} and one distinct non-missing value ok?}
+
+\item{na.ok.all}{Is a vector of only \code{NA} values ok?}
+
+\item{nan.ok.all}{Is \code{NaN} ok as the returned value?}
 }
 \value{
-The \code{zingle} element in the vector
+The single element in the vector, unnamed. For \code{na.ok.partial} the
+non-missing value is returned.
 }
 \description{
-The \code{\link[=zingle]{zingle()}} function returns the first element in a vector, but only if
-all the other elements are identical to the first one (the vector only has a
-\code{zingle} value). If the elements are not all identical, it throws an error.
-The vector must contain at least one non-\code{NA} value, or the function errors
-out as well. This is especially useful in aggregations, when all values in a
-given group should be identical, but you want to make sure.
-}
-\details{
-Optionally takes a \code{na.rm} parameter, similarly to sum, mean and other
-aggregate functions. If \code{TRUE}, \code{NA} values will be removed prior to
-comparing the elements, so the function will accept input values that contain
-a combination of the single value and any \code{NA} values (but at least one
-non-\code{NA} value is required).
-
-Only values are tested for equality. Any names are simply ignored, and the
-result is an unnamed value. This is in line with how other aggregation
-functions handle names.
+\code{\link[=zingle]{zingle()}} returns the only value present in a vector. If the vector contains
+more than one distinct value, it throws an error. This is a guard for
+aggregations where all values within a group should be identical, but where
+you want that assumption checked rather than assumed. Only values are
+compared. Names are ignored and the result is unnamed, in line with other
+aggregation functions.
 }
 \examples{
-# If all elements are identical, all is good.
-# The value of the element is returned.
 zingle(c("Alpha", "Alpha", "Alpha"))
+zingle(c("Alpha", NA, "Alpha"), na.ok.partial = TRUE)
+zingle(c(NA, NA), na.ok.all = TRUE)
+zingle(c(NaN, NaN), nan.ok.all = TRUE)
 
-# If any elements differ, an error is thrown
-tryCatch(zingle(c("Alpha", "Beta", "Alpha")), error=wrap_error)
-
-if (require("dplyr", quietly=TRUE, warn.conflicts=FALSE)) {
-  d <- tibble::tribble(
-    ~id, ~name, ~fouls,
-    1, "James", 3,
-    2, "Jack",  2,
-    1, "James", 4
-  )
-
-  # If the data is of the correct format, all is good
-  d \%>\%
-    dplyr::group_by(id) \%>\%
-    dplyr::summarise(name=zingle(name), total_fouls=sum(fouls))
- }
-
-if (require("dplyr", quietly=TRUE, warn.conflicts=FALSE)) {
-  # If a name does not match its ID, we should get an error
-  d[1,"name"] <- "Jammes"
-  tryCatch({
-    d \%>\%
-      dplyr::group_by(id) \%>\%
-      dplyr::summarise(name=zingle(name), total_fouls=sum(fouls))
-  }, error=wrap_error)
-}
 }
