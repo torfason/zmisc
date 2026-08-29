@@ -1,5 +1,11 @@
 # Changelog
 
+## zmisc 0.2.4
+
+### Bug fixes and behavior changes
+
+- Various fixes and improvements to zeq(), zample() and zingle().
+
 ## zmisc 0.2.3
 
 CRAN release: 2023-08-22

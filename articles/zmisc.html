@@ -169,10 +169,15 @@ safer.</p>
 function duplicates the functionality of <a href="https://rdrr.io/r/base/sample.html" class="external-link">sample()</a>, with the
 exception that it does not attempt the (sometimes dangerous)
 user-friendliness of switching the interpretation of the first element
-to a number if the length of the vector is 1. <code><a href="../reference/zample.html">zample()</a></code>
-<em>always</em> treats its first argument as a vector containing
-elements that should be sampled, so your code won’t break in unexpected
-ways when the input vector happens to be of length 1.</p>
+to a number if the length of the vector is 1.</p>
+<p><code><a href="../reference/zample.html">zample()</a></code> <em>always</em> treats its first argument as a
+vector containing elements that should be sampled, so code won’t break
+in unexpected ways when the input vector happens to be of length 1. The
+sample is taken by subsetting <code>x</code>, so the class and
+attributes of <code>x</code> are preserved.</p>
+<p>If the goal is indeed to sample from an interval between 1 and n, use
+use <code>sample(n)</code> or <code>sample.int(n)</code> (but make sure
+to only pass vectors of length one to those functions).</p>
 <div class="section level4">
 <h4 id="examples-4">Examples<a class="anchor" aria-label="anchor" href="#examples-4"></a>
 </h4>

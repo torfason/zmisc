@@ -3,11 +3,17 @@
 the standard one in that it will not silently generate a decreasing sequence
 when the second argument is smaller than the first. If the second argument is
 one smaller than the first it will generate an empty sequence, if the
-difference is greater, the function will throw an error."><meta property="og:description" content="The zeq() function creates an increasing integer sequence, but differs from
+difference is greater, the function will throw an error.
+Both arguments must be a single integerish value (an integer, or a
+double that is very close to one), and neither may be NA. Passing a
+vector of length other than one is an error."><meta property="og:description" content="The zeq() function creates an increasing integer sequence, but differs from
 the standard one in that it will not silently generate a decreasing sequence
 when the second argument is smaller than the first. If the second argument is
 one smaller than the first it will generate an empty sequence, if the
-difference is greater, the function will throw an error."></head><body>
+difference is greater, the function will throw an error.
+Both arguments must be a single integerish value (an integer, or a
+double that is very close to one), and neither may be NA. Passing a
+vector of length other than one is an error."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -48,6 +54,9 @@ the standard one in that it will not silently generate a decreasing sequence
 when the second argument is smaller than the first. If the second argument is
 one smaller than the first it will generate an empty sequence, if the
 difference is greater, the function will throw an error.</p>
+<p>Both arguments must be a single <code>integerish</code> value (an <code>integer</code>, or a
+<code>double</code> that is very close to one), and neither may be <code>NA</code>. Passing a
+vector of length other than one is an error.</p>
     </div>
 
     <div class="section level2">
@@ -69,7 +78,8 @@ difference is greater, the function will throw an error.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A sequence ranging from <code>from</code> to <code>to</code></p>
+    <p>An <code>integer</code> sequence ranging from <code>from</code> to <code>to</code>, or an empty
+<code>integer</code> vector if <code>to</code> equals <code>from - 1</code>.</p>
     </div>
 
     <div class="section level2">
@@ -82,11 +92,16 @@ difference is greater, the function will throw an error.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># If second argument equals first-1, an empty sequence is returned</span></span></span>
 <span class="r-in"><span><span class="fu">zeq</span><span class="op">(</span><span class="fl">11</span>,<span class="fl">10</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> numeric(0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> integer(0)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># If second argument is less than first-1, the function throws an error</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu">zeq</span><span class="op">(</span><span class="fl">11</span>,<span class="fl">9</span><span class="op">)</span>, error<span class="op">=</span><span class="va">wrap_error</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> #E&gt; to &gt;= from - 1 is not TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #E&gt; `to` must not be smaller than `from` - 1 (got</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #E&gt; from = 11, to = 9)</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Each bound must be a single whole number, so this errors as well</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu">zeq</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">11</span>,<span class="fl">12</span><span class="op">)</span>,<span class="fl">15</span><span class="op">)</span>, error<span class="op">=</span><span class="va">wrap_error</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> #E&gt; Must have length 1</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

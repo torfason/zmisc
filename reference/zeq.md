@@ -7,6 +7,10 @@ second argument is one smaller than the first it will generate an empty
 sequence, if the difference is greater, the function will throw an
 error.
 
+Both arguments must be a single `integerish` value (an `integer`, or a
+`double` that is very close to one), and neither may be `NA`. Passing a
+vector of length other than one is an error.
+
 ## Usage
 
 ``` r
@@ -25,7 +29,8 @@ zeq(from, to)
 
 ## Value
 
-A sequence ranging from `from` to `to`
+An `integer` sequence ranging from `from` to `to`, or an empty `integer`
+vector if `to` equals `from - 1`.
 
 ## Examples
 
@@ -38,9 +43,14 @@ zeq(11,11)
 
 # If second argument equals first-1, an empty sequence is returned
 zeq(11,10)
-#> numeric(0)
+#> integer(0)
 
 # If second argument is less than first-1, the function throws an error
 tryCatch(zeq(11,9), error=wrap_error)
-#> #E> to >= from - 1 is not TRUE
+#> #E> `to` must not be smaller than `from` - 1 (got
+#> #E> from = 11, to = 9)
+
+# Each bound must be a single whole number, so this errors as well
+tryCatch(zeq(c(11,12),15), error=wrap_error)
+#> #E> Must have length 1
 ```
