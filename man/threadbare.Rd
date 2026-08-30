@@ -22,7 +22,7 @@ returns an error if a list is passed.
 }
 \seealso{
 Other labelled light:
-\code{\link[=ll_assert_labelled]{ll_assert_labelled()}},
+\code{\link[=ll_chk_labelled]{ll_chk_labelled()}},
 \code{\link[=ll_labelled]{ll_labelled()}},
 \code{\link[=ll_to_character]{ll_to_character()}},
 \code{\link[=ll_val_labels]{ll_val_labels()}},
