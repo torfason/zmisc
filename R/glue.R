@@ -1,4 +1,20 @@
 
+## Re-exports -----------------------------------------------------------
+##
+## glue() and glue_data() are re-exported so that a user who has attached
+## zmisc for glue_vector() also has the two functions it is built on, without
+## needing to attach glue as well. roxygen2 collects both into the generated
+## man/reexports.Rd.
+
+#' @importFrom glue glue
+#' @export
+glue::glue
+
+#' @importFrom glue glue_data
+#' @export
+glue::glue_data
+
+
 #' Glue interpolation vectors in pipes
 #'
 #' Applies `glue::glue()` to each element of a character vector using a template
