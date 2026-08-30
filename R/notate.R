@@ -54,13 +54,15 @@ notate.default <- function(x) {
 
 #' @export
 notate.data.frame <- function(x) {
+  chk_data_frame(x)
+
   # Apply to individual columns
   ddply_helper(x, notate)
 }
 
 #' @export
 notate.ordered <- function(x) {
-  is.ordered(x) || stop("x must be ordered")
+  chk_factor(x, ordered = TRUE)
   r <- rep(c(character(0), NA), length(x))
   r[!is.na(x)] <- paste0("[", as.numeric(x[!is.na(x)]), "] ", as.character(x[!is.na(x)]))
   attr(r, "label") <- paste_na("<ord>", attr(x, "label")) # (ll_var_label() requires correct class)
@@ -69,7 +71,7 @@ notate.ordered <- function(x) {
 
 #' @export
 notate.factor <- function(x) {
-  is.factor(x) || stop("x must be a factor")
+  chk_factor(x)
   r <- rep(c(character(0), NA), length(x))
   r[!is.na(x)] <- paste0("[", as.numeric(x[!is.na(x)]), "] ", as.character(x[!is.na(x)]))
   attr(r, "label") <- paste_na("<fct>", attr(x, "label")) # (ll_var_label() requires correct class)
@@ -78,7 +80,7 @@ notate.factor <- function(x) {
 
 #' @export
 notate.haven_labelled <- function(x) {
-  ll_assert_labelled(x)
+  ll_chk_labelled(x)
   vals   <- as.vector(x)
   labs_n <- ll_to_character(x, default = NA)
   r <- rep(c(character(0), NA), length(x))
@@ -98,6 +100,7 @@ lookup_types_short <- lookuper(
 # Helper to suppress NAs in paste
 # https://stackoverflow.com/questions/13673894/suppress-nas-in-paste
 paste_na <- function(..., sep = " ") {
+  chk_string(sep)
   values <- cbind(...)
   apply(values, 1, function(x) paste(x[!is.na(x)], collapse = sep))
 }

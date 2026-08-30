@@ -56,7 +56,7 @@ test_that("ddply_helper works correctly", {
   expect_equal(nrow(result_zero_col), 0)
 
   # Test with malformed input (non-data frame)
-  expect_error(ddply_helper(123, sum), "d must be a data.frame")
+  expect_error(ddply_helper(123, sum), "[Mm]ust be.*data[.]frame")
 
   # Test with malformed input (non-existing function)
   expect_error(ddply_helper(df, non_existing_fun), "object .* not found")

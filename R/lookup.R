@@ -62,22 +62,24 @@
 #' @export
 lookup <- function(x, lookup_table, ..., .default = x) {
 
+  # Check args (the lookup table is checked by standardize_lookup_table())
+  chk_dots_empty()
+  chk_atomic(x)
+
   # NULL default indicates using x
   if (is.null(.default))
     .default <- x
+  chk_atomic(.default)
 
   # Standardize the lookup_table
   lookup_table <- standardize_lookup_table(lookup_table)
 
-  # Check args (lookup table is checked separately)
-  if (length(list(...)) != 0)
-    stop("the ... args are reserved, but some were passed: ", names(list(...)))
+  # The remaining checks have no chk_*() equivalent: they are domain
+  # restrictions, or relations between two or more of the arguments
   if (is.factor(x))
     stop("lookup() does not support factors")
   if (!(length(.default) %in% c(1, length(x))))
     stop("length(.default) must be 1 or length(x)")
-  if (!is.atomic(x))
-    stop("only atomic data types are supported")
   if (!test_equal_modes(x, .default, lookup_table$key, lookup_table$value))
     stop(paste0("x, .default, and both key and value of the lookup table ",
                 "must all be of the same mode()\n The modes are: ",
@@ -127,13 +129,12 @@ lookup <- function(x, lookup_table, ..., .default = x) {
 #' @export
 lookuper <- function(lookup_table, ..., .default = NULL) {
 
-  # Check args, standardize the lookup_table
+  # Check args
+  chk_dots_empty()
+  chk_scalar(.default, na.ok = TRUE, null.ok = TRUE)
+
+  # Standardize the lookup_table
   lookup_table <- standardize_lookup_table(lookup_table)
-  (length(list(...)) == 0) ||
-    stop("the ... args are reserved, but some were passed: ", names(list(...)))
-  is.null(.default) ||
-    (is.atomic(.default) && (length(.default) == 1)) ||
-    stop(".default must be NULL or a vector of length 1")
 
   # Return a function suitable for lookups
   result <- function(x) {

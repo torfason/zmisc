@@ -96,9 +96,11 @@ stopifnot(nchar(.asciify_old) == nchar(.asciify_new))
 #' @export
 asciify <- function(x, verify = TRUE) {
 
-  # Sanity
-  stopifnot(is.character(x), is.null(dim(x)))
-  stopifnot(is.logical(verify), length(verify) == 1L, !is.na(verify))
+  # Sanity. check_character() accepts arrays, so the dim guard has no
+  # chk_*() equivalent and stays as it is
+  chk_character(x)
+  is.null(dim(x)) || stop("x must not have a dim attribute")
+  chk_flag(verify)
 
   result <- x
 

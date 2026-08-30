@@ -17,6 +17,11 @@
 #' @keywords internal
 #' @export
 wrap_error <- function(e, wrap=50) {
+
+  # Check args
+  chk_class(e, "condition")
+  chk_count(wrap, positive = TRUE)
+
   cat( paste0("#E> ", strwrap(e$message, width=50), "\n"), sep="" )
   invisible(e)
 }
@@ -48,7 +53,7 @@ wrap_error <- function(e, wrap=50) {
 ddply_helper <- function(d, fun) {
 
   # Check args
-  is.data.frame(d) || stop("d must be a data.frame")
+  chk_data_frame(d)
 
   # Apply the function
   result <- lapply(d, fun)

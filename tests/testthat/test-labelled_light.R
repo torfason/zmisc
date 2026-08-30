@@ -44,14 +44,14 @@ test_that("labelled_light ll_assert_*() works", {
   withr::defer(detach(test_data_labelled_light))
 
   # Test valid labelled variables
-  expect_silent(ll_assert_labelled(fruit_lbl))
-  expect_silent(ll_assert_labelled(fruit_lbl_int))
-  expect_silent(ll_assert_labelled(fruit_lbl_chr))
-  expect_silent(ll_assert_labelled(veggies))
-  expect_silent(ll_assert_labelled(exotic_veggies))
+  expect_silent(ll_chk_labelled(fruit_lbl))
+  expect_silent(ll_chk_labelled(fruit_lbl_int))
+  expect_silent(ll_chk_labelled(fruit_lbl_chr))
+  expect_silent(ll_chk_labelled(veggies))
+  expect_silent(ll_chk_labelled(exotic_veggies))
 
   # Test invalid labelled variables
-  expect_error(ll_assert_labelled(fruit_fct))
+  expect_error(ll_chk_labelled(fruit_fct))
 
 })
 

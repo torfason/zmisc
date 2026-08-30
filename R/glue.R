@@ -28,9 +28,19 @@ glue_vector <- function(., template = "{.}", ...,
       .na = "NA", .null = character(), .comment = "#", .literal = FALSE,
       .transformer = glue::identity_transformer, .trim = TRUE) {
 
-  # Check inputs
-  checkmate::assert_atomic_vector(.)
+  # Check inputs.
+  #  - chk_atomic() accepts arrays, so the dim guard that
+  #    checkmate::assert_atomic_vector() used to provide has no chk_*()
+  #    equivalent and is kept explicitly
+  #  - Arguments passed directly to glue_data() are not checked here,
+  #    to avoid duplication. They will fail in glue_data() with relevant
+  #    error messages.
+  chk_atomic(.)
+  is.null(dim(.)) || stop("`.` must not have a dim attribute")
+  chk_string(template)
   chk_dots_empty()
+
+  # The remaining arguments are handed straight to glue::glue_data().
 
   # Call glue with arg <.> embedded in a list
   glue::glue_data(template, .x = list(. = .),

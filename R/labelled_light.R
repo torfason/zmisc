@@ -15,7 +15,7 @@
 #' @family labelled light
 #' @keywords internal
 threadbare <- function(x) {
-  is.atomic(x) || stop('x must be atomic')
+  chk_atomic(x)
   attributes(x) <- NULL
   x
 }
@@ -49,6 +49,11 @@ threadbare <- function(x) {
 #' @export
 ll_labelled <- function(x = double(), labels = NULL, label = NULL) {
 
+  # Check input args (final shape of the object checked at the end)
+  chk_atomic(x)
+  chk_atomic(labels)
+  chk_string(label, null.ok = TRUE)
+
   # Construct variable
   x <- as.vector(x)
   class(x) <- c("haven_labelled", "vctrs_vctr", typeof(x))
@@ -56,7 +61,7 @@ ll_labelled <- function(x = double(), labels = NULL, label = NULL) {
   attr(x, "label")  <- label
 
   # Check that the result is valid (an error will be thrown if not)
-  ll_assert_labelled(x)
+  ll_chk_labelled(x)
 
   # Return the result
   x
@@ -74,7 +79,7 @@ ll_labelled <- function(x = double(), labels = NULL, label = NULL) {
 #' @family labelled light
 #' @keywords internal
 #' @export
-ll_assert_labelled <- function(x) {
+ll_chk_labelled <- function(x) {
 
   # Retrieve attributes
   labels <- attr(x, "labels", exact = TRUE)
@@ -98,12 +103,7 @@ ll_assert_labelled <- function(x) {
       stop("labels must not contain duplicate values")
 
   }
-  if (!is.null(label)) {
-    typeof(label) == "character"                     ||
-      stop('label must be of type "character"')
-    length(label) == 1                               ||
-      stop("label must be a single string")
-  }
+  chk_string(label, null.ok = TRUE)
 
   x
 }
@@ -122,15 +122,16 @@ ll_assert_labelled <- function(x) {
 #' @rdname ll_var_label
 #' @export
 ll_var_label <- function(x) {
-  ll_assert_labelled(x)
+  ll_chk_labelled(x)
   attr(x, "label",  exact = TRUE)
 }
 
 #' @rdname ll_var_label
 #' @export
 `ll_var_label<-` <- function(x, value) {
+  chk_string(value, null.ok = TRUE)
   attr(x, "label") <- value
-  ll_assert_labelled(x)
+  ll_chk_labelled(x)
 }
 
 #' Get or set value labels of a labelled variable
@@ -151,8 +152,8 @@ ll_var_label <- function(x) {
 ll_val_labels <- function(x, always = FALSE) {
 
   # Check args
-  ll_assert_labelled(x)
-  is.logical(always) || stop('always must be of type "logical"')
+  ll_chk_labelled(x)
+  chk_flag(always)
 
   # Prepare and return the result
   labels <- attr(x, "labels",  exact = TRUE)
@@ -167,8 +168,9 @@ ll_val_labels <- function(x, always = FALSE) {
 #' @rdname ll_val_labels
 #' @export
 `ll_val_labels<-` <- function(x, value) {
+  chk_atomic(value)
   attr(x, "labels") <- value
-  ll_assert_labelled(x)
+  ll_chk_labelled(x)
 }
 
 #' Get the character representation of a labelled variable
@@ -203,10 +205,10 @@ ll_val_labels <- function(x, always = FALSE) {
 ll_to_character <- function(x, default = x, preserve_var_label = FALSE) {
 
   # Check args
-  ll_assert_labelled(x)                # stops if x not valid labelled vector
-  is.atomic(default)                   || stop('default must be an atomic vector')
+  ll_chk_labelled(x)                # stops if x not valid labelled vector
+  chk_atomic(default)
+  chk_flag(preserve_var_label)
   length(default) %in% c(1, length(x)) || stop('length(default) must be 1 or length(x)')
-  is.logical(preserve_var_label)       || stop('preserve_var_label must be of type "logical"')
 
   # Prepare the result, using match to look up in the labels attribute
   vals <- threadbare(x)
