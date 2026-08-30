@@ -25,7 +25,7 @@ NULL
 
 
 # Check for integer number (scalar integer)
-check_inumber <- function(x, na.ok = FALSE, lower = -Inf, upper = Inf, null.ok = FALSE) {
+old_check_inumber <- function(x, na.ok = FALSE, lower = -Inf, upper = Inf, null.ok = FALSE) {
   if (!isTRUE(check_integer(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, null.ok = null.ok))) {
     result <- check_integer(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, null.ok = null.ok)
     if (result == "Contains missing values (element 1)") {
@@ -38,7 +38,7 @@ check_inumber <- function(x, na.ok = FALSE, lower = -Inf, upper = Inf, null.ok =
 }
 
 # Check for double number (scalar double)
-check_dnumber <- function(x, na.ok = FALSE, lower = -Inf, upper = Inf, finite = FALSE, null.ok = FALSE) {
+old_check_dnumber <- function(x, na.ok = FALSE, lower = -Inf, upper = Inf, finite = FALSE, null.ok = FALSE) {
   if (!isTRUE(check_double(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, finite = finite, null.ok = null.ok))) {
     result <- check_double(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, finite = finite, null.ok = null.ok)
     if (result == "Contains missing values (element 1)") {
@@ -51,7 +51,7 @@ check_dnumber <- function(x, na.ok = FALSE, lower = -Inf, upper = Inf, finite = 
 }
 
 # Check for naturalish numerics (x integerish & x >= 0 (1 if positive == TRUE))
-check_naturalish <- function (x, tol = sqrt(.Machine$double.eps), positive = FALSE,
+old_check_naturalish <- function (x, tol = sqrt(.Machine$double.eps), positive = FALSE,
                               any.missing = TRUE, all.missing = TRUE, len = NULL, min.len = NULL,
                               max.len = NULL, unique = FALSE, sorted = FALSE, names = NULL,
                               typed.missing = FALSE, null.ok = FALSE) {

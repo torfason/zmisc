@@ -249,6 +249,6 @@ test_that("type mismatch errors out", {
 test_that("lookup() should error with factors", {
   expect_error(
     lookup(factor(letters), c("a"="alpha")),
-    "lookup.* does not support factors" )
+    "Must not have a class attribute, but has class .factor." )
 
 })

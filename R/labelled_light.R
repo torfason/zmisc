@@ -15,7 +15,7 @@
 #' @family labelled light
 #' @keywords internal
 threadbare <- function(x) {
-  chk_atomic(x)
+  chk_atomic(x, class.ok = TRUE)
   attributes(x) <- NULL
   x
 }
@@ -206,7 +206,7 @@ ll_to_character <- function(x, default = x, preserve_var_label = FALSE) {
 
   # Check args
   ll_chk_labelled(x)                # stops if x not valid labelled vector
-  chk_atomic(default)
+  chk_atomic(default, class.ok = TRUE)
   chk_flag(preserve_var_label)
   length(default) %in% c(1, length(x)) || stop('length(default) must be 1 or length(x)')
 

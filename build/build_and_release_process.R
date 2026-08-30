@@ -3,6 +3,11 @@
 # The starting point is a clean checkout, typically from Github:
 # > git clone https://github.com/torfason/zmisc
 
+## Run source code generation
+{
+  source("data-raw/generate-chk.R")
+  write_chk()
+}
 
 ## Build package and basic documentation (before commits)
 {
