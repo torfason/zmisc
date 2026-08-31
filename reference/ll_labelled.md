@@ -43,7 +43,7 @@ A valid labelled variable.
 ## See also
 
 Other labelled light:
-[`ll_assert_labelled()`](https://torfason.github.io/zmisc/reference/ll_assert_labelled.md),
+[`ll_chk_labelled()`](https://torfason.github.io/zmisc/reference/ll_chk_labelled.md),
 [`ll_to_character()`](https://torfason.github.io/zmisc/reference/ll_to_character.md),
 [`ll_val_labels()`](https://torfason.github.io/zmisc/reference/ll_val_labels.md),
 [`ll_var_label()`](https://torfason.github.io/zmisc/reference/ll_var_label.md),

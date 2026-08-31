@@ -45,6 +45,11 @@
   Lookup values from a lookup table
 - [`notate()`](https://torfason.github.io/zmisc/reference/notate.md) :
   Embed factor levels and value labels in values.
+- [`yencode()`](https://torfason.github.io/zmisc/reference/yencode.md)
+  [`yencoder()`](https://torfason.github.io/zmisc/reference/yencode.md)
+  [`ydecode()`](https://torfason.github.io/zmisc/reference/yencode.md)
+  [`ydecoder()`](https://torfason.github.io/zmisc/reference/yencode.md)
+  : Yet (another urlencode compatible) encoding scheme
 - [`zample()`](https://torfason.github.io/zmisc/reference/zample.md) :
   Sample from a vector in a safe way
 - [`zeq()`](https://torfason.github.io/zmisc/reference/zeq.md) :

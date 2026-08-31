@@ -71,51 +71,253 @@ the cost of assembling a better message does not matter.
 ``` r
 qassert(x, ...)
 
-chk_flag(x, ...)
+chk_flag(x, na.ok = FALSE, null.ok = FALSE, dim.ok = FALSE, class.ok = FALSE)
 
-chk_string(x, ...)
+chk_string(
+  x,
+  na.ok = FALSE,
+  n.chars = NULL,
+  min.chars = NULL,
+  max.chars = NULL,
+  pattern = NULL,
+  fixed = NULL,
+  ignore.case = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
-chk_number(x, ...)
+chk_number(
+  x,
+  na.ok = FALSE,
+  lower = -Inf,
+  upper = Inf,
+  finite = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
-chk_inumber(x, ...)
+chk_inumber(
+  x,
+  na.ok = FALSE,
+  lower = -Inf,
+  upper = Inf,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
-chk_dnumber(x, ...)
+chk_dnumber(
+  x,
+  na.ok = FALSE,
+  lower = -Inf,
+  upper = Inf,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
-chk_znumber(x, ...)
+chk_znumber(
+  x,
+  na.ok = FALSE,
+  lower = -Inf,
+  upper = Inf,
+  tol = sqrt(.Machine$double.eps),
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
-chk_count(x, ...)
+chk_count(
+  x,
+  na.ok = FALSE,
+  positive = FALSE,
+  tol = sqrt(.Machine$double.eps),
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
 chk_day(x, ...)
 
 chk_instant(x, ...)
 
-chk_scalar(x, ...)
+chk_scalar(x, na.ok = FALSE, null.ok = FALSE, dim.ok = FALSE, class.ok = FALSE)
 
-chk_logical(x, ...)
+chk_logical(
+  x,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
-chk_character(x, ...)
+chk_character(
+  x,
+  n.chars = NULL,
+  min.chars = NULL,
+  max.chars = NULL,
+  pattern = NULL,
+  fixed = NULL,
+  ignore.case = FALSE,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  sorted = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
-chk_numeric(x, ...)
+chk_numeric(
+  x,
+  lower = -Inf,
+  upper = Inf,
+  finite = FALSE,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  sorted = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
-chk_integer(x, ...)
+chk_integer(
+  x,
+  lower = -Inf,
+  upper = Inf,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  sorted = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
-chk_double(x, ...)
+chk_double(
+  x,
+  lower = -Inf,
+  upper = Inf,
+  finite = FALSE,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  sorted = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
-chk_integerish(x, ...)
+chk_integerish(
+  x,
+  tol = sqrt(.Machine$double.eps),
+  lower = -Inf,
+  upper = Inf,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  sorted = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
-chk_naturalish(x, ...)
+chk_naturalish(
+  x,
+  tol = sqrt(.Machine$double.eps),
+  upper = Inf,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  sorted = FALSE,
+  names = NULL,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
 chk_factor(x, ...)
 
-chk_complex(x, ...)
+chk_complex(
+  x,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
-chk_raw(x, ...)
+chk_raw(
+  x,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  names = NULL,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
 chk_date(x, ...)
 
 chk_posixct(x, ...)
 
-chk_atomic(x, ...)
+chk_atomic(
+  x,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  names = NULL,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 
 chk_environment(x, ...)
 
@@ -130,13 +332,251 @@ chk_tibble(x, ...)
 chk_class(x, ...)
 
 chk_choice(x, choices, ...)
+
+chk_flag(x, na.ok = FALSE, null.ok = FALSE, dim.ok = FALSE, class.ok = FALSE)
+
+chk_logical(
+  x,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_string(
+  x,
+  na.ok = FALSE,
+  n.chars = NULL,
+  min.chars = NULL,
+  max.chars = NULL,
+  pattern = NULL,
+  fixed = NULL,
+  ignore.case = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_character(
+  x,
+  n.chars = NULL,
+  min.chars = NULL,
+  max.chars = NULL,
+  pattern = NULL,
+  fixed = NULL,
+  ignore.case = FALSE,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  sorted = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_number(
+  x,
+  na.ok = FALSE,
+  lower = -Inf,
+  upper = Inf,
+  finite = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_numeric(
+  x,
+  lower = -Inf,
+  upper = Inf,
+  finite = FALSE,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  sorted = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_inumber(
+  x,
+  na.ok = FALSE,
+  lower = -Inf,
+  upper = Inf,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_integer(
+  x,
+  lower = -Inf,
+  upper = Inf,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  sorted = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_dnumber(
+  x,
+  na.ok = FALSE,
+  lower = -Inf,
+  upper = Inf,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_double(
+  x,
+  lower = -Inf,
+  upper = Inf,
+  finite = FALSE,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  sorted = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_znumber(
+  x,
+  na.ok = FALSE,
+  lower = -Inf,
+  upper = Inf,
+  tol = sqrt(.Machine$double.eps),
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_integerish(
+  x,
+  tol = sqrt(.Machine$double.eps),
+  lower = -Inf,
+  upper = Inf,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  sorted = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_count(
+  x,
+  na.ok = FALSE,
+  positive = FALSE,
+  tol = sqrt(.Machine$double.eps),
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_naturalish(
+  x,
+  tol = sqrt(.Machine$double.eps),
+  upper = Inf,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  sorted = FALSE,
+  names = NULL,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_complex(
+  x,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  names = NULL,
+  typed.missing = FALSE,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_raw(
+  x,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  names = NULL,
+  null.ok = FALSE,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
+
+chk_scalar(x, na.ok = FALSE, null.ok = FALSE, dim.ok = FALSE, class.ok = FALSE)
+
+chk_atomic(
+  x,
+  any.missing = TRUE,
+  all.missing = TRUE,
+  len = NULL,
+  min.len = NULL,
+  max.len = NULL,
+  unique = FALSE,
+  names = NULL,
+  dim.ok = FALSE,
+  class.ok = FALSE
+)
 ```
 
 ## Arguments
 
 - x:
 
-  The variable to assert
+  Object to check.
 
 - ...:
 
@@ -146,6 +586,102 @@ chk_choice(x, choices, ...)
   [`checkmate::qtest()`](https://mllg.github.io/checkmate/reference/qassert.html),
   [`checkmate::check_flag()`](https://mllg.github.io/checkmate/reference/checkFlag.html),
   etc.
+
+- na.ok:
+
+  Passed to the backing `check_*()` function as `na.ok`.
+
+- null.ok:
+
+  Passed to the backing `check_*()` function as `null.ok`.
+
+- dim.ok:
+
+  If `FALSE` (the default), `x` must not carry a `dim` attribute.
+
+- class.ok:
+
+  If `FALSE` (the default), `x` must not carry a `class` attribute.
+
+- n.chars:
+
+  Passed to the backing `check_*()` function as `n.chars`.
+
+- min.chars:
+
+  Passed to the backing `check_*()` function as `min.chars`.
+
+- max.chars:
+
+  Passed to the backing `check_*()` function as `max.chars`.
+
+- pattern:
+
+  Passed to the backing `check_*()` function as `pattern`.
+
+- fixed:
+
+  Passed to the backing `check_*()` function as `fixed`.
+
+- ignore.case:
+
+  Passed to the backing `check_*()` function as `ignore.case`.
+
+- lower:
+
+  Passed to the backing `check_*()` function as `lower`.
+
+- upper:
+
+  Passed to the backing `check_*()` function as `upper`.
+
+- finite:
+
+  Passed to the backing `check_*()` function as `finite`.
+
+- tol:
+
+  Passed to the backing `check_*()` function as `tol`.
+
+- positive:
+
+  Passed to the backing `check_*()` function as `positive`.
+
+- any.missing:
+
+  Passed to the backing `check_*()` function as `any.missing`.
+
+- all.missing:
+
+  Passed to the backing `check_*()` function as `all.missing`.
+
+- len:
+
+  Passed to the backing `check_*()` function as `len`.
+
+- min.len:
+
+  Passed to the backing `check_*()` function as `min.len`.
+
+- max.len:
+
+  Passed to the backing `check_*()` function as `max.len`.
+
+- unique:
+
+  Passed to the backing `check_*()` function as `unique`.
+
+- names:
+
+  Passed to the backing `check_*()` function as `names`.
+
+- typed.missing:
+
+  Passed to the backing `check_*()` function as `typed.missing`.
+
+- sorted:
+
+  Passed to the backing `check_*()` function as `sorted`.
 
 - choices:
 

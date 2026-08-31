@@ -44,27 +44,19 @@ a `vector`, a `list`, or a `data.frame`. The functions are in some ways
 similar to the Excel function `VLOOKUP()`, but are designed to work
 smoothly in an R workflow, in particular within pipes.
 
-### lookup:
+### lookup: Get or set value labels of a labelled variable
+
+Gets or sets the value labels (`labels` attribute) of a labelled vector.
+The getters/setters should be used rather than manipulating attributes
+directly, since these functions perform checks to ensure that the
+result, and the resulting labelled variable, are valid.
 
 #### Examples
 
 ``` r
 ```
 
-### lookuper: Get the character representation of a labelled variable
-
-Returns a character representation of a labelled variable, using the
-value labels to look up the label for a given value.
-
-The default behavior of this function is similar to
-\[labelled::to_character()\]. The options, however, are slightly
-different. Most importantly, instead of specifying `NA` handling using
-parameters, the function relies on the `default` parameter to determine
-what happens for unlabelled variables, allowing users to specify
-including the original values of `x` instead of the labels, returning
-`NA`, or returning a specific string value. Also, the default behavior
-is to drop any variable label attribute, in line with the default
-\[as.character()\] method.
+### lookuper:
 
 #### Examples
 
@@ -98,46 +90,11 @@ identical to the [sample()](https://rdrr.io/r/base/sample.html) and
 ``` r
 ```
 
-### zingle: Sample from a vector in a safe way
-
-The [zample()](https://torfason.github.io/zmisc/reference/zample.html)
-function duplicates the functionality of
-[sample()](https://rdrr.io/r/base/sample.html), with the exception that
-it does not attempt the (sometimes dangerous) user-friendliness of
-switching the interpretation of the first element to a number if the
-length of the vector is 1.
-
-[`zample()`](https://torfason.github.io/zmisc/reference/zample.md)
-*always* treats its first argument as a vector containing elements that
-should be sampled, so code won’t break in unexpected ways when the input
-vector happens to be of length 1. The sample is taken by subsetting `x`,
-so the class and attributes of `x` are preserved.
-
-If the goal is indeed to sample from an interval between 1 and n, use
-use `sample(n)` or `sample.int(n)` (but make sure to only pass vectors
-of length one to those functions).
+### zingle:
 
 #### Examples
 
 ``` r
-
-# For vectors of length 2 or more, zample() and sample() are identical
-set.seed(42); zample(7:11)
-set.seed(42); sample(7:11)
-
-# For vectors of length 1, zample() will still sample from the vector,
-# whereas sample() will "magically" switch to interpreting the input
-# as a number n, and sampling from the vector 1:n.
-set.seed(42); zample(7)
-set.seed(42); sample(7)
-
-# The other arguments work in the same way as for sample()
-set.seed(42); zample(7:11, size=13, replace=TRUE, prob=(5:1)^3)
-set.seed(42); sample(7:11, size=13, replace=TRUE, prob=(5:1)^3)
-
-# Of course, sampling more than the available elements without
-# setting replace=TRUE will result in an error
-set.seed(42); tryCatch(zample(7, size=2), error=wrap_error)
 ```
 
 ## Getting a better view on variables
@@ -147,27 +104,53 @@ function adds annotations to `factor` and `labelled` variables that make
 it easier to see both values and labels/levels when using the
 [View()](https://rdrr.io/r/utils/View.html) function
 
-### notate: Construct lookup function based on a specific lookup table
+### notate: Lookup values from a lookup table
 
-The
-[lookuper()](https://torfason.github.io/zmisc/reference/lookuper.html)
-function returns *a function* equivalent to the
-[lookup()](https://torfason.github.io/zmisc/reference/lookup.html)
-function, except that instead of taking a lookup table as an argument,
-the lookup table is embedded in the function itself.
+The [lookup()](https://torfason.github.io/zmisc/reference/lookup.html)
+function implements lookup of values (such as variable names) from a
+lookup table which maps keys onto values (such as variable labels or
+descriptions).
 
-This can be very useful, in particular when using the lookup function as
-an argument to other functions that expect a function which maps
-`character`-\>`character` (or other data types), but do not offer a good
-way to pass additional arguments to that function.
+The lookup table can be in the form of a two-column `data.frame`, in the
+form of a named `vector`, or in the form of a `list`. If the table is in
+the form of a `data.frame`, the key column should be named either `key`
+or `name`, and the value column should be named `value` (for the value).
+If the lookup table is in the form of a named `vector` or `list`, the
+names are used as the key, and the returned value is taken from the
+values in the vector or list.
+
+The underlying lookup is done using
+[`base::match()`](https://rdrr.io/r/base/match.html), and all atomic
+data types except `factor` are supported. Factors are omitted due to the
+ambiguity in what should be looked up (the values or the levels). It is
+important that `x`, `.default` and the columns of `lookup_table` are all
+of the same type (specifically of the same
+[`base::mode()`](https://rdrr.io/r/base/mode.html)). If the lookup table
+is specified as a `vector` or `list`, only the `character` variables are
+supported, because `name(lookup_table)` is always of mode `character`.
+
+Original values are returned if they are not found in the lookup table.
+Alternatively, a `.default` can be specified for values that are not
+found. Note that it is possible to specify `NA` as one of the keys to
+look up NA values (only when using a `data.frame` as lookup table).
+
+Any names or attributes of x are preserved.
 
 #### Examples
 
 ``` r
 
-lookup_fruits <- lookuper(list(a = "Apple", b = "Banana", c = "Cherry"))
-lookup_fruits(letters[1:5])
-lookup_fruits_nomatch_na <-
-  lookuper(list(a = "Apple", b = "Banana", c = "Cherry"), .default = NA)
-lookup_fruits_nomatch_na(letters[1:5])
+fruit_lookup_vector <- c(a = "Apple", b = "Banana", c = "Cherry")
+lookup(letters[1:5], fruit_lookup_vector)
+lookup(letters[1:5], fruit_lookup_vector, .default = NA)
+
+mtcars_lookup_data_frame <- data.frame(
+  name = c("mpg", "hp", "wt"),
+  value = c("Miles/(US) gallon", "Gross horsepower", "Weight (1000 lbs)"))
+lookup(names(mtcars), mtcars_lookup_data_frame)
+
+# A more complex example, with numeric and NA values
+numeric_lookup_table <- data.frame(
+  key = c(1:5, NA), value = c(sqrt(1:5), 99999))
+lookup(c(0:6, NA), numeric_lookup_table)
 ```
