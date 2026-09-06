@@ -18,13 +18,17 @@
 ##             checks and to na.ok for the scalar ones, taking checkmate's
 ##             default in each case (TRUE and FALSE respectively)
 ##   null.ok   passed straight through
-##   attr.ok   which attributes x may carry, enforced here rather than by
-##             checkmate: a character vector of permitted names, defaulting to
-##             "names" and so to is.vector(); FALSE for none; TRUE for any
+##   attr.ok   which attributes x may carry beyond those intrinsic to the type,
+##             enforced here rather than by checkmate: a character vector of
+##             permitted names, defaulting to "names"; FALSE for none; TRUE for
+##             any. The intrinsic ones come from the `attrs` spec column and
+##             are subtracted before the allow-list applies, so the default is
+##             "names" for a classed type as much as for a bare one
 ##   length    NULL, or a vector: first element to min.len, last to max.len,
-##             so a scalar means one permitted length
+##             so a scalar means one permitted length, and is passed to `len`
+##             as well so that checkmate reports it as an exact length
 ##   range     same first/last rule, mapped to lower/upper, or to
-##             min.chars/max.chars for the character types
+##             min.chars/max.chars (and `n.chars`) for the character types
 ##
 ## Which of these a given chk_*() gets is derived from the formals of its
 ## backing check_*(), not from a spec column. Every remaining checkmate
@@ -55,27 +59,33 @@ glu <- function(..., .envir = parent.frame()) {
 # name  : the chk_<name>() to generate
 # kind  : "scalar" or "vector"; carried into the generated file as a comment
 # check : the check_*() function that does the work
+# attrs : attributes intrinsic to the type, exempt from the attr.ok contract
 
 chk_spec <- tribble(
-  ~name,        ~kind,    ~check,
-  "flag",       "scalar", "check_flag",
-  "logical",    "vector", "check_logical",
-  "string",     "scalar", "check_string",
-  "character",  "vector", "check_character",
-  "number",     "scalar", "check_number",
-  "numeric",    "vector", "check_numeric",
-  "inumber",    "scalar", "check_inumber",
-  "integer",    "vector", "check_integer",
-  "dnumber",    "scalar", "check_dnumber",
-  "double",     "vector", "check_double",
-  "znumber",    "scalar", "check_int",
-  "integerish", "vector", "check_integerish",
-  "count",      "scalar", "check_count",
-  "naturalish", "vector", "check_naturalish",
-  "complex",    "vector", "check_complex",
-  "raw",        "vector", "check_raw",
-  "scalar",     "scalar", "check_scalar",
-  "atomic",     "vector", "check_atomic"
+  ~name,        ~kind,    ~check,             ~attrs,
+  "flag",       "scalar", "check_flag",       character(),
+  "logical",    "vector", "check_logical",    character(),
+  "string",     "scalar", "check_string",     character(),
+  "character",  "vector", "check_character",  character(),
+  "number",     "scalar", "check_number",     character(),
+  "numeric",    "vector", "check_numeric",    character(),
+  "inumber",    "scalar", "check_inumber",    character(),
+  "integer",    "vector", "check_integer",    character(),
+  "dnumber",    "scalar", "check_dnumber",    character(),
+  "double",     "vector", "check_double",     character(),
+  "znumber",    "scalar", "check_int",        character(),
+  "integerish", "vector", "check_integerish", character(),
+  "count",      "scalar", "check_count",      character(),
+  "naturalish", "vector", "check_naturalish", character(),
+  "factor",     "vector", "check_factor",     c("class", "levels"),
+  "complex",    "vector", "check_complex",    character(),
+  "raw",        "vector", "check_raw",        character(),
+  "day",        "scalar", "check_day",        "class",
+  "date",       "vector", "check_date",       "class",
+  "instant",    "scalar", "check_instant",    c("class", "tzone"),
+  "posixct",    "vector", "check_posixct",    c("class", "tzone"),
+  "scalar",     "scalar", "check_scalar",     character(),
+  "atomic",     "vector", "check_atomic",     character()
 )
 
 param_desc <- c(
@@ -83,15 +93,16 @@ param_desc <- c(
   ...      = "Reserved.",
   na.ok    = "Are missing values permitted?",
   null.ok  = "Is `NULL` permitted?",
-  attr.ok  = paste("Which attributes `x` may carry: a character vector of",
-                   "permitted attribute names, `FALSE` for none at all, or",
-                   "`TRUE` for any."),
+  attr.ok  = paste("Which attributes `x` may carry beyond those intrinsic to",
+                   "its type: a character vector of permitted attribute names,",
+                   "`FALSE` for none at all, or `TRUE` for any."),
   length   = paste("Permitted length. `NULL` for any length, a scalar for one",
                    "exact length, or a vector whose first and last elements",
                    "give the minimum and the maximum."),
   range    = paste("Permitted range of values, under the same first/last rule",
                    "as `length`. For the character types it constrains",
-                   "`nchar()` of the elements instead.")
+                   "`nchar()` of the elements instead, and for the date and",
+                   "time types the bounds are themselves `Date` or `POSIXct`.")
 )
 
 # ---- Reading the backing signatures ----------------------------------------
@@ -132,12 +143,18 @@ plan_args <- function(check) {
   else NA_character_
   len   <- has("min.len") && has("max.len")
 
+  bounds <- if (identical(range, "bounds")) {
+    lo <- dflt("lower")
+    hi <- dflt("upper")
+    if (lo == "NULL" && hi == "NULL") "NULL" else glu("c({{lo}}, {{hi}})")
+  } else NA_character_
+
   used <- c(
     na_cm,
     if (has("null.ok")) "null.ok",
-    if (len) c("min.len", "max.len"),
+    if (len) c("len", "min.len", "max.len"),
     if (identical(range, "bounds")) c("lower", "upper"),
-    if (identical(range, "chars")) c("min.chars", "max.chars")
+    if (identical(range, "chars")) c("n.chars", "min.chars", "max.chars")
   )
   used <- used[!is.na(used)]
 
@@ -148,6 +165,7 @@ plan_args <- function(check) {
     null_dflt = if (has("null.ok")) dflt("null.ok") else NA_character_,
     len       = len,
     range     = range,
+    bounds    = bounds,
     pinned    = set_names(a$dflt[!a$cm %in% used], a$cm[!a$cm %in% used])
   )
 }
@@ -171,7 +189,7 @@ render_signature <- function(name, p) {
 render_locals <- function(p) {
   c(
     if (p$len) "  len <- lo_hi(length)",
-    if (identical(p$range, "bounds")) "  rng <- lo_hi(range, c(-Inf, Inf))",
+    if (identical(p$range, "bounds")) glu("  rng <- lo_hi(range, {{p$bounds}})"),
     if (identical(p$range, "chars"))  "  rng <- lo_hi(range)"
   )
 }
@@ -180,9 +198,10 @@ render_slow_call <- function(check, p) {
   pairs <- c(
     if (!is.na(p$na_cm)) glu("{{p$na_cm}} = na.ok"),
     if (p$null_ok) "null.ok = null.ok",
-    if (p$len) c("min.len = len[1L]", "max.len = len[2L]"),
+    if (p$len) c("len = exact(length)", "min.len = len[1L]", "max.len = len[2L]"),
     if (identical(p$range, "bounds")) c("lower = rng[1L]", "upper = rng[2L]"),
-    if (identical(p$range, "chars")) c("min.chars = rng[1L]", "max.chars = rng[2L]")
+    if (identical(p$range, "chars")) c("n.chars = exact(range)", "min.chars = rng[1L]",
+                                       "max.chars = rng[2L]")
   )
   head <- glu("  res <- {{check}}(x")
   if (length(pairs) == 0L) return(glu("{{head}})"))
@@ -201,8 +220,17 @@ render_pinned <- function(p) {
 
 
 
-render_fun <- function(name, kind, check) {
+render_fun <- function(name, kind, check, attrs) {
   p <- plan_args(check)
+
+  # A type with no intrinsic attributes keeps the inlined is.vector() and the
+  # two-argument calls, so its rendering is unchanged by the `attrs` column.
+  fast <- if (length(attrs) == 0L)
+    r"---(is.vector(x, "any"))---"
+  else
+    glu(r"---(attrs_ok(x, "names", {{deparse1(attrs)}}))---")
+  strc <- if (length(attrs) == 0L) "" else glu(", {{deparse1(attrs)}}")
+
   glu(r"---(
     # chk_{{name}}(): {{kind}}, backed by {{check}}()
     {{fold(render_pinned(p))}}
@@ -211,14 +239,14 @@ render_fun <- function(name, kind, check) {
     {{fold(render_signature(name, p))}}
 
       # No arguments, return on fastest path
-      if (nargs() == 1L && isTRUE({{check}}(x)) && (is.vector(x, "any")) )
+      if (nargs() == 1L && isTRUE({{check}}(x)) && ({{fast}}) )
           return(invisible(x))
 
       # More detailed translation of arguments to check_*() equivalents
     {{fold(render_locals(p))}}
     {{fold(render_slow_call(check, p))}}
-      if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
-      chk_fail(x, res, attr.ok)
+      if (isTRUE(res) && attrs_ok(x, attr.ok{{strc}})) return(invisible(x))
+      chk_fail(x, res, attr.ok{{strc}})
     }
     )---")
 }
@@ -245,7 +273,7 @@ render_chk <- function(spec = chk_spec) {
     "# Generated by data-raw/generate-chk.R -- do not edit by hand.",
     "",
     render_params(spec),
-    pmap(spec, \(name, kind, check) render_fun(name, kind, check)) |> unlist()
+    pmap(spec, \(name, kind, check, attrs) render_fun(name, kind, check, attrs)) |> unlist()
   )
 }
 

@@ -121,8 +121,11 @@ test_that("POSIXct assertion functions work", {
   chk_posixct(as.Date("1111-11-11")) |> expect_error("Must be of type 'POSIXct'")
   chk_instant(11) |> expect_error("Must be of type 'POSIXct'")
 
-  # Additional parameters are passed through to checkmate
-  chk_posixct(c(time_11, time_12), len = 3) |> expect_error("Must have length 3")
+  # Length is constrained with `length`, not checkmate's `len`
+  chk_posixct(c(time_11, time_12), length = 3) |>
+    expect_error("Must have length 3")
+  chk_posixct(c(time_11, time_12, time_11, time_12), length = 3) |>
+    expect_error("Must have length 3")
 })
 
 

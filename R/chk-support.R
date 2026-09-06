@@ -20,26 +20,40 @@ lo_hi <- function(v, default = NULL) {
   c(v[[1L]], v[[length(v)]])
 }
 
+# The value both ends of `v` collapse to, or NULL if they differ. checkmate
+# reports a min/max failure as ">= n" or "<= n", which reads wrong when a
+# scalar pinned both ends, so the collapsed value is passed to checkmate's
+# exact-value argument (`len`, `n.chars`) as well as to the pair. NULL there is
+# a no-op, so the pair alone still decides whenever the two ends differ.
+exact <- function(v) {
+  if (is.null(v) || v[[1L]] != v[[length(v)]]) return(NULL)
+  v[[1L]]
+}
+
 # ---- Attribute policy --------------------------------------------------------
 #
 # attr.ok is an allow-list of attribute names, or FALSE for none at all, or
-# TRUE for any. The default "names" is exactly is.vector(), which is what the
-# generated fast path inlines, so the two must stay in step; the drift test in
-# test-chk-generated.R checks that they agree. NULL carries no attributes, so
-# the contract is vacuous for it and null.ok alone decides.
+# TRUE for any. `structural` names the attributes that are intrinsic to the
+# type being checked and are therefore not the caller's to permit: "class" and
+# "levels" for a factor, and so on. They are removed before the allow-list is
+# applied, so attr.ok keeps the same meaning and the same "names" default for
+# every type, and still means "no extras at all" when FALSE. For the bare
+# types `structural` is empty and the default "names" is exactly is.vector(),
+# which is what the generated fast path inlines. NULL carries no attributes,
+# so the contract is vacuous for it and null.ok alone decides.
 
-attrs_ok <- function(x, attr.ok) {
+attrs_ok <- function(x, attr.ok, structural = character()) {
   if (isTRUE(attr.ok)) return(TRUE)
-  nms <- names(attributes(x))
-  if (is.null(nms)) return(TRUE)
+  nms <- setdiff(names(attributes(x)), structural)
+  if (length(nms) == 0L) return(TRUE)
   if (isFALSE(attr.ok)) return(FALSE)
   !anyNA(match(nms, attr.ok))
 }
 
-bad_attrs <- function(x, attr.ok) {
+bad_attrs <- function(x, attr.ok, structural = character()) {
   if (isTRUE(attr.ok)) return(character())
-  nms <- names(attributes(x))
-  if (is.null(nms)) return(character())
+  nms <- setdiff(names(attributes(x)), structural)
+  if (length(nms) == 0L) return(character())
   if (isFALSE(attr.ok)) return(nms)
   setdiff(nms, attr.ok)
 }
@@ -52,13 +66,13 @@ bad_attrs <- function(x, attr.ok) {
 #        attributed to the user's function rather than to chk_*() itself.
 # `dim` and `class` keep their own wording, since those are the two rejections
 # that carry meaning for a reader; anything else is reported by name.
-chk_fail <- function(x, res, attr.ok,
+chk_fail <- function(x, res, attr.ok, structural = character(),
                      arg = deparse1(substitute(x, parent.frame())),
                      call = rlang::caller_env(2)) {
   bullets <- character()
   if (!isTRUE(res))
     bullets <- c(bullets, res)
-  bad <- bad_attrs(x, attr.ok)
+  bad <- bad_attrs(x, attr.ok, structural)
   if ("dim" %in% bad)
     bullets <- c(bullets, paste0("Must not have a dim attribute, but has dim ",
                                  deparse1(attr(x, "dim", exact = TRUE))))

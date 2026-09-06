@@ -4,9 +4,9 @@
 #' @param ... Reserved.
 #' @param na.ok Are missing values permitted?
 #' @param null.ok Is `NULL` permitted?
-#' @param attr.ok Which attributes `x` may carry: a character vector of permitted attribute names, `FALSE` for none at all, or `TRUE` for any.
+#' @param attr.ok Which attributes `x` may carry beyond those intrinsic to its type: a character vector of permitted attribute names, `FALSE` for none at all, or `TRUE` for any.
 #' @param length Permitted length. `NULL` for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum.
-#' @param range Permitted range of values, under the same first/last rule as `length`. For the character types it constrains `nchar()` of the elements instead.
+#' @param range Permitted range of values, under the same first/last rule as `length`. For the character types it constrains `nchar()` of the elements instead, and for the date and time types the bounds are themselves `Date` or `POSIXct`.
 #' @name checkmate_rlang
 NULL
 
@@ -29,8 +29,8 @@ chk_flag <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") 
   chk_fail(x, res, attr.ok)
 }
 # chk_logical(): vector, backed by check_logical()
-# pinned: all.missing = TRUE, len = NULL, unique = FALSE, names = NULL,
-#   typed.missing = FALSE
+# pinned: all.missing = TRUE, unique = FALSE, names = NULL, typed.missing =
+#   FALSE
 #' @rdname checkmate_rlang
 #' @export
 chk_logical <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL) {
@@ -44,13 +44,14 @@ chk_logical <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   res <- check_logical(x,
                        any.missing = na.ok,
                        null.ok = null.ok,
+                       len = exact(length),
                        min.len = len[1L],
                        max.len = len[2L])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
 # chk_string(): scalar, backed by check_string()
-# pinned: n.chars = NULL, pattern = NULL, fixed = NULL, ignore.case = FALSE
+# pinned: pattern = NULL, fixed = NULL, ignore.case = FALSE
 #' @rdname checkmate_rlang
 #' @export
 chk_string <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
@@ -64,15 +65,15 @@ chk_string <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
   res <- check_string(x,
                       na.ok = na.ok,
                       null.ok = null.ok,
+                      n.chars = exact(range),
                       min.chars = rng[1L],
                       max.chars = rng[2L])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
 # chk_character(): vector, backed by check_character()
-# pinned: n.chars = NULL, pattern = NULL, fixed = NULL, ignore.case = FALSE,
-#   all.missing = TRUE, len = NULL, unique = FALSE, sorted = FALSE, names =
-#   NULL, typed.missing = FALSE
+# pinned: pattern = NULL, fixed = NULL, ignore.case = FALSE, all.missing =
+#   TRUE, unique = FALSE, sorted = FALSE, names = NULL, typed.missing = FALSE
 #' @rdname checkmate_rlang
 #' @export
 chk_character <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
@@ -87,8 +88,10 @@ chk_character <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "name
   res <- check_character(x,
                          any.missing = na.ok,
                          null.ok = null.ok,
+                         len = exact(length),
                          min.len = len[1L],
                          max.len = len[2L],
+                         n.chars = exact(range),
                          min.chars = rng[1L],
                          max.chars = rng[2L])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
@@ -115,8 +118,8 @@ chk_number <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
   chk_fail(x, res, attr.ok)
 }
 # chk_numeric(): vector, backed by check_numeric()
-# pinned: finite = FALSE, all.missing = TRUE, len = NULL, unique = FALSE,
-#   sorted = FALSE, names = NULL, typed.missing = FALSE
+# pinned: finite = FALSE, all.missing = TRUE, unique = FALSE, sorted = FALSE,
+#   names = NULL, typed.missing = FALSE
 #' @rdname checkmate_rlang
 #' @export
 chk_numeric <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
@@ -131,6 +134,7 @@ chk_numeric <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   res <- check_numeric(x,
                        any.missing = na.ok,
                        null.ok = null.ok,
+                       len = exact(length),
                        min.len = len[1L],
                        max.len = len[2L],
                        lower = rng[1L],
@@ -159,8 +163,8 @@ chk_inumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
   chk_fail(x, res, attr.ok)
 }
 # chk_integer(): vector, backed by check_integer()
-# pinned: all.missing = TRUE, len = NULL, unique = FALSE, sorted = FALSE,
-#   names = NULL, typed.missing = FALSE
+# pinned: all.missing = TRUE, unique = FALSE, sorted = FALSE, names = NULL,
+#   typed.missing = FALSE
 #' @rdname checkmate_rlang
 #' @export
 chk_integer <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
@@ -175,6 +179,7 @@ chk_integer <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   res <- check_integer(x,
                        any.missing = na.ok,
                        null.ok = null.ok,
+                       len = exact(length),
                        min.len = len[1L],
                        max.len = len[2L],
                        lower = rng[1L],
@@ -203,8 +208,8 @@ chk_dnumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
   chk_fail(x, res, attr.ok)
 }
 # chk_double(): vector, backed by check_double()
-# pinned: finite = FALSE, all.missing = TRUE, len = NULL, unique = FALSE,
-#   sorted = FALSE, names = NULL, typed.missing = FALSE
+# pinned: finite = FALSE, all.missing = TRUE, unique = FALSE, sorted = FALSE,
+#   names = NULL, typed.missing = FALSE
 #' @rdname checkmate_rlang
 #' @export
 chk_double <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
@@ -219,6 +224,7 @@ chk_double <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
   res <- check_double(x,
                       any.missing = na.ok,
                       null.ok = null.ok,
+                      len = exact(length),
                       min.len = len[1L],
                       max.len = len[2L],
                       lower = rng[1L],
@@ -247,8 +253,8 @@ chk_znumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
   chk_fail(x, res, attr.ok)
 }
 # chk_integerish(): vector, backed by check_integerish()
-# pinned: tol = sqrt(.Machine$double.eps), all.missing = TRUE, len = NULL,
-#   unique = FALSE, sorted = FALSE, names = NULL, typed.missing = FALSE
+# pinned: tol = sqrt(.Machine$double.eps), all.missing = TRUE, unique =
+#   FALSE, sorted = FALSE, names = NULL, typed.missing = FALSE
 #' @rdname checkmate_rlang
 #' @export
 chk_integerish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
@@ -263,6 +269,7 @@ chk_integerish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "nam
   res <- check_integerish(x,
                           any.missing = na.ok,
                           null.ok = null.ok,
+                          len = exact(length),
                           min.len = len[1L],
                           max.len = len[2L],
                           lower = rng[1L],
@@ -289,8 +296,8 @@ chk_count <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
   chk_fail(x, res, attr.ok)
 }
 # chk_naturalish(): vector, backed by check_naturalish()
-# pinned: tol = sqrt(.Machine$double.eps), all.missing = TRUE, len = NULL,
-#   unique = FALSE, sorted = FALSE, names = NULL
+# pinned: tol = sqrt(.Machine$double.eps), all.missing = TRUE, unique =
+#   FALSE, sorted = FALSE, names = NULL
 #' @rdname checkmate_rlang
 #' @export
 chk_naturalish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
@@ -301,10 +308,11 @@ chk_naturalish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "nam
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi(length)
-  rng <- lo_hi(range, c(-Inf, Inf))
+  rng <- lo_hi(range, c(0, Inf))
   res <- check_naturalish(x,
                           any.missing = na.ok,
                           null.ok = null.ok,
+                          len = exact(length),
                           min.len = len[1L],
                           max.len = len[2L],
                           lower = rng[1L],
@@ -312,9 +320,32 @@ chk_naturalish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "nam
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
+# chk_factor(): vector, backed by check_factor()
+# pinned: levels = NULL, ordered = NA, empty.levels.ok = TRUE, all.missing =
+#   TRUE, n.levels = NULL, min.levels = NULL, max.levels = NULL, unique =
+#   FALSE, names = NULL
+#' @rdname checkmate_rlang
+#' @export
+chk_factor <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL) {
+
+  # No arguments, return on fastest path
+  if (nargs() == 1L && isTRUE(check_factor(x)) && (attrs_ok(x, "names", c("class", "levels"))) )
+      return(invisible(x))
+
+  # More detailed translation of arguments to check_*() equivalents
+  len <- lo_hi(length)
+  res <- check_factor(x,
+                      any.missing = na.ok,
+                      null.ok = null.ok,
+                      len = exact(length),
+                      min.len = len[1L],
+                      max.len = len[2L])
+  if (isTRUE(res) && attrs_ok(x, attr.ok, c("class", "levels"))) return(invisible(x))
+  chk_fail(x, res, attr.ok, c("class", "levels"))
+}
 # chk_complex(): vector, backed by check_complex()
-# pinned: all.missing = TRUE, len = NULL, unique = FALSE, names = NULL,
-#   typed.missing = FALSE
+# pinned: all.missing = TRUE, unique = FALSE, names = NULL, typed.missing =
+#   FALSE
 #' @rdname checkmate_rlang
 #' @export
 chk_complex <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL) {
@@ -328,13 +359,14 @@ chk_complex <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   res <- check_complex(x,
                        any.missing = na.ok,
                        null.ok = null.ok,
+                       len = exact(length),
                        min.len = len[1L],
                        max.len = len[2L])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
 # chk_raw(): vector, backed by check_raw()
-# pinned: len = NULL, names = NULL
+# pinned: names = NULL
 #' @rdname checkmate_rlang
 #' @export
 chk_raw <- function(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL) {
@@ -347,10 +379,99 @@ chk_raw <- function(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL) {
   len <- lo_hi(length)
   res <- check_raw(x,
                    null.ok = null.ok,
+                   len = exact(length),
                    min.len = len[1L],
                    max.len = len[2L])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
+}
+# chk_day(): scalar, backed by check_day()
+
+#' @rdname checkmate_rlang
+#' @export
+chk_day <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
+
+  # No arguments, return on fastest path
+  if (nargs() == 1L && isTRUE(check_day(x)) && (attrs_ok(x, "names", "class")) )
+      return(invisible(x))
+
+  # More detailed translation of arguments to check_*() equivalents
+  rng <- lo_hi(range, NULL)
+  res <- check_day(x,
+                   na.ok = na.ok,
+                   null.ok = null.ok,
+                   lower = rng[1L],
+                   upper = rng[2L])
+  if (isTRUE(res) && attrs_ok(x, attr.ok, "class")) return(invisible(x))
+  chk_fail(x, res, attr.ok, "class")
+}
+# chk_date(): vector, backed by check_date()
+# pinned: all.missing = TRUE, unique = FALSE
+#' @rdname checkmate_rlang
+#' @export
+chk_date <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
+
+  # No arguments, return on fastest path
+  if (nargs() == 1L && isTRUE(check_date(x)) && (attrs_ok(x, "names", "class")) )
+      return(invisible(x))
+
+  # More detailed translation of arguments to check_*() equivalents
+  len <- lo_hi(length)
+  rng <- lo_hi(range, NULL)
+  res <- check_date(x,
+                    any.missing = na.ok,
+                    null.ok = null.ok,
+                    len = exact(length),
+                    min.len = len[1L],
+                    max.len = len[2L],
+                    lower = rng[1L],
+                    upper = rng[2L])
+  if (isTRUE(res) && attrs_ok(x, attr.ok, "class")) return(invisible(x))
+  chk_fail(x, res, attr.ok, "class")
+}
+# chk_instant(): scalar, backed by check_instant()
+
+#' @rdname checkmate_rlang
+#' @export
+chk_instant <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
+
+  # No arguments, return on fastest path
+  if (nargs() == 1L && isTRUE(check_instant(x)) && (attrs_ok(x, "names", c("class", "tzone"))) )
+      return(invisible(x))
+
+  # More detailed translation of arguments to check_*() equivalents
+  rng <- lo_hi(range, NULL)
+  res <- check_instant(x,
+                       na.ok = na.ok,
+                       null.ok = null.ok,
+                       lower = rng[1L],
+                       upper = rng[2L])
+  if (isTRUE(res) && attrs_ok(x, attr.ok, c("class", "tzone"))) return(invisible(x))
+  chk_fail(x, res, attr.ok, c("class", "tzone"))
+}
+# chk_posixct(): vector, backed by check_posixct()
+# pinned: all.missing = TRUE, unique = FALSE, sorted = FALSE
+#' @rdname checkmate_rlang
+#' @export
+chk_posixct <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
+
+  # No arguments, return on fastest path
+  if (nargs() == 1L && isTRUE(check_posixct(x)) && (attrs_ok(x, "names", c("class", "tzone"))) )
+      return(invisible(x))
+
+  # More detailed translation of arguments to check_*() equivalents
+  len <- lo_hi(length)
+  rng <- lo_hi(range, NULL)
+  res <- check_posixct(x,
+                       any.missing = na.ok,
+                       null.ok = null.ok,
+                       len = exact(length),
+                       min.len = len[1L],
+                       max.len = len[2L],
+                       lower = rng[1L],
+                       upper = rng[2L])
+  if (isTRUE(res) && attrs_ok(x, attr.ok, c("class", "tzone"))) return(invisible(x))
+  chk_fail(x, res, attr.ok, c("class", "tzone"))
 }
 # chk_scalar(): scalar, backed by check_scalar()
 
@@ -371,7 +492,7 @@ chk_scalar <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
   chk_fail(x, res, attr.ok)
 }
 # chk_atomic(): vector, backed by check_atomic()
-# pinned: all.missing = TRUE, len = NULL, unique = FALSE, names = NULL
+# pinned: all.missing = TRUE, unique = FALSE, names = NULL
 #' @rdname checkmate_rlang
 #' @export
 chk_atomic <- function(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL) {
@@ -384,6 +505,7 @@ chk_atomic <- function(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL) {
   len <- lo_hi(length)
   res <- check_atomic(x,
                       any.missing = na.ok,
+                      len = exact(length),
                       min.len = len[1L],
                       max.len = len[2L])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))

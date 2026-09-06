@@ -86,9 +86,23 @@ chk_znumber(
 
 chk_count(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
-chk_day(x, ...)
+chk_day(
+  x,
+  ...,
+  na.ok = FALSE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  range = NULL
+)
 
-chk_instant(x, ...)
+chk_instant(
+  x,
+  ...,
+  na.ok = FALSE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  range = NULL
+)
 
 chk_scalar(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
@@ -161,7 +175,14 @@ chk_naturalish(
   range = NULL
 )
 
-chk_factor(x, ...)
+chk_factor(
+  x,
+  ...,
+  na.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  length = NULL
+)
 
 chk_complex(
   x,
@@ -174,9 +195,25 @@ chk_complex(
 
 chk_raw(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL)
 
-chk_date(x, ...)
+chk_date(
+  x,
+  ...,
+  na.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
+)
 
-chk_posixct(x, ...)
+chk_posixct(
+  x,
+  ...,
+  na.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
+)
 
 chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 
@@ -312,6 +349,15 @@ chk_naturalish(
   range = NULL
 )
 
+chk_factor(
+  x,
+  ...,
+  na.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  length = NULL
+)
+
 chk_complex(
   x,
   ...,
@@ -322,6 +368,44 @@ chk_complex(
 )
 
 chk_raw(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL)
+
+chk_day(
+  x,
+  ...,
+  na.ok = FALSE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  range = NULL
+)
+
+chk_date(
+  x,
+  ...,
+  na.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
+)
+
+chk_instant(
+  x,
+  ...,
+  na.ok = FALSE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  range = NULL
+)
+
+chk_posixct(
+  x,
+  ...,
+  na.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
+)
 
 chk_scalar(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
@@ -336,9 +420,9 @@ chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 
 \item{null.ok}{Is \code{NULL} permitted?}
 
-\item{attr.ok}{Which attributes \code{x} may carry: a character vector of permitted attribute names, \code{FALSE} for none at all, or \code{TRUE} for any.}
+\item{attr.ok}{Which attributes \code{x} may carry beyond those intrinsic to its type: a character vector of permitted attribute names, \code{FALSE} for none at all, or \code{TRUE} for any.}
 
-\item{range}{Permitted range of values, under the same first/last rule as \code{length}. For the character types it constrains \code{nchar()} of the elements instead.}
+\item{range}{Permitted range of values, under the same first/last rule as \code{length}. For the character types it constrains \code{nchar()} of the elements instead, and for the date and time types the bounds are themselves \code{Date} or \code{POSIXct}.}
 
 \item{length}{Permitted length. \code{NULL} for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum.}
 

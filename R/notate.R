@@ -62,7 +62,7 @@ notate.data.frame <- function(x) {
 
 #' @export
 notate.ordered <- function(x) {
-  chk_factor(x, ordered = TRUE)
+  chk_factor(x, attr.ok = TRUE)
   r <- rep(c(character(0), NA), length(x))
   r[!is.na(x)] <- paste0("[", as.numeric(x[!is.na(x)]), "] ", as.character(x[!is.na(x)]))
   attr(r, "label") <- paste_na("<ord>", attr(x, "label")) # (ll_var_label() requires correct class)
@@ -71,7 +71,7 @@ notate.ordered <- function(x) {
 
 #' @export
 notate.factor <- function(x) {
-  chk_factor(x)
+  chk_factor(x, attr.ok = TRUE)
   r <- rep(c(character(0), NA), length(x))
   r[!is.na(x)] <- paste0("[", as.numeric(x[!is.na(x)]), "] ", as.character(x[!is.na(x)]))
   attr(r, "label") <- paste_na("<fct>", attr(x, "label")) # (ll_var_label() requires correct class)

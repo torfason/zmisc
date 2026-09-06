@@ -82,7 +82,11 @@ check_instant <- function(x, na.ok = FALSE, lower = NULL, upper = NULL, null.ok 
 }
 
 # Check for single day (scalar Date)
-check_day <- function(x, na.ok = FALSE, lower = -Inf, upper = Inf, null.ok = FALSE) {
+#
+# lower/upper default to NULL rather than +-Inf, matching check_instant() and
+# checkmate::check_date(), so that the generator reads an unbounded default it
+# can pass straight back.
+check_day <- function(x, na.ok = FALSE, lower = NULL, upper = NULL, null.ok = FALSE) {
   if (!isTRUE(check_date(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, null.ok = null.ok))) {
     result <- check_date(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, null.ok = null.ok)
     if (is.null(x) && !null.ok) {
