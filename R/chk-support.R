@@ -2,10 +2,47 @@
 #
 # Hand-written companions to the generated chk_*() functions.
 #
-# 1. The failure path, shared by every generated function.
-# 2. The three check_*() functions that checkmate does not provide. These use
-#    checkmate's dotted argument convention, so the generator converts their
-#    names to underscores exactly as it does for checkmate's own.
+# 1. Parameter translation and the attribute policy.
+# 2. The failure path.
+# 3. The check_*() functions that checkmate does not provide. These use
+#    checkmate's own argument names, so the generator reads them exactly as it
+#    reads checkmate's, and they rewrite checkmate's messages where needed so
+#    that a scalar reports failure the same way its family does.
+
+# ---- Parameter translation ---------------------------------------------------
+
+# First and last element of `v`, which is how both `length` and `range` are
+# spelled out into a checkmate pair. A scalar therefore pins both ends. The
+# argument is named `v` so that nothing shadows base::length() at the call
+# site. Only ever reached on the parameterised path.
+lo_hi <- function(v, default = NULL) {
+  if (is.null(v)) return(default)
+  c(v[[1L]], v[[length(v)]])
+}
+
+# ---- Attribute policy --------------------------------------------------------
+#
+# attr.ok is an allow-list of attribute names, or FALSE for none at all, or
+# TRUE for any. The default "names" is exactly is.vector(), which is what the
+# generated fast path inlines, so the two must stay in step; the drift test in
+# test-chk-generated.R checks that they agree. NULL carries no attributes, so
+# the contract is vacuous for it and null.ok alone decides.
+
+attrs_ok <- function(x, attr.ok) {
+  if (isTRUE(attr.ok)) return(TRUE)
+  nms <- names(attributes(x))
+  if (is.null(nms)) return(TRUE)
+  if (isFALSE(attr.ok)) return(FALSE)
+  !anyNA(match(nms, attr.ok))
+}
+
+bad_attrs <- function(x, attr.ok) {
+  if (isTRUE(attr.ok)) return(character())
+  nms <- names(attributes(x))
+  if (is.null(nms)) return(character())
+  if (isFALSE(attr.ok)) return(nms)
+  setdiff(nms, attr.ok)
+}
 
 # ---- Failure path ------------------------------------------------------------
 
@@ -13,18 +50,26 @@
 #        chk_*() function, and so yields the expression the user wrote.
 # call : caller_env(2) is the frame that called chk_*(), so the error is
 #        attributed to the user's function rather than to chk_*() itself.
-chk_fail <- function(x, res, dim_ok, class_ok,
-                     arg = rlang::caller_arg(x),
+# `dim` and `class` keep their own wording, since those are the two rejections
+# that carry meaning for a reader; anything else is reported by name.
+chk_fail <- function(x, res, attr.ok,
+                     arg = deparse1(substitute(x, parent.frame())),
                      call = rlang::caller_env(2)) {
   bullets <- character()
   if (!isTRUE(res))
     bullets <- c(bullets, res)
-  if (!dim_ok && !is.null(attr(x, "dim", exact = TRUE)))
+  bad <- bad_attrs(x, attr.ok)
+  if ("dim" %in% bad)
     bullets <- c(bullets, paste0("Must not have a dim attribute, but has dim ",
                                  deparse1(attr(x, "dim", exact = TRUE))))
-  if (!class_ok && is.object(x))
+  if ("class" %in% bad)
     bullets <- c(bullets, paste0("Must not have a class attribute, but has class ",
                                  deparse1(oldClass(x))))
+  rest <- setdiff(bad, c("dim", "class"))
+  if (length(rest) > 0L)
+    bullets <- c(bullets, paste0("Must not have attributes: ", toString(rest)))
+  if (length(bullets) == 0L)
+    rlang::abort("chk_fail() reached with nothing to report.", .internal = TRUE)
   rlang::abort(
     c(paste0("Assertion on `", arg, "` failed:"),
       rlang::set_names(bullets, "*")),
@@ -34,41 +79,49 @@ chk_fail <- function(x, res, dim_ok, class_ok,
 
 # ---- check_*() functions not provided by checkmate ---------------------------
 #
-# Signatures here define the exposed API of the corresponding chk_*(), so they
-# are worth tuning deliberately. Dotted names on purpose.
+# Argument names and defaults here become the exposed API of the corresponding
+# chk_*(), since the generator reads them off these signatures.
+#
+# Each rewrites checkmate's message so that the scalar reports a failure the
+# same way checkmate's own scalar checks do: check_int() says "May not be NA"
+# where check_integer() says "Contains missing values (element 1)".
 
 check_inumber <- function(x, na.ok = FALSE, lower = -Inf, upper = Inf,
                           null.ok = FALSE) {
   result <- checkmate::check_integer(x, lower = lower, upper = upper, len = 1L,
-                           any.missing = na.ok, null.ok = null.ok)
-  if (result == "Contains missing values (element 1)") {
-    return("May not be NA")
-  }  else {
-    return(result)
+                                     any.missing = na.ok, null.ok = null.ok)
+  if (identical(result, "Contains missing values (element 1)")) {
+    "May not be NA"
+  } else {
+    result
   }
 }
 
 check_dnumber <- function(x, na.ok = FALSE, lower = -Inf, upper = Inf,
                           null.ok = FALSE) {
   result <- checkmate::check_double(x, lower = lower, upper = upper, len = 1L,
-                          any.missing = na.ok, null.ok = null.ok)
-  if (result == "Contains missing values (element 1)") {
-    return("May not be NA")
-  }  else {
-    return(result)
+                                    any.missing = na.ok, null.ok = null.ok)
+  if (identical(result, "Contains missing values (element 1)")) {
+    "May not be NA"
+  } else {
+    result
   }
 }
 
-check_naturalish <- function(x, tol = sqrt(.Machine$double.eps), upper = Inf,
+# `lower` is exposed so that `range` maps here as it does elsewhere, but it is
+# clamped at zero: naturalish is a type assertion, and `range` must not be able
+# to widen it back into plain integerish.
+check_naturalish <- function(x, lower = 0, upper = Inf,
+                             tol = sqrt(.Machine$double.eps),
                              any.missing = TRUE, all.missing = TRUE,
                              len = NULL, min.len = NULL, max.len = NULL,
                              unique = FALSE, sorted = FALSE, names = NULL,
                              null.ok = FALSE) {
-  result <- checkmate::check_integerish(x, lower = 0, upper = upper, tol = tol,
-                              any.missing = any.missing,
-                              all.missing = all.missing, len = len,
-                              min.len = min.len, max.len = max.len,
-                              unique = unique, sorted = sorted, names = names,
-                              null.ok = null.ok)
-  ifelse(isTRUE(result), result, sub(x = result, "integerish", "naturalish"))
+  result <- checkmate::check_integerish(x, lower = max(lower, 0), upper = upper,
+                                        tol = tol, any.missing = any.missing,
+                                        all.missing = all.missing, len = len,
+                                        min.len = min.len, max.len = max.len,
+                                        unique = unique, sorted = sorted,
+                                        names = names, null.ok = null.ok)
+  if (isTRUE(result)) result else sub("integerish", "naturalish", result)
 }

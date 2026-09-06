@@ -64,12 +64,12 @@ lookup <- function(x, lookup_table, ..., .default = x) {
 
   # Check args (the lookup table is checked by standardize_lookup_table())
   chk_dots_empty()
-  chk_atomic(x)
+  chk_atomic(x, attr.ok = c("names", "label"))
 
   # NULL default indicates using x
   if (is.null(.default))
     .default <- x
-  chk_atomic(.default)
+  chk_atomic(.default, attr.ok = c("names", "label"))
 
   # Standardize the lookup_table
   lookup_table <- standardize_lookup_table(lookup_table)

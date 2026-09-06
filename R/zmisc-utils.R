@@ -20,7 +20,7 @@ wrap_error <- function(e, wrap=50) {
 
   # Check args
   chk_class(e, "condition")
-  chk_count(wrap, positive = TRUE)
+  chk_znumber(wrap, range = c(1, Inf))
 
   cat( paste0("#E> ", strwrap(e$message, width=50), "\n"), sep="" )
   invisible(e)
