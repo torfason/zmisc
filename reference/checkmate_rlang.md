@@ -120,9 +120,23 @@ chk_znumber(
 
 chk_count(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
-chk_day(x, ...)
+chk_day(
+  x,
+  ...,
+  na.ok = FALSE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  range = NULL
+)
 
-chk_instant(x, ...)
+chk_instant(
+  x,
+  ...,
+  na.ok = FALSE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  range = NULL
+)
 
 chk_scalar(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
@@ -195,7 +209,14 @@ chk_naturalish(
   range = NULL
 )
 
-chk_factor(x, ...)
+chk_factor(
+  x,
+  ...,
+  na.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  length = NULL
+)
 
 chk_complex(
   x,
@@ -208,9 +229,25 @@ chk_complex(
 
 chk_raw(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL)
 
-chk_date(x, ...)
+chk_date(
+  x,
+  ...,
+  na.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
+)
 
-chk_posixct(x, ...)
+chk_posixct(
+  x,
+  ...,
+  na.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
+)
 
 chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 
@@ -346,6 +383,15 @@ chk_naturalish(
   range = NULL
 )
 
+chk_factor(
+  x,
+  ...,
+  na.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  length = NULL
+)
+
 chk_complex(
   x,
   ...,
@@ -356,6 +402,44 @@ chk_complex(
 )
 
 chk_raw(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL)
+
+chk_day(
+  x,
+  ...,
+  na.ok = FALSE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  range = NULL
+)
+
+chk_date(
+  x,
+  ...,
+  na.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
+)
+
+chk_instant(
+  x,
+  ...,
+  na.ok = FALSE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  range = NULL
+)
+
+chk_posixct(
+  x,
+  ...,
+  na.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
+)
 
 chk_scalar(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
@@ -382,15 +466,17 @@ chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 
 - attr.ok:
 
-  Which attributes `x` may carry: a character vector of permitted
-  attribute names, `FALSE` for none at all, or `TRUE` for any.
+  Which attributes `x` may carry beyond those intrinsic to its type: a
+  character vector of permitted attribute names, `FALSE` for none at
+  all, or `TRUE` for any.
 
 - range:
 
   Permitted range of values, under the same first/last rule as `length`.
   For the character types it constrains
   [`nchar()`](https://rdrr.io/r/base/nchar.html) of the elements
-  instead.
+  instead, and for the date and time types the bounds are themselves
+  `Date` or `POSIXct`.
 
 - length:
 
