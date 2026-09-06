@@ -71,253 +71,148 @@ the cost of assembling a better message does not matter.
 ``` r
 qassert(x, ...)
 
-chk_flag(x, na.ok = FALSE, null.ok = FALSE, dim.ok = FALSE, class.ok = FALSE)
+chk_flag(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
 chk_string(
   x,
+  ...,
   na.ok = FALSE,
-  n.chars = NULL,
-  min.chars = NULL,
-  max.chars = NULL,
-  pattern = NULL,
-  fixed = NULL,
-  ignore.case = FALSE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  range = NULL
 )
 
 chk_number(
   x,
+  ...,
   na.ok = FALSE,
-  lower = -Inf,
-  upper = Inf,
-  finite = FALSE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  range = NULL
 )
 
 chk_inumber(
   x,
+  ...,
   na.ok = FALSE,
-  lower = -Inf,
-  upper = Inf,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  range = NULL
 )
 
 chk_dnumber(
   x,
+  ...,
   na.ok = FALSE,
-  lower = -Inf,
-  upper = Inf,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  range = NULL
 )
 
 chk_znumber(
   x,
+  ...,
   na.ok = FALSE,
-  lower = -Inf,
-  upper = Inf,
-  tol = sqrt(.Machine$double.eps),
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  range = NULL
 )
 
-chk_count(
-  x,
-  na.ok = FALSE,
-  positive = FALSE,
-  tol = sqrt(.Machine$double.eps),
-  null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
-)
+chk_count(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
 chk_day(x, ...)
 
 chk_instant(x, ...)
 
-chk_scalar(x, na.ok = FALSE, null.ok = FALSE, dim.ok = FALSE, class.ok = FALSE)
+chk_scalar(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
 chk_logical(
   x,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL
 )
 
 chk_character(
   x,
-  n.chars = NULL,
-  min.chars = NULL,
-  max.chars = NULL,
-  pattern = NULL,
-  fixed = NULL,
-  ignore.case = FALSE,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  sorted = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
 )
 
 chk_numeric(
   x,
-  lower = -Inf,
-  upper = Inf,
-  finite = FALSE,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  sorted = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
 )
 
 chk_integer(
   x,
-  lower = -Inf,
-  upper = Inf,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  sorted = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
 )
 
 chk_double(
   x,
-  lower = -Inf,
-  upper = Inf,
-  finite = FALSE,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  sorted = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
 )
 
 chk_integerish(
   x,
-  tol = sqrt(.Machine$double.eps),
-  lower = -Inf,
-  upper = Inf,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  sorted = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
 )
 
 chk_naturalish(
   x,
-  tol = sqrt(.Machine$double.eps),
-  upper = Inf,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  sorted = FALSE,
-  names = NULL,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
 )
 
 chk_factor(x, ...)
 
 chk_complex(
   x,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL
 )
 
-chk_raw(
-  x,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  names = NULL,
-  null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
-)
+chk_raw(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL)
 
 chk_date(x, ...)
 
 chk_posixct(x, ...)
 
-chk_atomic(
-  x,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  names = NULL,
-  dim.ok = FALSE,
-  class.ok = FALSE
-)
+chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 
 chk_environment(x, ...)
 
@@ -333,243 +228,138 @@ chk_class(x, ...)
 
 chk_choice(x, choices, ...)
 
-chk_flag(x, na.ok = FALSE, null.ok = FALSE, dim.ok = FALSE, class.ok = FALSE)
+chk_flag(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
 chk_logical(
   x,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL
 )
 
 chk_string(
   x,
+  ...,
   na.ok = FALSE,
-  n.chars = NULL,
-  min.chars = NULL,
-  max.chars = NULL,
-  pattern = NULL,
-  fixed = NULL,
-  ignore.case = FALSE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  range = NULL
 )
 
 chk_character(
   x,
-  n.chars = NULL,
-  min.chars = NULL,
-  max.chars = NULL,
-  pattern = NULL,
-  fixed = NULL,
-  ignore.case = FALSE,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  sorted = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
 )
 
 chk_number(
   x,
+  ...,
   na.ok = FALSE,
-  lower = -Inf,
-  upper = Inf,
-  finite = FALSE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  range = NULL
 )
 
 chk_numeric(
   x,
-  lower = -Inf,
-  upper = Inf,
-  finite = FALSE,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  sorted = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
 )
 
 chk_inumber(
   x,
+  ...,
   na.ok = FALSE,
-  lower = -Inf,
-  upper = Inf,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  range = NULL
 )
 
 chk_integer(
   x,
-  lower = -Inf,
-  upper = Inf,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  sorted = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
 )
 
 chk_dnumber(
   x,
+  ...,
   na.ok = FALSE,
-  lower = -Inf,
-  upper = Inf,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  range = NULL
 )
 
 chk_double(
   x,
-  lower = -Inf,
-  upper = Inf,
-  finite = FALSE,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  sorted = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
 )
 
 chk_znumber(
   x,
+  ...,
   na.ok = FALSE,
-  lower = -Inf,
-  upper = Inf,
-  tol = sqrt(.Machine$double.eps),
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  range = NULL
 )
 
 chk_integerish(
   x,
-  tol = sqrt(.Machine$double.eps),
-  lower = -Inf,
-  upper = Inf,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  sorted = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
 )
 
-chk_count(
-  x,
-  na.ok = FALSE,
-  positive = FALSE,
-  tol = sqrt(.Machine$double.eps),
-  null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
-)
+chk_count(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
 chk_naturalish(
   x,
-  tol = sqrt(.Machine$double.eps),
-  upper = Inf,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  sorted = FALSE,
-  names = NULL,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL,
+  range = NULL
 )
 
 chk_complex(
   x,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  names = NULL,
-  typed.missing = FALSE,
+  ...,
+  na.ok = TRUE,
   null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
+  attr.ok = "names",
+  length = NULL
 )
 
-chk_raw(
-  x,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  names = NULL,
-  null.ok = FALSE,
-  dim.ok = FALSE,
-  class.ok = FALSE
-)
+chk_raw(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL)
 
-chk_scalar(x, na.ok = FALSE, null.ok = FALSE, dim.ok = FALSE, class.ok = FALSE)
+chk_scalar(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
-chk_atomic(
-  x,
-  any.missing = TRUE,
-  all.missing = TRUE,
-  len = NULL,
-  min.len = NULL,
-  max.len = NULL,
-  unique = FALSE,
-  names = NULL,
-  dim.ok = FALSE,
-  class.ok = FALSE
-)
+chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 ```
 
 ## Arguments
@@ -580,108 +370,33 @@ chk_atomic(
 
 - ...:
 
-  Additional parameters passed to corresponding
-  [checkmate](https://mllg.github.io/checkmate/reference/checkmate-package.html)
-  functions
-  [`checkmate::qtest()`](https://mllg.github.io/checkmate/reference/qassert.html),
-  [`checkmate::check_flag()`](https://mllg.github.io/checkmate/reference/checkFlag.html),
-  etc.
+  Reserved.
 
 - na.ok:
 
-  Passed to the backing `check_*()` function as `na.ok`.
+  Are missing values permitted?
 
 - null.ok:
 
-  Passed to the backing `check_*()` function as `null.ok`.
+  Is `NULL` permitted?
 
-- dim.ok:
+- attr.ok:
 
-  If `FALSE` (the default), `x` must not carry a `dim` attribute.
+  Which attributes `x` may carry: a character vector of permitted
+  attribute names, `FALSE` for none at all, or `TRUE` for any.
 
-- class.ok:
+- range:
 
-  If `FALSE` (the default), `x` must not carry a `class` attribute.
+  Permitted range of values, under the same first/last rule as `length`.
+  For the character types it constrains
+  [`nchar()`](https://rdrr.io/r/base/nchar.html) of the elements
+  instead.
 
-- n.chars:
+- length:
 
-  Passed to the backing `check_*()` function as `n.chars`.
-
-- min.chars:
-
-  Passed to the backing `check_*()` function as `min.chars`.
-
-- max.chars:
-
-  Passed to the backing `check_*()` function as `max.chars`.
-
-- pattern:
-
-  Passed to the backing `check_*()` function as `pattern`.
-
-- fixed:
-
-  Passed to the backing `check_*()` function as `fixed`.
-
-- ignore.case:
-
-  Passed to the backing `check_*()` function as `ignore.case`.
-
-- lower:
-
-  Passed to the backing `check_*()` function as `lower`.
-
-- upper:
-
-  Passed to the backing `check_*()` function as `upper`.
-
-- finite:
-
-  Passed to the backing `check_*()` function as `finite`.
-
-- tol:
-
-  Passed to the backing `check_*()` function as `tol`.
-
-- positive:
-
-  Passed to the backing `check_*()` function as `positive`.
-
-- any.missing:
-
-  Passed to the backing `check_*()` function as `any.missing`.
-
-- all.missing:
-
-  Passed to the backing `check_*()` function as `all.missing`.
-
-- len:
-
-  Passed to the backing `check_*()` function as `len`.
-
-- min.len:
-
-  Passed to the backing `check_*()` function as `min.len`.
-
-- max.len:
-
-  Passed to the backing `check_*()` function as `max.len`.
-
-- unique:
-
-  Passed to the backing `check_*()` function as `unique`.
-
-- names:
-
-  Passed to the backing `check_*()` function as `names`.
-
-- typed.missing:
-
-  Passed to the backing `check_*()` function as `typed.missing`.
-
-- sorted:
-
-  Passed to the backing `check_*()` function as `sorted`.
+  Permitted length. `NULL` for any length, a scalar for one exact
+  length, or a vector whose first and last elements give the minimum and
+  the maximum.
 
 - choices:
 

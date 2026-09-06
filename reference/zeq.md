@@ -52,6 +52,6 @@ tryCatch(zeq(11,9), error=wrap_error)
 
 # Each bound must be a single whole number, so this errors as well
 tryCatch(zeq(c(11,12),15), error=wrap_error)
-#> #E> Assertion on `x` failed: • Must have
+#> #E> Assertion on `from` failed: • Must have
 #> #E> length 1
 ```
