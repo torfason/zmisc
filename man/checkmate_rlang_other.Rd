@@ -11,7 +11,7 @@
 \alias{chk_true}
 \title{Assertion functions for objects that are not atomic vectors}
 \usage{
-chk_environment(x, ..., null.ok = FALSE)
+chk_environment(x, ..., null.ok = FALSE, contains = character())
 
 chk_list(x, ..., null.ok = FALSE, length = NULL)
 
@@ -31,6 +31,9 @@ chk_true(x, ..., na.ok = FALSE)
 \item{...}{These dots are for future extensions and must be empty.}
 
 \item{null.ok}{Is \code{NULL} permitted?}
+
+\item{contains}{Character vector of names that must be bound in the
+environment.}
 
 \item{length}{Permitted length. \code{NULL} for any length, a scalar for one
 exact length, or a vector whose first and last elements give the minimum
@@ -52,7 +55,7 @@ with \link[rlang:rlang]{rlang} style error messages. See \link{checkmate_rlang} 
 vector types.\tabular{ll}{
    \strong{Function} \tab \strong{Passes when} \cr
    \code{chk_environment(x)} \tab \code{x} is an environment \cr
-   \code{chk_list(x)} \tab \code{x} is a list \cr
+   \code{chk_list(x)} \tab \code{x} is a list, and carries no class \cr
    \code{chk_data_frame(x)} \tab \code{x} is a \code{data.frame} of sound structure \cr
    \code{chk_data_table(x)} \tab \code{x} is also a \code{data.table} \cr
    \code{chk_tibble(x)} \tab \code{x} is also a \code{tbl_df} \cr

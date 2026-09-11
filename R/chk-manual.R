@@ -2,11 +2,15 @@
 #
 # These follow the shape of chk-generated.R -- reserved dots, one call to the
 # backing check_*(), invisible(x) on success, chk_fail() on failure -- but not
-# its parameter set. Containers get no attr.ok, because the policy exists to
-# catch labelled vectors and matrices posing as bare vectors and there is no
-# container analogue; a data.frame's class and row.names are not extras, and a
-# grouped tibble's `groups` is not a defect. They also get no `range`, and only
-# `length` where it counts something a caller would recognise. Everything else
+# its parameter set. Containers take no attr.ok argument, because the policy
+# exists to catch labelled vectors and matrices posing as bare vectors and
+# there is no container analogue; a data.frame's class and row.names are not
+# extras, and a grouped tibble's `groups` is not a defect. chk_list() is the
+# exception, and applies the "names" policy itself rather than offering it as
+# an argument: a bare list is a vector, checkmate::check_list() passes anything
+# of type list including data frames, and the absence of a class attribute is
+# the only thing separating the two. Containers get no `range`, and `length`
+# only where it counts something a caller would recognise. Everything else
 # checkmate offers stays pinned, so a misspelled argument raises rather than
 # being silently dropped.
 
@@ -20,7 +24,7 @@
 #' | **Function**            | **Passes when**                                 |
 #' | ----------------------- | ----------------------------------------------- |
 #' | `chk_environment(x)`    | `x` is an environment                           |
-#' | `chk_list(x)`           | `x` is a list                                   |
+#' | `chk_list(x)`           | `x` is a list, and carries no class             |
 #' | `chk_data_frame(x)`     | `x` is a `data.frame` of sound structure        |
 #' | `chk_data_table(x)`     | `x` is also a `data.table`                      |
 #' | `chk_tibble(x)`         | `x` is also a `tbl_df`                          |
@@ -43,6 +47,8 @@
 #'   exact length, or a vector whose first and last elements give the minimum
 #'   and the maximum.
 #' @param classes Character vector of class names `x` must inherit from.
+#' @param contains Character vector of names that must be bound in the
+#'   environment.
 #' @param ordered Must `classes` appear in that order at the head of
 #'   `class(x)`?
 #' @return The original object if the assertion passes.
@@ -55,11 +61,10 @@ NULL
 #### CONTAINERS ####
 
 # chk_environment(): container, backed by check_environment()
-# pinned: contains = character(0L)
 
 #' @rdname checkmate_rlang_other
 #' @export
-chk_environment <- function(x, ..., null.ok = FALSE) {
+chk_environment <- function(x, ..., null.ok = FALSE, contains = character()) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && isTRUE(check_environment(x)))
@@ -68,7 +73,7 @@ chk_environment <- function(x, ..., null.ok = FALSE) {
   # Anything in the dots is a typo, not an extension
   chk_dots_empty()
 
-  res <- check_environment(x, null.ok = null.ok)
+  res <- check_environment(x, null.ok = null.ok, contains = contains)
   if (isTRUE(res)) return(invisible(x))
   chk_fail(x, res)
 }
@@ -76,13 +81,15 @@ chk_environment <- function(x, ..., null.ok = FALSE) {
 # chk_list(): container, backed by check_list()
 # pinned: types = character(0L), any.missing = TRUE, all.missing = TRUE,
 #   unique = FALSE, names = NULL
+# check_list() passes anything of type list, so the attribute policy is what
+# keeps a data.frame out. Fixed at "names", not offered as an argument.
 
 #' @rdname checkmate_rlang_other
 #' @export
 chk_list <- function(x, ..., null.ok = FALSE, length = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_list(x)))
+  if (nargs() == 1L && isTRUE(check_list(x)) && is.vector(x, "any"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -94,8 +101,8 @@ chk_list <- function(x, ..., null.ok = FALSE, length = NULL) {
                     len = exact(length),
                     min.len = len[1L],
                     max.len = len[2L])
-  if (isTRUE(res)) return(invisible(x))
-  chk_fail(x, res)
+  if (isTRUE(res) && attrs_ok(x, "names")) return(invisible(x))
+  chk_fail(x, res, "names")
 }
 
 # chk_data_frame(): container, backed by check_data_frame()
