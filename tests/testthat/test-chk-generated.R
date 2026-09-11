@@ -49,13 +49,26 @@ test_that("attr.ok accepts a list, none or any", {
 
 
 test_that("NULL is decided by null.ok alone, on both paths", {
+
   # The attribute contract is vacuous for NULL, so a chk_*() that accepts
   # null.ok must accept NULL whether or not other arguments were supplied.
   nms <- grep("^chk_", getNamespaceExports("zmisc"), value = TRUE)
+
+  # We exclude chk_classes() from the generated check because it has two
+  # required params (but check it manually instead)
+  nms <- grep("^chk_class$", nms, value = TRUE, invert = TRUE)
+  chk_class(NULL, "data.frame", null.ok = TRUE) |> expect_null()
+
+  # Skip data.table if not installed
+  if (!requireNamespace("data.table", quietly = TRUE))
+    nms <- grep("^chk_data_table$", nms, value = TRUE, invert = TRUE)
+
+
+  # Do the loop check for all remaining classes
   for (nm in nms) {
     f <- get(nm, envir = asNamespace("zmisc"))
     if (!"null.ok" %in% names(formals(f))) next
-    expect_identical(f(NULL, null.ok = TRUE), NULL, info = nm)
+    f(NULL, null.ok = TRUE) |> expect_null()
   }
 })
 

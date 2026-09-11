@@ -29,6 +29,7 @@ Suggests:
     withr,
     desc,
     here,
+    data.table,
     spelling
 VignetteBuilder: 
     knitr
