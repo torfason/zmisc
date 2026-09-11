@@ -3,7 +3,7 @@
 \name{chk_dots_empty}
 \alias{chk_dots_empty}
 \alias{chk_match}
-\title{Assert that no dots arguments are passed}
+\title{Aliases for rlang assertions}
 \usage{
 chk_dots_empty(
   env = caller_env(),
@@ -52,10 +52,21 @@ mentioned in error messages as the source of the error. See the
 \code{call} argument of \code{\link[rlang:abort]{abort()}} for more information.}
 }
 \value{
-The string supplied to \code{arg}.
+\code{chk_match()} returns the matched value; \code{chk_dots_empty()} returns
+\code{NULL} invisibly.
 }
 \description{
-\code{chk_dots_empty()} is an alias for \code{\link[rlang:check_dots_empty]{rlang::check_dots_empty()}}, provided
-for naming consistency with other assertion functions. It throws an error if
-any arguments are passed through \code{...}.
+Two \link[rlang:rlang]{rlang} functions under the \code{chk_} name, for consistency with the rest
+of the family.
+\itemize{
+\item \code{chk_dots_empty()} is \code{\link[rlang:check_dots_empty]{rlang::check_dots_empty()}}, and fails if anything
+was passed through \code{...}.
+\item \code{chk_match()} is \code{\link[rlang:arg_match]{rlang::arg_match()}}, and fails unless \code{arg} matches one
+of \code{values}, which default to the values in the caller's own formals.
+Like every assertion here it returns its input, but visibly rather than
+invisibly, so it is written as \code{type <- chk_match(type)}.
+}
+}
+\seealso{
+\link{checkmate_rlang} and \link{checkmate_rlang_other}.
 }

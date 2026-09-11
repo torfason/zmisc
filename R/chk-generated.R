@@ -8,6 +8,7 @@
 #' @param length Permitted length. `NULL` for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum.
 #' @param range Permitted range of values, under the same first/last rule as `length`. For the character types it constrains `nchar()` of the elements instead, and for the date and time types the bounds are themselves `Date` or `POSIXct`.
 #' @rdname checkmate_rlang
+#' @name checkmate_rlang
 NULL
 
 # chk_flag(): scalar, backed by check_flag()

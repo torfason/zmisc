@@ -25,7 +25,7 @@
 \alias{chk_date}
 \alias{chk_posixct}
 \alias{chk_atomic}
-\title{Assertion functions adapted for rlang output}
+\title{Assertion functions for scalars and atomic vectors}
 \usage{
 chk_flag(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
@@ -390,7 +390,7 @@ chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 \arguments{
 \item{x}{Object to check.}
 
-\item{...}{Reserved.}
+\item{...}{These dots are for future extensions and must be empty.}
 
 \item{na.ok}{Are missing values permitted?}
 
@@ -406,20 +406,16 @@ chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 The original object if the assertion passes.
 }
 \description{
-Most common \link[checkmate:checkmate]{checkmate} functions, adapted to output \link[rlang:rlang]{rlang} style error
-messages on failed assertions. The actual checking is done by
-\code{\link[checkmate:qtest]{checkmate::qtest()}}, \code{\link[checkmate:check_flag]{checkmate::check_flag()}} and related functions.
-\subsection{Performance}{
+The \link[checkmate:checkmate]{checkmate} type checks, adapted to raise \link[rlang:rlang]{rlang} style errors. Every
+function below takes the same arguments -- \code{na.ok}, \code{null.ok}, \code{attr.ok},
+and \code{length} or \code{range} where they apply -- rather than the argument set of
+the \link[checkmate:checkmate]{checkmate} function behind it. The dots are reserved, so a name that
+does not match raises rather than being quietly ignored.
 
-These functions are meant to be cheap enough to leave in place at the top of
-any function, so the passing case is kept to the smallest amount of work
-that will do: a single call to the underlying \verb{check_*()} function, a test of
-the result, and a return. Anything more expensive belongs on the failing
-path, which runs once and then stops, and where the cost of assembling a
-better message does not matter.
-}
-
-\subsection{Scalars and (atomic) vectors}{\tabular{lll}{
+They are meant to be cheap enough to leave at the top of any function: the
+passing case is one call to the backing \verb{check_*()}, a test, and a return.
+Assembling a good message happens on the failing path, which runs once and
+then stops.\tabular{lll}{
    \strong{R Type} \tab \strong{Scalar} \tab \strong{Vector} \cr
    \code{logical} \tab \code{chk_flag(x)} \tab \code{chk_logical(x)} \cr
    \code{character} \tab \code{chk_string(x)} \tab \code{chk_character(x)} \cr
@@ -448,15 +444,7 @@ numbers (zero and positive numbers)
 here.
 }
 }
-
-\subsection{Composite Objects}{\tabular{lll}{
-   \strong{R Type} \tab \strong{Function} \tab \strong{Note} \cr
-   \code{environment} \tab \code{chk_environment(x)} \tab \code{is.environment(x)} \cr
-   \code{list} \tab \code{chk_list(x)} \tab \code{is.list(x)} \emph{and} x is unclassed. \cr
-   \code{data.frame} \tab \code{chk_data_frame(x)} \tab \code{is.list(x)}, with class \code{data.frame} and correct structure. \cr
-   \code{data.table} \tab \code{chk_data_table(x)}⁴ \tab \code{data.table::is.data.table(x)} \emph{and} x is a \code{data.frame}. \cr
-   \code{tibble} (\code{tbl_df}) \tab \code{chk_tibble(x)} \tab \code{tibble::is_tibble(x)} \emph{and} x is a \code{data.frame}. \cr
-}
-
-}
+\seealso{
+\link{checkmate_rlang_other} for containers, classes, and arbitrary
+conditions.
 }

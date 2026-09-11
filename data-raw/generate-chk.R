@@ -268,7 +268,9 @@ render_params <- function(spec) {
     if (any(map_lgl(used, \(p) !is.na(p$range)))) "range"
   )
   c(glu("#' @param {{nms}} {{param_desc[nms]}}"),
-    "#' @rdname checkmate_rlang", "NULL", "")
+    "#' @rdname checkmate_rlang",
+    "#' @name checkmate_rlang",
+    "NULL", "")
 }
 
 render_chk <- function(spec = chk_spec) {

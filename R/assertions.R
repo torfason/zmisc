@@ -101,20 +101,30 @@ check_day <- function(x, na.ok = FALSE, lower = NULL, upper = NULL, null.ok = FA
 }
 
 
-#' Assert that no dots arguments are passed
+#' Aliases for rlang assertions
 #'
-#' `chk_dots_empty()` is an alias for [rlang::check_dots_empty()], provided
-#' for naming consistency with other assertion functions. It throws an error if
-#' any arguments are passed through `...`.
+#' @description
+#' Two [rlang] functions under the `chk_` name, for consistency with the rest
+#' of the family.
 #'
-#' @inherit rlang::check_dots_empty description return
+#' - `chk_dots_empty()` is [rlang::check_dots_empty()], and fails if anything
+#'   was passed through `...`.
+#' - `chk_match()` is [rlang::arg_match()], and fails unless `arg` matches one
+#'   of `values`, which default to the values in the caller's own formals.
+#'   Like every assertion here it returns its input, but visibly rather than
+#'   invisibly, so it is written as `type <- chk_match(type)`.
+#'
 #' @inheritParams rlang::check_dots_empty
+#' @return `chk_match()` returns the matched value; `chk_dots_empty()` returns
+#'   `NULL` invisibly.
+#'
+#' @seealso [checkmate_rlang] and [checkmate_rlang_other].
+#'
 #' @rdname checkmate_rlang_dots
 #' @export
 chk_dots_empty <- rlang::check_dots_empty
 
 
-#' @inherit rlang::arg_match description return
 #' @inheritParams rlang::arg_match
 #' @rdname checkmate_rlang_dots
 #' @export
@@ -122,23 +132,19 @@ chk_match <- rlang::arg_match
 
 
 
-#' Assertion functions adapted for rlang output
+#' Assertion functions for scalars and atomic vectors
 #'
 #' @description
-#' Most common [checkmate] functions, adapted to output [rlang] style error
-#' messages on failed assertions. The actual checking is done by
-#' [checkmate::qtest()], [checkmate::check_flag()] and related functions.
+#' The [checkmate] type checks, adapted to raise [rlang] style errors. Every
+#' function below takes the same arguments -- `na.ok`, `null.ok`, `attr.ok`,
+#' and `length` or `range` where they apply -- rather than the argument set of
+#' the [checkmate] function behind it. The dots are reserved, so a name that
+#' does not match raises rather than being quietly ignored.
 #'
-#' ### Performance
-#'
-#' These functions are meant to be cheap enough to leave in place at the top of
-#' any function, so the passing case is kept to the smallest amount of work
-#' that will do: a single call to the underlying `check_*()` function, a test of
-#' the result, and a return. Anything more expensive belongs on the failing
-#' path, which runs once and then stops, and where the cost of assembling a
-#' better message does not matter.
-#'
-#' ### Scalars and (atomic) vectors
+#' They are meant to be cheap enough to leave at the top of any function: the
+#' passing case is one call to the backing `check_*()`, a test, and a return.
+#' Assembling a good message happens on the failing path, which runs once and
+#' then stops.
 #'
 #' | **R Type**    | **Scalar**         | **Vector**           |
 #' | ------------- | ------------------ | -------------------- |
@@ -167,20 +173,10 @@ chk_match <- rlang::arg_match
 #'   `list`, which is seldom what is wanted and is therefore *not* implemented
 #'   here.
 #'
-#' ### Composite Objects
-#'
-#' | **R Type**          | **Function**         | **Note**                                                     |
-#' | ------------------- | -------------------- | ------------------------------------------------------------ |
-#' | `environment`       | `chk_environment(x)` | `is.environment(x)`                                          |
-#' | `list`              | `chk_list(x)`        | `is.list(x)` *and* x is unclassed.                           |
-#' | `data.frame`        | `chk_data_frame(x)`  | `is.list(x)`, with class `data.frame` and correct structure. |
-#' | `data.table`        | `chk_data_table(x)`⁴ | `data.table::is.data.table(x)` *and* x is a `data.frame`.    |
-#' | `tibble` (`tbl_df`) | `chk_tibble(x)`      | `tibble::is_tibble(x)` *and* x is a `data.frame`.            |
-#'
-#' @param x The variable to assert
-#' @param ... Additional parameters passed to corresponding [checkmate]
-#'   functions [checkmate::qtest()], [checkmate::check_flag()], etc.
 #' @return The original object if the assertion passes.
+#'
+#' @seealso [checkmate_rlang_other] for containers, classes, and arbitrary
+#'   conditions.
 #'
 #' @name checkmate_rlang
 NULL
