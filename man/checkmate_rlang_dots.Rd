@@ -2,6 +2,7 @@
 % Please edit documentation in R/assertions.R
 \name{chk_dots_empty}
 \alias{chk_dots_empty}
+\alias{chk_match}
 \title{Assert that no dots arguments are passed}
 \usage{
 chk_dots_empty(
@@ -9,6 +10,15 @@ chk_dots_empty(
   error = NULL,
   call = caller_env(),
   action = abort
+)
+
+chk_match(
+  arg,
+  values = NULL,
+  ...,
+  multiple = FALSE,
+  error_arg = caller_arg(arg),
+  error_call = caller_env()
 )
 }
 \arguments{
@@ -23,6 +33,26 @@ mentioned in error messages as the source of the error. See the
 \code{call} argument of \code{\link[rlang:abort]{abort()}} for more information.}
 
 \item{action}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
+
+\item{arg}{A symbol referring to an argument accepting strings.}
+
+\item{values}{A character vector of possible values that \code{arg} can take.}
+
+\item{...}{These dots are for future extensions and must be empty.}
+
+\item{multiple}{Whether \code{arg} may contain zero or several values.}
+
+\item{error_arg}{An argument name as a string. This argument
+will be mentioned in error messages as the input that is at the
+origin of a problem.}
+
+\item{error_call}{The execution environment of a currently
+running function, e.g. \code{caller_env()}. The function will be
+mentioned in error messages as the source of the error. See the
+\code{call} argument of \code{\link[rlang:abort]{abort()}} for more information.}
+}
+\value{
+The string supplied to \code{arg}.
 }
 \description{
 \code{chk_dots_empty()} is an alias for \code{\link[rlang:check_dots_empty]{rlang::check_dots_empty()}}, provided

@@ -66,7 +66,7 @@ bad_attrs <- function(x, attr.ok, structural = character()) {
 #        attributed to the user's function rather than to chk_*() itself.
 # `dim` and `class` keep their own wording, since those are the two rejections
 # that carry meaning for a reader; anything else is reported by name.
-chk_fail <- function(x, res, attr.ok, structural = character(),
+chk_fail <- function(x, res, attr.ok = TRUE, structural = character(),
                      arg = deparse1(substitute(x, parent.frame())),
                      call = rlang::caller_env(2)) {
   bullets <- character()

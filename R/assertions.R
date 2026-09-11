@@ -5,9 +5,9 @@
 #' @importFrom checkmate  check_integerish check_complex check_factor qtest
 #' @importFrom checkmate  check_list check_data_frame check_data_table check_tibble
 #' @importFrom checkmate  check_scalar check_atomic check_environment check_posixct
+#' @importFrom checkmate  check_true
 NULL
 
-# arg_match is not used yet, but an upcoming assertion will rely on it
 #' @importFrom rlang arg_match seq2 abort
 NULL
 
@@ -114,6 +114,13 @@ check_day <- function(x, na.ok = FALSE, lower = NULL, upper = NULL, null.ok = FA
 chk_dots_empty <- rlang::check_dots_empty
 
 
+#' @inherit rlang::arg_match description return
+#' @inheritParams rlang::arg_match
+#' @rdname checkmate_rlang_dots
+#' @export
+chk_match <- rlang::arg_match
+
+
 
 #' Assertion functions adapted for rlang output
 #'
@@ -175,8 +182,11 @@ chk_dots_empty <- rlang::check_dots_empty
 #'   functions [checkmate::qtest()], [checkmate::check_flag()], etc.
 #' @return The original object if the assertion passes.
 #'
-#' @rdname checkmate_rlang
-#' @export
+#' @name checkmate_rlang
+NULL
+
+# qassert(): no longer exported. The qtest string is a separate interface that
+# shares none of the chk_*() parameter set, so it is not part of the family.
 qassert <- function(x, ...) {
   if (!qtest(x, ...))
     rlang::abort(qassert_message(x, ...))
@@ -382,40 +392,35 @@ chk_atomic <- function(x, ...) {
 
 #### COMPOSITE OBJECTS ####
 
-#' @rdname checkmate_rlang
-#' @export
+# Superseded by the definition in chk-manual.R.
 chk_environment <- function(x,  ...) {
   if (!isTRUE(check_environment(x, ...)))
     rlang::abort(check_environment(x, ...))
   invisible(x)
 }
 
-#' @rdname checkmate_rlang
-#' @export
+# Superseded by the definition in chk-manual.R.
 chk_list <- function(x, ...) {
   if (!isTRUE(check_list(x, ...)))
     rlang::abort(check_list(x, ...))
   invisible(x)
 }
 
-#' @rdname checkmate_rlang
-#' @export
+# Superseded by the definition in chk-manual.R.
 chk_data_frame <- function(x, ...) {
   if (!isTRUE(check_data_frame(x, ...)))
     rlang::abort(check_data_frame(x, ...))
   invisible(x)
 }
 
-#' @rdname checkmate_rlang
-#' @export
+# Superseded by the definition in chk-manual.R.
 chk_data_table <- function(x, ...) {
   if (!isTRUE(check_data_table(x, ...)))
     rlang::abort(check_data_table(x, ...))
   invisible(x)
 }
 
-#' @rdname checkmate_rlang
-#' @export
+# Superseded by the definition in chk-manual.R.
 chk_tibble <- function(x, ...) {
   if (!isTRUE(check_tibble(x, ...)))
     rlang::abort(check_tibble(x, ...))
@@ -427,8 +432,7 @@ chk_tibble <- function(x, ...) {
 # --- Type, class, and structure assertions ----
 
 
-#' @rdname checkmate_rlang
-#' @export
+# Superseded by the definition in chk-manual.R.
 chk_class <- function(x, ...) {
   if (!isTRUE(check_class(x, ...)))
     rlang::abort(check_class(x, ...))
@@ -437,11 +441,7 @@ chk_class <- function(x, ...) {
 
 # --- Set and value assertions ----
 
-#' @param choices A vector of values representing the which x must be an
-#'   element of.
-#'
-#' @rdname checkmate_rlang
-#' @export
+# chk_choice(): no longer exported, superseded by chk_match().
 chk_choice <- function(x, choices, ...) {
   if (!isTRUE(check_choice(x, choices, ...)))
     rlang::abort(check_choice(x, choices, ...))

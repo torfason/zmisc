@@ -90,7 +90,7 @@ chk_spec <- tribble(
 
 param_desc <- c(
   x        = "Object to check.",
-  ...      = "Reserved.",
+  ...      = "These dots are for future extensions and must be empty.",
   na.ok    = "Are missing values permitted?",
   null.ok  = "Is `NULL` permitted?",
   attr.ok  = paste("Which attributes `x` may carry beyond those intrinsic to",
@@ -242,6 +242,9 @@ render_fun <- function(name, kind, check, attrs) {
       if (nargs() == 1L && isTRUE({{check}}(x)) && ({{fast}}) )
           return(invisible(x))
 
+      # Anything in the dots is a typo, not an extension
+      chk_dots_empty()
+
       # More detailed translation of arguments to check_*() equivalents
     {{fold(render_locals(p))}}
     {{fold(render_slow_call(check, p))}}
@@ -265,7 +268,7 @@ render_params <- function(spec) {
     if (any(map_lgl(used, \(p) !is.na(p$range)))) "range"
   )
   c(glu("#' @param {{nms}} {{param_desc[nms]}}"),
-    "#' @name checkmate_rlang", "NULL", "")
+    "#' @rdname checkmate_rlang", "NULL", "")
 }
 
 render_chk <- function(spec = chk_spec) {
