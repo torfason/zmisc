@@ -2,3 +2,33 @@ url: https://torfason.github.io/zmisc/
 template:
   bootstrap: 5
 
+reference:
+- title: Safer sampling, sequencing and aggregation
+  desc: >
+    Replacements for base functions that do not change their behaviour at
+    awkward boundary conditions.
+  contents:
+  - zample
+  - zeq
+  - zingle
+- title: Assertions
+  desc: >
+    The `chk_*()` family: checkmate type checks that raise rlang style errors
+    and return their input.
+  contents:
+  - checkmate_rlang
+  - checkmate_rlang_other
+  - checkmate_rlang_dots
+- title: Glue interpolation
+  contents:
+  - glue_vector
+- title: Value look-ups
+  contents:
+  - lookup
+- title: Viewing variables
+  contents:
+  - notate
+- title: Other utilities
+  contents:
+  - asciify
+  - yencode

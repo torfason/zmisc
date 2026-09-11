@@ -7,6 +7,8 @@
 {
   source("data-raw/generate-chk.R")
   write_chk()
+  devtools::document()
+  devtools::build_readme()
 }
 
 ## Build package and basic documentation (before commits)
