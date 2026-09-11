@@ -17,6 +17,9 @@
 ##   na.ok     missing values permitted; mapped to any.missing for the vector
 ##             checks and to na.ok for the scalar ones, taking checkmate's
 ##             default in each case (TRUE and FALSE respectively)
+##   zero.ok   zero permitted; the negation of checkmate's `positive`, which
+##             only check_count() and check_naturalish() have, so only the
+##             count and naturalish types get it
 ##   null.ok   passed straight through
 ##   attr.ok   which attributes x may carry beyond those intrinsic to the type,
 ##             enforced here rather than by checkmate: a character vector of
@@ -92,6 +95,7 @@ param_desc <- c(
   x        = "Object to check.",
   ...      = "These dots are for future extensions and must be empty.",
   na.ok    = "Are missing values permitted?",
+  zero.ok  = "Is zero permitted?",
   null.ok  = "Is `NULL` permitted?",
   attr.ok  = paste("Which attributes `x` may carry beyond those intrinsic to",
                    "its type: a character vector of permitted attribute names,",
@@ -142,6 +146,7 @@ plan_args <- function(check) {
   else if (has("min.chars") && has("max.chars")) "chars"
   else NA_character_
   len   <- has("min.len") && has("max.len")
+  zero  <- has("positive")
 
   bounds <- if (identical(range, "bounds")) {
     lo <- dflt("lower")
@@ -151,6 +156,7 @@ plan_args <- function(check) {
 
   used <- c(
     na_cm,
+    if (zero) "positive",
     if (has("null.ok")) "null.ok",
     if (len) c("len", "min.len", "max.len"),
     if (identical(range, "bounds")) c("lower", "upper"),
@@ -161,6 +167,9 @@ plan_args <- function(check) {
   list(
     na_cm     = na_cm,
     na_dflt   = if (is.na(na_cm)) NA_character_ else dflt(na_cm),
+    zero      = zero,
+    # zero.ok is the negation of checkmate's `positive`, default included
+    zero_dflt = if (zero) deparse1(!as.logical(dflt("positive"))) else NA_character_,
     null_ok   = has("null.ok"),
     null_dflt = if (has("null.ok")) dflt("null.ok") else NA_character_,
     len       = len,
@@ -177,6 +186,7 @@ render_signature <- function(name, p) {
     "x",
     "...",
     if (!is.na(p$na_cm)) glu("na.ok = {{p$na_dflt}}"),
+    if (p$zero) glu("zero.ok = {{p$zero_dflt}}"),
     if (p$null_ok) glu("null.ok = {{p$null_dflt}}"),
     r"---(attr.ok = "names")---",
     if (p$len) "length = NULL",
@@ -197,6 +207,7 @@ render_locals <- function(p) {
 render_slow_call <- function(check, p) {
   pairs <- c(
     if (!is.na(p$na_cm)) glu("{{p$na_cm}} = na.ok"),
+    if (p$zero) "positive = !zero.ok",
     if (p$null_ok) "null.ok = null.ok",
     if (p$len) c("len = exact(length)", "min.len = len[1L]", "max.len = len[2L]"),
     if (identical(p$range, "bounds")) c("lower = rng[1L]", "upper = rng[2L]"),
@@ -262,6 +273,7 @@ render_params <- function(spec) {
     "x",
     "...",
     if (any(map_lgl(used, \(p) !is.na(p$na_cm)))) "na.ok",
+    if (any(map_lgl(used, "zero"))) "zero.ok",
     if (any(map_lgl(used, "null_ok"))) "null.ok",
     "attr.ok",
     if (any(map_lgl(used, "len"))) "length",

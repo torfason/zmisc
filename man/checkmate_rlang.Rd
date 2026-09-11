@@ -74,7 +74,14 @@ chk_znumber(
   range = NULL
 )
 
-chk_count(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
+chk_count(
+  x,
+  ...,
+  na.ok = FALSE,
+  zero.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names"
+)
 
 chk_day(
   x,
@@ -159,6 +166,7 @@ chk_naturalish(
   x,
   ...,
   na.ok = TRUE,
+  zero.ok = TRUE,
   null.ok = FALSE,
   attr.ok = "names",
   length = NULL,
@@ -313,12 +321,20 @@ chk_integerish(
   range = NULL
 )
 
-chk_count(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
+chk_count(
+  x,
+  ...,
+  na.ok = FALSE,
+  zero.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names"
+)
 
 chk_naturalish(
   x,
   ...,
   na.ok = TRUE,
+  zero.ok = TRUE,
   null.ok = FALSE,
   attr.ok = "names",
   length = NULL,
@@ -399,6 +415,8 @@ chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 \item{attr.ok}{Which attributes \code{x} may carry beyond those intrinsic to its type: a character vector of permitted attribute names, \code{FALSE} for none at all, or \code{TRUE} for any.}
 
 \item{range}{Permitted range of values, under the same first/last rule as \code{length}. For the character types it constrains \code{nchar()} of the elements instead, and for the date and time types the bounds are themselves \code{Date} or \code{POSIXct}.}
+
+\item{zero.ok}{Is zero permitted?}
 
 \item{length}{Permitted length. \code{NULL} for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum.}
 }

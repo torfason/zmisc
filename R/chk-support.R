@@ -124,14 +124,18 @@ check_dnumber <- function(x, na.ok = FALSE, lower = -Inf, upper = Inf,
 
 # `lower` is exposed so that `range` maps here as it does elsewhere, but it is
 # clamped at zero: naturalish is a type assertion, and `range` must not be able
-# to widen it back into plain integerish.
-check_naturalish <- function(x, lower = 0, upper = Inf,
+# to widen it back into plain integerish. `positive` mirrors the argument of
+# checkmate::check_count(), and is what the generator reads to give this type a
+# zero.ok parameter. It raises the floor rather than replacing it, so that an
+# explicit `range` and zero.ok = FALSE compose instead of one silently winning.
+check_naturalish <- function(x, lower = 0, upper = Inf, positive = FALSE,
                              tol = sqrt(.Machine$double.eps),
                              any.missing = TRUE, all.missing = TRUE,
                              len = NULL, min.len = NULL, max.len = NULL,
                              unique = FALSE, sorted = FALSE, names = NULL,
                              null.ok = FALSE) {
-  result <- checkmate::check_integerish(x, lower = max(lower, 0), upper = upper,
+  result <- checkmate::check_integerish(x, lower = max(lower, if (positive) 1 else 0),
+                                        upper = upper,
                                         tol = tol, any.missing = any.missing,
                                         all.missing = all.missing, len = len,
                                         min.len = min.len, max.len = max.len,

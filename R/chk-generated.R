@@ -3,6 +3,7 @@
 #' @param x Object to check.
 #' @param ... These dots are for future extensions and must be empty.
 #' @param na.ok Are missing values permitted?
+#' @param zero.ok Is zero permitted?
 #' @param null.ok Is `NULL` permitted?
 #' @param attr.ok Which attributes `x` may carry beyond those intrinsic to its type: a character vector of permitted attribute names, `FALSE` for none at all, or `TRUE` for any.
 #' @param length Permitted length. `NULL` for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum.
@@ -315,10 +316,10 @@ chk_integerish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "nam
   chk_fail(x, res, attr.ok)
 }
 # chk_count(): scalar, backed by check_count()
-# pinned: positive = FALSE, tol = sqrt(.Machine$double.eps)
+# pinned: tol = sqrt(.Machine$double.eps)
 #' @rdname checkmate_rlang
 #' @export
-chk_count <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") {
+chk_count <- function(x, ..., na.ok = FALSE, zero.ok = TRUE, null.ok = FALSE, attr.ok = "names") {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && isTRUE(check_count(x)) && (is.vector(x, "any")) )
@@ -331,6 +332,7 @@ chk_count <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
   res <- check_count(x,
                      na.ok = na.ok,
+                     positive = !zero.ok,
                      null.ok = null.ok)
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
@@ -340,7 +342,7 @@ chk_count <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 #   FALSE, sorted = FALSE, names = NULL
 #' @rdname checkmate_rlang
 #' @export
-chk_naturalish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
+chk_naturalish <- function(x, ..., na.ok = TRUE, zero.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && isTRUE(check_naturalish(x)) && (is.vector(x, "any")) )
@@ -354,6 +356,7 @@ chk_naturalish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "nam
   rng <- lo_hi(range, c(0, Inf))
   res <- check_naturalish(x,
                           any.missing = na.ok,
+                          positive = !zero.ok,
                           null.ok = null.ok,
                           len = exact(length),
                           min.len = len[1L],
