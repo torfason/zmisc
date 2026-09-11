@@ -127,6 +127,7 @@ chk_dots_empty <- rlang::check_dots_empty
 
 #' @inheritParams rlang::arg_match
 #' @rdname checkmate_rlang_dots
+#' @aliases checkmate_rlang_dots
 #' @export
 chk_match <- rlang::arg_match
 

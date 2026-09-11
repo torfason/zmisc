@@ -3,6 +3,7 @@
 \name{chk_dots_empty}
 \alias{chk_dots_empty}
 \alias{chk_match}
+\alias{checkmate_rlang_dots}
 \title{Aliases for rlang assertions}
 \usage{
 chk_dots_empty(
