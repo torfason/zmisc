@@ -50,7 +50,7 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="zmisc">zmisc<a class="anchor" aria-label="anchor" href="#zmisc"></a>
 </h1></div>
-<!-- README.md is generated from README.Rmd -->
+<!-- README.md is generated from README.Rmd. Please edit that file. -->
 <!-- badges: start -->
 
 <div class="section level2">
@@ -93,17 +93,25 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fruit_lookup_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span>, c <span class="op">=</span> <span class="st">"Cherry"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">fruit_lookup_vector</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Apple"  "Banana" "Cherry" "d"      "e"</span></span>
 <span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">fruit_lookup_vector</span>, .default <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Apple"  "Banana" "Cherry" NA       NA</span></span>
 <span></span>
 <span><span class="va">mtcars_lookup_data_frame</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mpg"</span>, <span class="st">"hp"</span>, <span class="st">"wt"</span><span class="op">)</span>,</span>
 <span>  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Miles/(US) gallon"</span>, <span class="st">"Gross horsepower"</span>, <span class="st">"Weight (1000 lbs)"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="va">mtcars_lookup_data_frame</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "Miles/(US) gallon" "cyl"               "disp"             </span></span>
+<span><span class="co">#&gt;  [4] "Gross horsepower"  "drat"              "Weight (1000 lbs)"</span></span>
+<span><span class="co">#&gt;  [7] "qsec"              "vs"                "am"               </span></span>
+<span><span class="co">#&gt; [10] "gear"              "carb"</span></span>
 <span></span>
 <span><span class="co"># A more complex example, with numeric and NA values</span></span>
 <span><span class="va">numeric_lookup_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="cn">NA</span><span class="op">)</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>, <span class="fl">99999</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">6</span>, <span class="cn">NA</span><span class="op">)</span>, <span class="va">numeric_lookup_table</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">6</span>, <span class="cn">NA</span><span class="op">)</span>, <span class="va">numeric_lookup_table</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]     0.000000     1.000000     1.414214     1.732051     2.000000</span></span>
+<span><span class="co">#&gt; [6]     2.236068     6.000000 99999.000000</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -117,9 +125,12 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lookup_fruits</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lookup.html">lookuper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span>, c <span class="op">=</span> <span class="st">"Cherry"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">lookup_fruits</span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Apple"  "Banana" "Cherry" "d"      "e"</span></span>
+<span></span>
 <span><span class="va">lookup_fruits_nomatch_na</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="reference/lookup.html">lookuper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span>, c <span class="op">=</span> <span class="st">"Cherry"</span><span class="op">)</span>, .default <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
-<span><span class="fu">lookup_fruits_nomatch_na</span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">lookup_fruits_nomatch_na</span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Apple"  "Banana" "Cherry" NA       NA</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -137,21 +148,27 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For vectors of length 2 or more, zample() and sample() are identical</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>; <span class="fu"><a href="reference/zample.html">zample</a></span><span class="op">(</span><span class="fl">7</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]  7 11 10  9  8</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">7</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]  7 11 10  9  8</span></span>
 <span></span>
 <span><span class="co"># For vectors of length 1, zample() will still sample from the vector,</span></span>
 <span><span class="co"># whereas sample() will "magically" switch to interpreting the input</span></span>
 <span><span class="co"># as a number n, and sampling from the vector 1:n.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>; <span class="fu"><a href="reference/zample.html">zample</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 7</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1 5 7 6 2 3 4</span></span>
 <span></span>
 <span><span class="co"># The other arguments work in the same way as for sample()</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>; <span class="fu"><a href="reference/zample.html">zample</a></span><span class="op">(</span><span class="fl">7</span><span class="op">:</span><span class="fl">11</span>, size<span class="op">=</span><span class="fl">13</span>, replace<span class="op">=</span><span class="cn">TRUE</span>, prob<span class="op">=</span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span><span class="op">^</span><span class="fl">3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">7</span><span class="op">:</span><span class="fl">11</span>, size<span class="op">=</span><span class="fl">13</span>, replace<span class="op">=</span><span class="cn">TRUE</span>, prob<span class="op">=</span><span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span><span class="op">^</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>; <span class="fu"><a href="reference/zample.html">zample</a></span><span class="op">(</span><span class="fl">7</span><span class="op">:</span><span class="fl">11</span>, size <span class="op">=</span> <span class="fl">13</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="op">(</span><span class="fl">5</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span><span class="op">^</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] 9 9 7 8 8 7 8 7 8 8 7 8 9</span></span>
 <span></span>
 <span><span class="co"># Of course, sampling more than the available elements without</span></span>
 <span><span class="co"># setting replace=TRUE will result in an error</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/zample.html">zample</a></span><span class="op">(</span><span class="fl">7</span>, size<span class="op">=</span><span class="fl">2</span><span class="op">)</span>, error<span class="op">=</span><span class="va">wrap_error</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/zample.html">zample</a></span><span class="op">(</span><span class="fl">7</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; cannot take a sample larger than the population</span></span>
+<span><span class="co">#&gt; #E&gt; when 'replace = FALSE'</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -163,14 +180,19 @@
 </h4>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For increasing sequences, zeq() and seq() are identical</span></span>
-<span><span class="fu"><a href="reference/zeq.html">zeq</a></span><span class="op">(</span><span class="fl">11</span>,<span class="fl">15</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/zeq.html">zeq</a></span><span class="op">(</span><span class="fl">11</span>,<span class="fl">11</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/zeq.html">zeq</a></span><span class="op">(</span><span class="fl">11</span>, <span class="fl">15</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 11 12 13 14 15</span></span>
+<span><span class="fu"><a href="reference/zeq.html">zeq</a></span><span class="op">(</span><span class="fl">11</span>, <span class="fl">11</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 11</span></span>
 <span></span>
 <span><span class="co"># If second argument equals first-1, an empty sequence is returned</span></span>
-<span><span class="fu"><a href="reference/zeq.html">zeq</a></span><span class="op">(</span><span class="fl">11</span>,<span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/zeq.html">zeq</a></span><span class="op">(</span><span class="fl">11</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt; integer(0)</span></span>
 <span></span>
 <span><span class="co"># If second argument is less than first-1, the function throws an error</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/zeq.html">zeq</a></span><span class="op">(</span><span class="fl">11</span>,<span class="fl">9</span><span class="op">)</span>, error<span class="op">=</span><span class="va">wrap_error</span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/zeq.html">zeq</a></span><span class="op">(</span><span class="fl">11</span>, <span class="fl">9</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; `to` must not be smaller than `from` - 1 (got</span></span>
+<span><span class="co">#&gt; #E&gt; from = 11, to = 9)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -184,62 +206,213 @@
 <code class="sourceCode R"><span><span class="co"># If all elements are identical, all is good.</span></span>
 <span><span class="co"># The value of the element is returned.</span></span>
 <span><span class="fu"><a href="reference/zingle.html">zingle</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Alpha"</span>, <span class="st">"Alpha"</span>, <span class="st">"Alpha"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Alpha"</span></span>
 <span></span>
 <span><span class="co"># If any elements differ, an error is thrown</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/zingle.html">zingle</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Alpha"</span>, <span class="st">"Beta"</span>, <span class="st">"Alpha"</span><span class="op">)</span><span class="op">)</span>, error<span class="op">=</span><span class="va">wrap_error</span><span class="op">)</span></span>
-<span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span>, warn.conflicts<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
-<span>    <span class="op">~</span><span class="va">id</span>, <span class="op">~</span><span class="va">name</span>, <span class="op">~</span><span class="va">fouls</span>,</span>
-<span>    <span class="fl">1</span>, <span class="st">"James"</span>, <span class="fl">3</span>,</span>
-<span>    <span class="fl">2</span>, <span class="st">"Jack"</span>,  <span class="fl">2</span>,</span>
-<span>    <span class="fl">1</span>, <span class="st">"James"</span>, <span class="fl">4</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/zingle.html">zingle</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Alpha"</span>, <span class="st">"Beta"</span>, <span class="st">"Alpha"</span><span class="op">)</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; `x` must contain a single unique value, but found</span></span>
+<span><span class="co">#&gt; #E&gt; 2 distinct values.</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>    id    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    name  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"James"</span>, <span class="st">"Jack"</span>, <span class="st">"James"</span><span class="op">)</span>,</span>
+<span>    fouls <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span>  <span class="co"># If the data is of the correct format, all is good</span></span>
-<span>  <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>name<span class="op">=</span><span class="fu"><a href="reference/zingle.html">zingle</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span>, total_fouls<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">fouls</span><span class="op">)</span><span class="op">)</span></span>
-<span> <span class="op">}</span></span>
-<span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span>, warn.conflicts<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">d</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="reference/zingle.html">zingle</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span>, total_fouls <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">fouls</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co">#&gt; # A tibble: 2 × 3</span></span>
+<span><span class="co">#&gt;      id name  total_fouls</span></span>
+<span><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1     1 James           7</span></span>
+<span><span class="co">#&gt; 2     2 Jack            2</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># If a name does not match its ID, we should get an error</span></span>
-<span>  <span class="va">d</span><span class="op">[</span><span class="fl">1</span>,<span class="st">"name"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Jammes"</span></span>
+<span>  <span class="va">d</span><span class="op">[</span><span class="fl">1</span>, <span class="st">"name"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Jammes"</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="op">{</span></span>
-<span>    <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>name<span class="op">=</span><span class="fu"><a href="reference/zingle.html">zingle</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span>, total_fouls<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">fouls</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">}</span>, error<span class="op">=</span><span class="va">wrap_error</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
+<span>    <span class="va">d</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="reference/zingle.html">zingle</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span>, total_fouls <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">fouls</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co">#&gt; #E&gt; In argument: `name = zingle(name)`.</span></span></code></pre></div>
 </div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="assertions-with-rlang-style-errors">Assertions with rlang-style errors<a class="anchor" aria-label="anchor" href="#assertions-with-rlang-style-errors"></a>
+</h2>
+<p>The <code>chk_*()</code> functions check the type and shape of an argument and, on failure, raise an <a href="https://rlang.r-lib.org/" class="external-link">rlang</a>-style error that names the argument as the caller wrote it. The checking itself is done by <a href="https://mllg.github.io/checkmate/" class="external-link">checkmate</a>. Each function returns its input, so an assertion can sit in the middle of a pipe, and each is cheap enough on the passing path to leave at the top of any function.</p>
+<table class="table">
+<thead><tr>
+<th>R type</th>
+<th>Scalar</th>
+<th>Vector</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>logical</code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_flag()</a></code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_logical()</a></code></td>
+</tr>
+<tr>
+<td><code>character</code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_string()</a></code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_character()</a></code></td>
+</tr>
+<tr>
+<td><code>numeric</code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_number()</a></code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_numeric()</a></code></td>
+</tr>
+<tr>
+<td><code>integer</code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_inumber()</a></code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_integer()</a></code></td>
+</tr>
+<tr>
+<td><code>double</code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_dnumber()</a></code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_double()</a></code></td>
+</tr>
+<tr>
+<td>integerish</td>
+<td><code><a href="reference/checkmate_rlang.html">chk_znumber()</a></code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_integerish()</a></code></td>
+</tr>
+<tr>
+<td>naturalish</td>
+<td><code><a href="reference/checkmate_rlang.html">chk_count()</a></code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_naturalish()</a></code></td>
+</tr>
+<tr>
+<td><code>factor</code></td>
+<td></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_factor()</a></code></td>
+</tr>
+<tr>
+<td><code>complex</code></td>
+<td></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_complex()</a></code></td>
+</tr>
+<tr>
+<td><code>raw</code></td>
+<td></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_raw()</a></code></td>
+</tr>
+<tr>
+<td><code>Date</code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_day()</a></code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_date()</a></code></td>
+</tr>
+<tr>
+<td><code>POSIXct</code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_instant()</a></code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_posixct()</a></code></td>
+</tr>
+<tr>
+<td>any type</td>
+<td><code><a href="reference/checkmate_rlang.html">chk_scalar()</a></code></td>
+<td><code><a href="reference/checkmate_rlang.html">chk_atomic()</a></code></td>
+</tr>
+</tbody>
+</table>
+<p>Every one of them takes the same small set of arguments rather than the argument list of the <a href="https://mllg.github.io/checkmate/" class="external-link">checkmate</a> function behind it: <code>na.ok</code>, <code>null.ok</code>, <code>attr.ok</code>, and <code>length</code> or <code>range</code> where they apply, plus <code>zero.ok</code> for the naturalish pair. The dots are reserved, so a misspelled argument raises rather than being quietly ignored.</p>
+<div class="section level4">
+<h4 id="examples-5">Examples<a class="anchor" aria-label="anchor" href="#examples-5"></a>
+</h4>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># The assertion returns its input, so it composes in a pipe</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/checkmate_rlang.html">chk_numeric</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 12</span></span>
+<span></span>
+<span><span class="co"># On failure, the error names the argument as the caller wrote it</span></span>
+<span><span class="va">my_mean</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="reference/checkmate_rlang.html">chk_numeric</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu">my_mean</span><span class="op">(</span><span class="st">"seven"</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; Assertion on `x` failed: • Must be of type</span></span>
+<span><span class="co">#&gt; #E&gt; 'numeric', not 'character'</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># One parameter set across the whole family</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/checkmate_rlang.html">chk_character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="cn">NA</span><span class="op">)</span>, na.ok <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; Assertion on `c("a", NA)` failed: • Contains</span></span>
+<span><span class="co">#&gt; #E&gt; missing values (element 2)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/checkmate_rlang.html">chk_integer</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, length <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; Assertion on `1:5` failed: • Must have length 3,</span></span>
+<span><span class="co">#&gt; #E&gt; but has length 5</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/checkmate_rlang.html">chk_numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">99</span><span class="op">)</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; Assertion on `c(1, 99)` failed: • Element 2 is</span></span>
+<span><span class="co">#&gt; #E&gt; not &lt;= 10</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/checkmate_rlang.html">chk_count</a></span><span class="op">(</span><span class="fl">0</span>, zero.ok <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; Assertion on `0` failed: • Must be &gt;= 1</span></span>
+<span></span>
+<span><span class="co"># attr.ok catches a vector that is not quite bare</span></span>
+<span><span class="va">labelled_ages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">38L</span>, <span class="fl">41L</span><span class="op">)</span>, label <span class="op">=</span> <span class="st">"Age at interview"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/checkmate_rlang.html">chk_integer</a></span><span class="op">(</span><span class="va">labelled_ages</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; Assertion on `labelled_ages` failed: • Must not</span></span>
+<span><span class="co">#&gt; #E&gt; have attributes: label</span></span></code></pre></div>
+<p>Containers, classes and arbitrary conditions have their own smaller set, taking <code>null.ok</code> and little else. <code><a href="reference/checkmate_rlang_other.html">chk_true()</a></code> is the catch-all, for any property that can be written as a condition.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/checkmate_rlang_other.html">chk_list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; Assertion on `data.frame(a = 1)` failed: • Must</span></span>
+<span><span class="co">#&gt; #E&gt; be of type 'list', not 'data.frame' • Must not</span></span>
+<span><span class="co">#&gt; #E&gt; have a class attribute, but has class</span></span>
+<span><span class="co">#&gt; #E&gt; "data.frame" • Must not have attributes:</span></span>
+<span><span class="co">#&gt; #E&gt; row.names</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/checkmate_rlang_other.html">chk_class</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="st">"factor"</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; Assertion on `1:3` failed: • Must inherit from</span></span>
+<span><span class="co">#&gt; #E&gt; class 'factor', but has class 'integer'</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/checkmate_rlang_other.html">chk_true</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">100</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; Assertion on `nrow(mtcars) &gt; 100` failed: • Must</span></span>
+<span><span class="co">#&gt; #E&gt; be TRUE</span></span></code></pre></div>
+<p>Two <a href="https://rlang.r-lib.org/" class="external-link">rlang</a> assertions are re-exported under the same naming convention. <code><a href="reference/checkmate_rlang_dots.html">chk_dots_empty()</a></code> fails if anything was passed through <code>...</code>, and <code><a href="reference/checkmate_rlang_dots.html">chk_match()</a></code> matches an argument against the values in its own default, returning the match.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plot_kind</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">kind</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"scatter"</span>, <span class="st">"line"</span>, <span class="st">"bar"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">kind</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/checkmate_rlang_dots.html">chk_match</a></span><span class="op">(</span><span class="va">kind</span><span class="op">)</span></span>
+<span>  <span class="va">kind</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu">plot_kind</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "scatter"</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu">plot_kind</span><span class="op">(</span><span class="st">"pie"</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
+<span><span class="co">#&gt; #E&gt; `kind` must be one of "scatter", "line", or</span></span>
+<span><span class="co">#&gt; #E&gt; "bar", not "pie".</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="getting-a-better-view-on-variables">Getting a better view on variables<a class="anchor" aria-label="anchor" href="#getting-a-better-view-on-variables"></a>
 </h2>
-<p>The <a href="https://torfason.github.io/zmisc/reference/zingle.html">notate()</a> function adds annotations to <code>factor</code> and <code>labelled</code> variables that make it easier to see both values and labels/levels when using the <a href="https://rdrr.io/r/utils/View.html" class="external-link">View()</a> function</p>
+<p>The <a href="https://torfason.github.io/zmisc/reference/notate.html">notate()</a> function adds annotations to <code>factor</code> and <code>labelled</code> variables that make it easier to see both values and labels/levels when using the <a href="https://rdrr.io/r/utils/View.html" class="external-link">View()</a> function.</p>
 <div class="section level3">
-<h3 id="notate-embed-factor-levels-and-value-labels-in-values">notate: Embed factor levels and value labels in values.<a class="anchor" aria-label="anchor" href="#notate-embed-factor-levels-and-value-labels-in-values"></a>
+<h3 id="notate-embed-factor-levels-and-value-labels-in-values">notate: Embed factor levels and value labels in values<a class="anchor" aria-label="anchor" href="#notate-embed-factor-levels-and-value-labels-in-values"></a>
 </h3>
 <p>This function adds level/label information as an annotation to either factors or <code>labelled</code> variables. This function is called <code><a href="reference/notate.html">notate()</a></code> rather than <code>annotate()</code> to avoid conflict with <code>ggplot2::annotate()</code>. It is a generic that can operate either on individual vectors or on a <code>data.frame</code>.</p>
 <p>When printing <code>labelled</code> variables from a <code>tibble</code> in a console, both the numeric value and the text label are shown, but no variable labels. When using the <code><a href="https://rdrr.io/r/utils/View.html" class="external-link">View()</a></code> function, only variable labels are shown but no value labels. For factors, there is no way to view the integer levels and values at the same time.</p>
 <p>In order to allow the viewing of both variable and value labels at the same time, this function converts both <code>factor</code> and <code>labelled</code> variables to <code>character</code>, including both numeric levels (<code>labelled</code> values) and character values (<code>labelled</code> labels) in the output.</p>
 <div class="section level4">
-<h4 id="examples-5">Examples<a class="anchor" aria-label="anchor" href="#examples-5"></a>
+<h4 id="examples-6">Examples<a class="anchor" aria-label="anchor" href="#examples-6"></a>
 </h4>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">getRversion</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="st">"4"</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>    chr <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>,</span>
-<span>    fct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"alpha"</span>, <span class="st">"bravo"</span>, <span class="st">"chrly"</span>, <span class="st">"delta"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    lbl <span class="op">=</span> <span class="fu"><a href="reference/ll_labelled.html">ll_labelled</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>                      labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>one<span class="op">=</span><span class="fl">1</span>, two<span class="op">=</span><span class="fl">2</span><span class="op">)</span>,</span>
-<span>                      label <span class="op">=</span> <span class="st">"A labelled vector"</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span>  <span class="va">dn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/notate.html">notate</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
-<span>  <span class="va">dn</span></span>
-<span>  <span class="co"># View(dn)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  chr <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>,</span>
+<span>  fct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"alpha"</span>, <span class="st">"bravo"</span>, <span class="st">"chrly"</span>, <span class="st">"delta"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  lbl <span class="op">=</span> <span class="fu"><a href="reference/ll_labelled.html">ll_labelled</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>                    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>one <span class="op">=</span> <span class="fl">1</span>, two <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>                    label <span class="op">=</span> <span class="st">"A labelled vector"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/notate.html">notate</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   chr       fct     lbl</span></span>
+<span><span class="co">#&gt; 1   a [1] alpha [1] one</span></span>
+<span><span class="co">#&gt; 2   b [2] bravo [2] two</span></span>
+<span><span class="co">#&gt; 3   c [3] chrly     [3]</span></span>
+<span><span class="co">#&gt; 4   d [4] delta    &lt;NA&gt;</span></span>
+<span><span class="co"># View(notate(d))</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -279,8 +452,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://CRAN.R-project.org/package=zmisc" class="external-link"><img src="https://www.r-pkg.org/badges/version/zmisc" alt="CRAN version"></a></li>
-<li><a href="https://github.com/torfason/zmisc" class="external-link"><img src="https://img.shields.io/badge/Git-0.2.3.9004-success" alt="GitHub version"></a></li>
-<li><a href="https://github.com/torfason/zmisc/actions" class="external-link"><img src="https://github.com/torfason/zmisc/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/torfason/zmisc" class="external-link"><img src="https://img.shields.io/badge/Git-0.2.3.9007-success" alt="GitHub version"></a></li>
 <li><a href="https://github.com/torfason/zmisc/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/torfason/zmisc/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>

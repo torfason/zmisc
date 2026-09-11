@@ -1,24 +1,20 @@
-# Assertion functions adapted for rlang output
+# Assertion functions for scalars and atomic vectors
 
-Most common
+The
 [checkmate](https://mllg.github.io/checkmate/reference/checkmate-package.html)
-functions, adapted to output
+type checks, adapted to raise
 [rlang](https://rlang.r-lib.org/reference/rlang-package.html) style
-error messages on failed assertions. The actual checking is done by
-[`checkmate::qtest()`](https://mllg.github.io/checkmate/reference/qassert.html),
-[`checkmate::check_flag()`](https://mllg.github.io/checkmate/reference/checkFlag.html)
-and related functions.
+errors. Every function below takes the same arguments – `na.ok`,
+`null.ok`, `attr.ok`, and `length` or `range` where they apply – rather
+than the argument set of the
+[checkmate](https://mllg.github.io/checkmate/reference/checkmate-package.html)
+function behind it. The dots are reserved, so a name that does not match
+raises rather than being quietly ignored.
 
-### Performance
-
-These functions are meant to be cheap enough to leave in place at the
-top of any function, so the passing case is kept to the smallest amount
-of work that will do: a single call to the underlying `check_*()`
-function, a test of the result, and a return. Anything more expensive
-belongs on the failing path, which runs once and then stops, and where
-the cost of assembling a better message does not matter.
-
-### Scalars and (atomic) vectors
+They are meant to be cheap enough to leave at the top of any function:
+the passing case is one call to the backing `check_*()`, a test, and a
+return. Assembling a good message happens on the failing path, which
+runs once and then stops.
 
 |               |                   |                      |
 |---------------|-------------------|----------------------|
@@ -55,22 +51,9 @@ the cost of assembling a better message does not matter.
   accepts either a `vector` or a `list`, which is seldom what is wanted
   and is therefore *not* implemented here.
 
-### Composite Objects
-
-|  |  |  |
-|----|----|----|
-| **R Type** | **Function** | **Note** |
-| `environment` | `chk_environment(x)` | `is.environment(x)` |
-| `list` | `chk_list(x)` | `is.list(x)` *and* x is unclassed. |
-| `data.frame` | `chk_data_frame(x)` | `is.list(x)`, with class `data.frame` and correct structure. |
-| `data.table` | `chk_data_table(x)`⁴ | `data.table::is.data.table(x)` *and* x is a `data.frame`. |
-| `tibble` (`tbl_df`) | `chk_tibble(x)` | `tibble::is_tibble(x)` *and* x is a `data.frame`. |
-
 ## Usage
 
 ``` r
-qassert(x, ...)
-
 chk_flag(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
 chk_string(
@@ -118,7 +101,14 @@ chk_znumber(
   range = NULL
 )
 
-chk_count(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
+chk_count(
+  x,
+  ...,
+  na.ok = FALSE,
+  zero.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names"
+)
 
 chk_day(
   x,
@@ -203,6 +193,7 @@ chk_naturalish(
   x,
   ...,
   na.ok = TRUE,
+  zero.ok = TRUE,
   null.ok = FALSE,
   attr.ok = "names",
   length = NULL,
@@ -250,20 +241,6 @@ chk_posixct(
 )
 
 chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
-
-chk_environment(x, ...)
-
-chk_list(x, ...)
-
-chk_data_frame(x, ...)
-
-chk_data_table(x, ...)
-
-chk_tibble(x, ...)
-
-chk_class(x, ...)
-
-chk_choice(x, choices, ...)
 
 chk_flag(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
 
@@ -371,12 +348,20 @@ chk_integerish(
   range = NULL
 )
 
-chk_count(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
+chk_count(
+  x,
+  ...,
+  na.ok = FALSE,
+  zero.ok = TRUE,
+  null.ok = FALSE,
+  attr.ok = "names"
+)
 
 chk_naturalish(
   x,
   ...,
   na.ok = TRUE,
+  zero.ok = TRUE,
   null.ok = FALSE,
   attr.ok = "names",
   length = NULL,
@@ -454,7 +439,7 @@ chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 
 - ...:
 
-  Reserved.
+  These dots are for future extensions and must be empty.
 
 - na.ok:
 
@@ -478,16 +463,21 @@ chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
   instead, and for the date and time types the bounds are themselves
   `Date` or `POSIXct`.
 
+- zero.ok:
+
+  Is zero permitted?
+
 - length:
 
   Permitted length. `NULL` for any length, a scalar for one exact
   length, or a vector whose first and last elements give the minimum and
   the maximum.
 
-- choices:
-
-  A vector of values representing the which x must be an element of.
-
 ## Value
 
 The original object if the assertion passes.
+
+## See also
+
+[checkmate_rlang_other](https://torfason.github.io/zmisc/reference/checkmate_rlang_other.md)
+for containers, classes, and arbitrary conditions.

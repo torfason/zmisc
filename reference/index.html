@@ -33,9 +33,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="safer-sampling-sequencing-and-aggregation">Safer sampling, sequencing and aggregation<a class="anchor" aria-label="anchor" href="#safer-sampling-sequencing-and-aggregation"></a></h2>
 
-
+      <div class="section-desc"><p>Replacements for base functions that do not change their behaviour at awkward boundary conditions.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -43,55 +43,6 @@
 
 
       <dl><dt>
-
-          <code><a href="asciify.html">asciify()</a></code>
-
-        </dt>
-        <dd>Convert non-ASCII characters to their ASCII equivalents</dd>
-
-        <dt>
-
-          <code><a href="checkmate_rlang.html">qassert()</a></code> <code><a href="checkmate_rlang.html">chk_flag()</a></code> <code><a href="checkmate_rlang.html">chk_string()</a></code> <code><a href="checkmate_rlang.html">chk_number()</a></code> <code><a href="checkmate_rlang.html">chk_inumber()</a></code> <code><a href="checkmate_rlang.html">chk_dnumber()</a></code> <code><a href="checkmate_rlang.html">chk_znumber()</a></code> <code><a href="checkmate_rlang.html">chk_count()</a></code> <code><a href="checkmate_rlang.html">chk_day()</a></code> <code><a href="checkmate_rlang.html">chk_instant()</a></code> <code><a href="checkmate_rlang.html">chk_scalar()</a></code> <code><a href="checkmate_rlang.html">chk_logical()</a></code> <code><a href="checkmate_rlang.html">chk_character()</a></code> <code><a href="checkmate_rlang.html">chk_numeric()</a></code> <code><a href="checkmate_rlang.html">chk_integer()</a></code> <code><a href="checkmate_rlang.html">chk_double()</a></code> <code><a href="checkmate_rlang.html">chk_integerish()</a></code> <code><a href="checkmate_rlang.html">chk_naturalish()</a></code> <code><a href="checkmate_rlang.html">chk_factor()</a></code> <code><a href="checkmate_rlang.html">chk_complex()</a></code> <code><a href="checkmate_rlang.html">chk_raw()</a></code> <code><a href="checkmate_rlang.html">chk_date()</a></code> <code><a href="checkmate_rlang.html">chk_posixct()</a></code> <code><a href="checkmate_rlang.html">chk_atomic()</a></code> <code><a href="checkmate_rlang.html">chk_environment()</a></code> <code><a href="checkmate_rlang.html">chk_list()</a></code> <code><a href="checkmate_rlang.html">chk_data_frame()</a></code> <code><a href="checkmate_rlang.html">chk_data_table()</a></code> <code><a href="checkmate_rlang.html">chk_tibble()</a></code> <code><a href="checkmate_rlang.html">chk_class()</a></code> <code><a href="checkmate_rlang.html">chk_choice()</a></code>
-
-        </dt>
-        <dd>Assertion functions adapted for rlang output</dd>
-
-        <dt>
-
-          <code><a href="checkmate_rlang_dots.html">chk_dots_empty()</a></code>
-
-        </dt>
-        <dd>Assert that no dots arguments are passed</dd>
-
-        <dt>
-
-          <code><a href="glue_vector.html">glue_vector()</a></code>
-
-        </dt>
-        <dd>Glue interpolation vectors in pipes</dd>
-
-        <dt>
-
-          <code><a href="lookup.html">lookup()</a></code> <code><a href="lookup.html">lookuper()</a></code>
-
-        </dt>
-        <dd>Lookup values from a lookup table</dd>
-
-        <dt>
-
-          <code><a href="notate.html">notate()</a></code>
-
-        </dt>
-        <dd>Embed factor levels and value labels in values.</dd>
-
-        <dt>
-
-          <code><a href="yencode.html">yencode()</a></code> <code><a href="yencode.html">yencoder()</a></code> <code><a href="yencode.html">ydecode()</a></code> <code><a href="yencode.html">ydecoder()</a></code>
-
-        </dt>
-        <dd>Yet (another urlencode compatible) encoding scheme</dd>
-
-        <dt>
 
           <code><a href="zample.html">zample()</a></code>
 
@@ -111,8 +62,110 @@
 
         </dt>
         <dd>Return the single (unique) value found in a vector</dd>
+      </dl></div><div class="section level2">
+      <h2 id="assertions">Assertions<a class="anchor" aria-label="anchor" href="#assertions"></a></h2>
+
+      <div class="section-desc"><p>The <code>chk_*()</code> family: checkmate type checks that raise rlang style errors and return their input.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="checkmate_rlang.html">chk_flag()</a></code> <code><a href="checkmate_rlang.html">chk_string()</a></code> <code><a href="checkmate_rlang.html">chk_number()</a></code> <code><a href="checkmate_rlang.html">chk_inumber()</a></code> <code><a href="checkmate_rlang.html">chk_dnumber()</a></code> <code><a href="checkmate_rlang.html">chk_znumber()</a></code> <code><a href="checkmate_rlang.html">chk_count()</a></code> <code><a href="checkmate_rlang.html">chk_day()</a></code> <code><a href="checkmate_rlang.html">chk_instant()</a></code> <code><a href="checkmate_rlang.html">chk_scalar()</a></code> <code><a href="checkmate_rlang.html">chk_logical()</a></code> <code><a href="checkmate_rlang.html">chk_character()</a></code> <code><a href="checkmate_rlang.html">chk_numeric()</a></code> <code><a href="checkmate_rlang.html">chk_integer()</a></code> <code><a href="checkmate_rlang.html">chk_double()</a></code> <code><a href="checkmate_rlang.html">chk_integerish()</a></code> <code><a href="checkmate_rlang.html">chk_naturalish()</a></code> <code><a href="checkmate_rlang.html">chk_factor()</a></code> <code><a href="checkmate_rlang.html">chk_complex()</a></code> <code><a href="checkmate_rlang.html">chk_raw()</a></code> <code><a href="checkmate_rlang.html">chk_date()</a></code> <code><a href="checkmate_rlang.html">chk_posixct()</a></code> <code><a href="checkmate_rlang.html">chk_atomic()</a></code>
+
+        </dt>
+        <dd>Assertion functions for scalars and atomic vectors</dd>
+
+        <dt>
+
+          <code><a href="checkmate_rlang_other.html">chk_environment()</a></code> <code><a href="checkmate_rlang_other.html">chk_list()</a></code> <code><a href="checkmate_rlang_other.html">chk_data_frame()</a></code> <code><a href="checkmate_rlang_other.html">chk_data_table()</a></code> <code><a href="checkmate_rlang_other.html">chk_tibble()</a></code> <code><a href="checkmate_rlang_other.html">chk_class()</a></code> <code><a href="checkmate_rlang_other.html">chk_true()</a></code>
+
+        </dt>
+        <dd>Assertion functions for objects that are not atomic vectors</dd>
+
+        <dt>
+
+          <code><a href="checkmate_rlang_dots.html">chk_dots_empty()</a></code> <code><a href="checkmate_rlang_dots.html">chk_match()</a></code>
+
+        </dt>
+        <dd>Aliases for rlang assertions</dd>
+      </dl></div><div class="section level2">
+      <h2 id="glue-interpolation">Glue interpolation<a class="anchor" aria-label="anchor" href="#glue-interpolation"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="glue_vector.html">glue_vector()</a></code>
+
+        </dt>
+        <dd>Glue interpolation vectors in pipes</dd>
+      </dl></div><div class="section level2">
+      <h2 id="value-look-ups">Value look-ups<a class="anchor" aria-label="anchor" href="#value-look-ups"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="lookup.html">lookup()</a></code> <code><a href="lookup.html">lookuper()</a></code>
+
+        </dt>
+        <dd>Lookup values from a lookup table</dd>
+      </dl></div><div class="section level2">
+      <h2 id="viewing-variables">Viewing variables<a class="anchor" aria-label="anchor" href="#viewing-variables"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="notate.html">notate()</a></code>
+
+        </dt>
+        <dd>Embed factor levels and value labels in values.</dd>
+      </dl></div><div class="section level2">
+      <h2 id="other-utilities">Other utilities<a class="anchor" aria-label="anchor" href="#other-utilities"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="asciify.html">asciify()</a></code>
+
+        </dt>
+        <dd>Convert non-ASCII characters to their ASCII equivalents</dd>
+
+        <dt>
+
+          <code><a href="yencode.html">yencode()</a></code> <code><a href="yencode.html">yencoder()</a></code> <code><a href="yencode.html">ydecode()</a></code> <code><a href="yencode.html">ydecoder()</a></code>
+
+        </dt>
+        <dd>Yet (another urlencode compatible) encoding scheme</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
