@@ -13,7 +13,9 @@ family.
   and fails unless `arg` matches one of `values`, which default to the
   values in the caller's own formals. Like every assertion here it
   returns its input, but visibly rather than invisibly, so it is written
-  as `type <- chk_match(type)`.
+  as `type <- chk_match(type)`. Note that `arg` must be a symbol
+  (variable or function argument) representing a string, it cannot be a
+  string literal.
 
 ## Usage
 

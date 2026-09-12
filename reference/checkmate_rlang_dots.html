@@ -6,7 +6,9 @@ was passed through ....
 chk_match() is rlang::arg_match(), and fails unless arg matches one
 of values, which default to the values in the caller's own formals.
 Like every assertion here it returns its input, but visibly rather than
-invisibly, so it is written as type &amp;lt;- chk_match(type).
+invisibly, so it is written as type &amp;lt;- chk_match(type). Note that arg
+must be a symbol (variable or function argument) representing a string,
+it cannot be a string literal.
 
 "><meta property="og:description" content="Two rlang functions under the chk_ name, for consistency with the rest
 of the family.
@@ -15,7 +17,9 @@ was passed through ....
 chk_match() is rlang::arg_match(), and fails unless arg matches one
 of values, which default to the values in the caller's own formals.
 Like every assertion here it returns its input, but visibly rather than
-invisibly, so it is written as type &amp;lt;- chk_match(type).
+invisibly, so it is written as type &amp;lt;- chk_match(type). Note that arg
+must be a symbol (variable or function argument) representing a string,
+it cannot be a string literal.
 
 "></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -59,7 +63,9 @@ was passed through <code>...</code>.</p></li>
 <li><p><code>chk_match()</code> is <code><a href="https://rlang.r-lib.org/reference/arg_match.html" class="external-link">rlang::arg_match()</a></code>, and fails unless <code>arg</code> matches one
 of <code>values</code>, which default to the values in the caller's own formals.
 Like every assertion here it returns its input, but visibly rather than
-invisibly, so it is written as <code>type &lt;- chk_match(type)</code>.</p></li>
+invisibly, so it is written as <code>type &lt;- chk_match(type)</code>. Note that <code>arg</code>
+must be a symbol (variable or function argument) representing a string,
+it cannot be a string literal.</p></li>
 </ul></div>
 
     <div class="section level2">
