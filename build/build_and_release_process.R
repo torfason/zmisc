@@ -7,12 +7,12 @@
 {
   source("data-raw/generate-chk.R")
   write_chk()
-  devtools::document()
-  devtools::build_readme()
 }
 
-## Build package and basic documentation (before commits)
+## Build package and basic documentation (run before every commit)
 {
+  source("data-raw/generate-chk.R")
+  write_chk()
   devtools::document()
   devtools::build()
   devtools::build_readme()

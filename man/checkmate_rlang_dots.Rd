@@ -65,7 +65,9 @@ was passed through \code{...}.
 \item \code{chk_match()} is \code{\link[rlang:arg_match]{rlang::arg_match()}}, and fails unless \code{arg} matches one
 of \code{values}, which default to the values in the caller's own formals.
 Like every assertion here it returns its input, but visibly rather than
-invisibly, so it is written as \code{type <- chk_match(type)}.
+invisibly, so it is written as \code{type <- chk_match(type)}. Note that \code{arg}
+must be a symbol (variable or function argument) representing a string,
+it cannot be a string literal.
 }
 }
 \seealso{
