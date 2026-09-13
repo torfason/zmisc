@@ -67,7 +67,8 @@ chk_true(x, ..., na.ok = FALSE)
 
   Permitted length. `NULL` for any length, a scalar for one exact
   length, or a vector whose first and last elements give the minimum and
-  the maximum.
+  the maximum. Neither may be negative, and `NA` at an end, or `Inf` as
+  the maximum, means no bound there.
 
 - classes:
 

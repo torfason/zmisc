@@ -532,7 +532,7 @@ here.</p></li>
 
 
 <dt id="arg-range">range<a class="anchor" aria-label="anchor" href="#arg-range"></a></dt>
-<dd><p>Permitted range of values, under the same first/last rule as <code>length</code>. For the character types it constrains <code><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nchar()</a></code> of the elements instead, and for the date and time types the bounds are themselves <code>Date</code> or <code>POSIXct</code>.</p></dd>
+<dd><p>Permitted range of values, under the same first/last rule as <code>length</code>. For the character types it constrains <code><a href="https://rdrr.io/r/base/nchar.html" class="external-link">nchar()</a></code> of the elements instead, and for the date and time types the bounds are themselves <code>Date</code> or <code>POSIXct</code>. <code>NA</code> at an end means no bound there, and so does an infinite end wherever the type keeps that meaning.</p></dd>
 
 
 <dt id="arg-zero-ok">zero.ok<a class="anchor" aria-label="anchor" href="#arg-zero-ok"></a></dt>
@@ -540,7 +540,7 @@ here.</p></li>
 
 
 <dt id="arg-length">length<a class="anchor" aria-label="anchor" href="#arg-length"></a></dt>
-<dd><p>Permitted length. <code>NULL</code> for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum.</p></dd>
+<dd><p>Permitted length. <code>NULL</code> for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum. Neither may be negative, and <code>NA</code> at an end, or <code>Inf</code> as the maximum, means no bound there.</p></dd>
 
 </dl></div>
     <div class="section level2">

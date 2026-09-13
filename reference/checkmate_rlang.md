@@ -461,7 +461,8 @@ chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
   For the character types it constrains
   [`nchar()`](https://rdrr.io/r/base/nchar.html) of the elements
   instead, and for the date and time types the bounds are themselves
-  `Date` or `POSIXct`.
+  `Date` or `POSIXct`. `NA` at an end means no bound there, and so does
+  an infinite end wherever the type keeps that meaning.
 
 - zero.ok:
 
@@ -471,7 +472,8 @@ chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 
   Permitted length. `NULL` for any length, a scalar for one exact
   length, or a vector whose first and last elements give the minimum and
-  the maximum.
+  the maximum. Neither may be negative, and `NA` at an end, or `Inf` as
+  the maximum, means no bound there.
 
 ## Value
 
