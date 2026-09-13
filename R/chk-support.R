@@ -15,19 +15,92 @@
 # spelled out into a checkmate pair. A scalar therefore pins both ends. The
 # argument is named `v` so that nothing shadows base::length() at the call
 # site. Only ever reached on the parameterised path.
-lo_hi <- function(v, default = NULL) {
-  if (is.null(v)) return(default)
-  c(v[[1L]], v[[length(v)]])
+#
+# A pair that nothing can satisfy is a mistake in the call rather than a
+# property of `x`, so it is raised here instead of being routed through
+# chk_fail(). That also keeps it an error inside chk_any(), where a failed
+# assertion is only a branch that did not pass.
+# A count has to be a number, since a non-number would otherwise be read as an
+# absent bound and dropped, and it cannot be negative, since there is nothing
+# below zero for it to admit. That takes -Inf with it: unbounded below is 0 for
+# a count, so writing -Inf is a mistake in the same way -1 is, and checkmate
+# rejects the one already. Value bounds are left alone on both counts. They are
+# not always numeric -- a date range is a pair of Dates -- and a negative lower
+# bound is ordinary there.
+#
+# NA at an end is no bound there, so the rules only apply to an end that is
+# one. Both at once is not a pair of bounds at all, and it is the shape a range
+# computed over missing data collapses to, so it is refused: NULL already says
+# no bounds, and says it on purpose.
+ends <- function(v, count, arg, call) {
+  n  <- length(v)
+  lo <- if (n > 0L) v[[1L]]
+  hi <- if (n > 0L) v[[n]]
+  set_lo <- n > 0L && !is.na(lo)
+  set_hi <- n > 0L && !is.na(hi)
+  bad <-
+    if (n == 0L)                 "It must not be empty."
+    else if (!set_lo && !set_hi) "Both ends are missing. `NULL` says that already."
+    else if (count && ((set_lo && !is.numeric(lo)) || (set_hi && !is.numeric(hi))))
+                                 "Both ends must be numeric."
+    else if (count && set_lo && lo == Inf)
+                                 "A lower bound of Inf can never be met."
+    else if (count && ((set_lo && lo < 0) || (set_hi && hi < 0)))
+                                 "Neither end may be negative."
+    else if (set_lo && set_hi && lo > hi)
+      paste0("The upper end (", hi, ") is below the lower end (", lo, ").")
+  if (!is.null(bad))
+    rlang::abort(c(paste0("`", arg, "` is not a usable pair of bounds."), x = bad),
+                 call = call)
+  list(lo, hi)
 }
 
-# The value both ends of `v` collapse to, or NULL if they differ. checkmate
+# An end that states no bound. NA says it whatever the type, and survives being
+# written next to a Date; Inf says it too, wherever the type keeps its meaning
+# that far.
+unbounded <- function(e) is.na(e) || is.infinite(e)
+
+# Bounds on values, for `lower` and `upper`. An unbounded end falls back to
+# whatever this type would have used had none been given: Inf for the numeric
+# types, whose checkmate defaults are already infinite, and NULL for the date
+# and time types, where checkmate spells an absent bound that way and refuses
+# an infinite date outright. `default` is that pair, and is required, so that a
+# count cannot arrive here by mistake.
+#
+# The two ends are kept apart rather than combined, since combining them is
+# what loses attributes: c() on a zoned POSIXct and anything that is not one
+# drops `tzone`, and checkmate then reports that the bound and `x` disagree
+# about it. Nothing here can undo that -- it happens in the call, before the
+# pair arrives -- but nothing here adds to it either.
+lo_hi <- function(v, default, arg = deparse1(substitute(v)),
+                  call = rlang::caller_env()) {
+  if (is.null(v)) return(default)
+  e <- ends(v, FALSE, arg, call)
+  list(if (unbounded(e[[1L]])) default[[1L]] else e[[1L]],
+       if (unbounded(e[[2L]])) default[[2L]] else e[[2L]])
+}
+
+# Bounds on counts, for `len`/`min.len`/`max.len` and their `n.chars` twins.
+# checkmate spells an absent count NULL, hence a list, where a vector could not
+# have held one. Nothing at all comes back as NULL rather than as a list of
+# them, since `$` reaches through NULL and gives the same answer for less. That
+# is the common case, because the slow path reads the pair whether or not one
+# was given.
+#
+# `exact` is the value both ends collapse to, or NULL if they differ. checkmate
 # reports a min/max failure as ">= n" or "<= n", which reads wrong when a
-# scalar pinned both ends, so the collapsed value is passed to checkmate's
-# exact-value argument (`len`, `n.chars`) as well as to the pair. NULL there is
-# a no-op, so the pair alone still decides whenever the two ends differ.
-exact <- function(v) {
-  if (is.null(v) || v[[1L]] != v[[length(v)]]) return(NULL)
-  v[[1L]]
+# scalar pinned both ends, so the collapsed value goes to checkmate's
+# exact-value argument as well as to the pair. NULL there is a no-op, so the
+# pair alone still decides whenever the two ends differ.
+lo_hi_count <- function(v, arg = deparse1(substitute(v)),
+                        call = rlang::caller_env()) {
+  if (is.null(v)) return(NULL)
+  e  <- ends(v, TRUE, arg, call)
+  lo <- e[[1L]]
+  hi <- e[[2L]]
+  list(exact = if (!unbounded(lo) && !unbounded(hi) && lo == hi) lo else NULL,
+       min   = if (unbounded(lo)) NULL else lo,
+       max   = if (unbounded(hi)) NULL else hi)
 }
 
 # ---- Attribute policy --------------------------------------------------------

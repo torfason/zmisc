@@ -6,8 +6,8 @@
 #' @param zero.ok Is zero permitted?
 #' @param null.ok Is `NULL` permitted?
 #' @param attr.ok Which attributes `x` may carry beyond those intrinsic to its type: a character vector of permitted attribute names, `FALSE` for none at all, or `TRUE` for any.
-#' @param length Permitted length. `NULL` for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum.
-#' @param range Permitted range of values, under the same first/last rule as `length`. For the character types it constrains `nchar()` of the elements instead, and for the date and time types the bounds are themselves `Date` or `POSIXct`.
+#' @param length Permitted length. `NULL` for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum. Neither may be negative, and `NA` at an end, or `Inf` as the maximum, means no bound there.
+#' @param range Permitted range of values, under the same first/last rule as `length`. For the character types it constrains `nchar()` of the elements instead, and for the date and time types the bounds are themselves `Date` or `POSIXct`. `NA` at an end means no bound there, and so does an infinite end wherever the type keeps that meaning.
 #' @rdname checkmate_rlang
 #' @name checkmate_rlang
 NULL
@@ -48,13 +48,13 @@ chk_logical <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   res <- check_logical(x,
                        any.missing = na.ok,
                        null.ok = null.ok,
-                       len = exact(length),
-                       min.len = len[1L],
-                       max.len = len[2L])
+                       len = len$exact,
+                       min.len = len$min,
+                       max.len = len$max)
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -72,13 +72,13 @@ chk_string <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  rng <- lo_hi(range)
+  rng <- lo_hi_count(range)
   res <- check_string(x,
                       na.ok = na.ok,
                       null.ok = null.ok,
-                      n.chars = exact(range),
-                      min.chars = rng[1L],
-                      max.chars = rng[2L])
+                      n.chars = rng$exact,
+                      min.chars = rng$min,
+                      max.chars = rng$max)
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -97,17 +97,17 @@ chk_character <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "name
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
-  rng <- lo_hi(range)
+  len <- lo_hi_count(length)
+  rng <- lo_hi_count(range)
   res <- check_character(x,
                          any.missing = na.ok,
                          null.ok = null.ok,
-                         len = exact(length),
-                         min.len = len[1L],
-                         max.len = len[2L],
-                         n.chars = exact(range),
-                         min.chars = rng[1L],
-                         max.chars = rng[2L])
+                         len = len$exact,
+                         min.len = len$min,
+                         max.len = len$max,
+                         n.chars = rng$exact,
+                         min.chars = rng$min,
+                         max.chars = rng$max)
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -129,8 +129,8 @@ chk_number <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
   res <- check_number(x,
                       na.ok = na.ok,
                       null.ok = null.ok,
-                      lower = rng[1L],
-                      upper = rng[2L])
+                      lower = rng[[1L]],
+                      upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -149,16 +149,16 @@ chk_numeric <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   rng <- lo_hi(range, c(-Inf, Inf))
   res <- check_numeric(x,
                        any.missing = na.ok,
                        null.ok = null.ok,
-                       len = exact(length),
-                       min.len = len[1L],
-                       max.len = len[2L],
-                       lower = rng[1L],
-                       upper = rng[2L])
+                       len = len$exact,
+                       min.len = len$min,
+                       max.len = len$max,
+                       lower = rng[[1L]],
+                       upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -180,8 +180,8 @@ chk_inumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
   res <- check_inumber(x,
                        na.ok = na.ok,
                        null.ok = null.ok,
-                       lower = rng[1L],
-                       upper = rng[2L])
+                       lower = rng[[1L]],
+                       upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -200,16 +200,16 @@ chk_integer <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   rng <- lo_hi(range, c(-Inf, Inf))
   res <- check_integer(x,
                        any.missing = na.ok,
                        null.ok = null.ok,
-                       len = exact(length),
-                       min.len = len[1L],
-                       max.len = len[2L],
-                       lower = rng[1L],
-                       upper = rng[2L])
+                       len = len$exact,
+                       min.len = len$min,
+                       max.len = len$max,
+                       lower = rng[[1L]],
+                       upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -231,8 +231,8 @@ chk_dnumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
   res <- check_dnumber(x,
                        na.ok = na.ok,
                        null.ok = null.ok,
-                       lower = rng[1L],
-                       upper = rng[2L])
+                       lower = rng[[1L]],
+                       upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -251,16 +251,16 @@ chk_double <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   rng <- lo_hi(range, c(-Inf, Inf))
   res <- check_double(x,
                       any.missing = na.ok,
                       null.ok = null.ok,
-                      len = exact(length),
-                      min.len = len[1L],
-                      max.len = len[2L],
-                      lower = rng[1L],
-                      upper = rng[2L])
+                      len = len$exact,
+                      min.len = len$min,
+                      max.len = len$max,
+                      lower = rng[[1L]],
+                      upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -282,8 +282,8 @@ chk_znumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
   res <- check_int(x,
                    na.ok = na.ok,
                    null.ok = null.ok,
-                   lower = rng[1L],
-                   upper = rng[2L])
+                   lower = rng[[1L]],
+                   upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -302,16 +302,16 @@ chk_integerish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "nam
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   rng <- lo_hi(range, c(-Inf, Inf))
   res <- check_integerish(x,
                           any.missing = na.ok,
                           null.ok = null.ok,
-                          len = exact(length),
-                          min.len = len[1L],
-                          max.len = len[2L],
-                          lower = rng[1L],
-                          upper = rng[2L])
+                          len = len$exact,
+                          min.len = len$min,
+                          max.len = len$max,
+                          lower = rng[[1L]],
+                          upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -352,17 +352,17 @@ chk_naturalish <- function(x, ..., na.ok = TRUE, zero.ok = TRUE, null.ok = FALSE
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   rng <- lo_hi(range, c(0, Inf))
   res <- check_naturalish(x,
                           any.missing = na.ok,
                           positive = !zero.ok,
                           null.ok = null.ok,
-                          len = exact(length),
-                          min.len = len[1L],
-                          max.len = len[2L],
-                          lower = rng[1L],
-                          upper = rng[2L])
+                          len = len$exact,
+                          min.len = len$min,
+                          max.len = len$max,
+                          lower = rng[[1L]],
+                          upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -382,13 +382,13 @@ chk_factor <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   res <- check_factor(x,
                       any.missing = na.ok,
                       null.ok = null.ok,
-                      len = exact(length),
-                      min.len = len[1L],
-                      max.len = len[2L])
+                      len = len$exact,
+                      min.len = len$min,
+                      max.len = len$max)
   if (isTRUE(res) && attrs_ok(x, attr.ok, c("class", "levels"))) return(invisible(x))
   chk_fail(x, res, attr.ok, c("class", "levels"))
 }
@@ -407,13 +407,13 @@ chk_complex <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   res <- check_complex(x,
                        any.missing = na.ok,
                        null.ok = null.ok,
-                       len = exact(length),
-                       min.len = len[1L],
-                       max.len = len[2L])
+                       len = len$exact,
+                       min.len = len$min,
+                       max.len = len$max)
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -431,12 +431,12 @@ chk_raw <- function(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL) {
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   res <- check_raw(x,
                    null.ok = null.ok,
-                   len = exact(length),
-                   min.len = len[1L],
-                   max.len = len[2L])
+                   len = len$exact,
+                   min.len = len$min,
+                   max.len = len$max)
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -458,8 +458,8 @@ chk_day <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", r
   res <- check_day(x,
                    na.ok = na.ok,
                    null.ok = null.ok,
-                   lower = rng[1L],
-                   upper = rng[2L])
+                   lower = rng[[1L]],
+                   upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok, "class")) return(invisible(x))
   chk_fail(x, res, attr.ok, "class")
 }
@@ -477,16 +477,16 @@ chk_date <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", l
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   rng <- lo_hi(range, NULL)
   res <- check_date(x,
                     any.missing = na.ok,
                     null.ok = null.ok,
-                    len = exact(length),
-                    min.len = len[1L],
-                    max.len = len[2L],
-                    lower = rng[1L],
-                    upper = rng[2L])
+                    len = len$exact,
+                    min.len = len$min,
+                    max.len = len$max,
+                    lower = rng[[1L]],
+                    upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok, "class")) return(invisible(x))
   chk_fail(x, res, attr.ok, "class")
 }
@@ -508,8 +508,8 @@ chk_instant <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
   res <- check_instant(x,
                        na.ok = na.ok,
                        null.ok = null.ok,
-                       lower = rng[1L],
-                       upper = rng[2L])
+                       lower = rng[[1L]],
+                       upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok, c("class", "tzone"))) return(invisible(x))
   chk_fail(x, res, attr.ok, c("class", "tzone"))
 }
@@ -527,16 +527,16 @@ chk_posixct <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   rng <- lo_hi(range, NULL)
   res <- check_posixct(x,
                        any.missing = na.ok,
                        null.ok = null.ok,
-                       len = exact(length),
-                       min.len = len[1L],
-                       max.len = len[2L],
-                       lower = rng[1L],
-                       upper = rng[2L])
+                       len = len$exact,
+                       min.len = len$min,
+                       max.len = len$max,
+                       lower = rng[[1L]],
+                       upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok, c("class", "tzone"))) return(invisible(x))
   chk_fail(x, res, attr.ok, c("class", "tzone"))
 }
@@ -575,12 +575,12 @@ chk_atomic <- function(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL) {
   chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   res <- check_atomic(x,
                       any.missing = na.ok,
-                      len = exact(length),
-                      min.len = len[1L],
-                      max.len = len[2L])
+                      len = len$exact,
+                      min.len = len$min,
+                      max.len = len$max)
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }

@@ -37,7 +37,8 @@ environment.}
 
 \item{length}{Permitted length. \code{NULL} for any length, a scalar for one
 exact length, or a vector whose first and last elements give the minimum
-and the maximum.}
+and the maximum. Neither may be negative, and \code{NA} at an end, or \code{Inf} as
+the maximum, means no bound there.}
 
 \item{classes}{Character vector of class names \code{x} must inherit from.}
 

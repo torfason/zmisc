@@ -45,7 +45,8 @@
 #' @param null.ok Is `NULL` permitted?
 #' @param length Permitted length. `NULL` for any length, a scalar for one
 #'   exact length, or a vector whose first and last elements give the minimum
-#'   and the maximum.
+#'   and the maximum. Neither may be negative, and `NA` at an end, or `Inf` as
+#'   the maximum, means no bound there.
 #' @param classes Character vector of class names `x` must inherit from.
 #' @param contains Character vector of names that must be bound in the
 #'   environment.
@@ -95,12 +96,12 @@ chk_list <- function(x, ..., null.ok = FALSE, length = NULL) {
   # Anything in the dots is a typo, not an extension
   chk_dots_empty()
 
-  len <- lo_hi(length)
+  len <- lo_hi_count(length)
   res <- check_list(x,
                     null.ok = null.ok,
-                    len = exact(length),
-                    min.len = len[1L],
-                    max.len = len[2L])
+                    len = len$exact,
+                    min.len = len$min,
+                    max.len = len$max)
   if (isTRUE(res) && attrs_ok(x, "names")) return(invisible(x))
   chk_fail(x, res, "names")
 }

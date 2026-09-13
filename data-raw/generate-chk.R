@@ -29,9 +29,13 @@
 ##             "names" for a classed type as much as for a bare one
 ##   length    NULL, or a vector: first element to min.len, last to max.len,
 ##             so a scalar means one permitted length, and is passed to `len`
-##             as well so that checkmate reports it as an exact length
+##             as well so that checkmate reports it as an exact length. Counts
+##             go through lo_hi_count(), which turns an unbounded end into the
+##             NULL checkmate expects and refuses a pair nothing can satisfy
 ##   range     same first/last rule, mapped to lower/upper, or to
-##             min.chars/max.chars (and `n.chars`) for the character types
+##             min.chars/max.chars (and `n.chars`) for the character types.
+##             The character ends are counts and take lo_hi_count() too; the
+##             bounds are doubles and keep their Inf
 ##
 ## Which of these a given chk_*() gets is derived from the formals of its
 ## backing check_*(), not from a spec column. Every remaining checkmate
@@ -102,11 +106,15 @@ param_desc <- c(
                    "`FALSE` for none at all, or `TRUE` for any."),
   length   = paste("Permitted length. `NULL` for any length, a scalar for one",
                    "exact length, or a vector whose first and last elements",
-                   "give the minimum and the maximum."),
+                   "give the minimum and the maximum. Neither may be",
+                   "negative, and `NA` at an end, or `Inf` as the maximum,",
+                   "means no bound there."),
   range    = paste("Permitted range of values, under the same first/last rule",
                    "as `length`. For the character types it constrains",
                    "`nchar()` of the elements instead, and for the date and",
-                   "time types the bounds are themselves `Date` or `POSIXct`.")
+                   "time types the bounds are themselves `Date` or `POSIXct`.",
+                   "`NA` at an end means no bound there, and so does an",
+                   "infinite end wherever the type keeps that meaning.")
 )
 
 # ---- Reading the backing signatures ----------------------------------------
@@ -198,9 +206,9 @@ render_signature <- function(name, p) {
 
 render_locals <- function(p) {
   c(
-    if (p$len) "  len <- lo_hi(length)",
+    if (p$len) "  len <- lo_hi_count(length)",
     if (identical(p$range, "bounds")) glu("  rng <- lo_hi(range, {{p$bounds}})"),
-    if (identical(p$range, "chars"))  "  rng <- lo_hi(range)"
+    if (identical(p$range, "chars"))  "  rng <- lo_hi_count(range)"
   )
 }
 
@@ -209,10 +217,10 @@ render_slow_call <- function(check, p) {
     if (!is.na(p$na_cm)) glu("{{p$na_cm}} = na.ok"),
     if (p$zero) "positive = !zero.ok",
     if (p$null_ok) "null.ok = null.ok",
-    if (p$len) c("len = exact(length)", "min.len = len[1L]", "max.len = len[2L]"),
-    if (identical(p$range, "bounds")) c("lower = rng[1L]", "upper = rng[2L]"),
-    if (identical(p$range, "chars")) c("n.chars = exact(range)", "min.chars = rng[1L]",
-                                       "max.chars = rng[2L]")
+    if (p$len) c("len = len$exact", "min.len = len$min", "max.len = len$max"),
+    if (identical(p$range, "bounds")) c("lower = rng[[1L]]", "upper = rng[[2L]]"),
+    if (identical(p$range, "chars")) c("n.chars = rng$exact", "min.chars = rng$min",
+                                       "max.chars = rng$max")
   )
   head <- glu("  res <- {{check}}(x")
   if (length(pairs) == 0L) return(glu("{{head}})"))

@@ -1004,3 +1004,143 @@ test_that("chk_match() works for all params", {
   chk_match("alpha", c("alpha", "beta"), bogus = TRUE) |> expect_error()
 
 })
+
+
+# Bounds that no value can satisfy --------------------------------------------
+#
+# `length` and `range` are pairs, and not every pair states a constraint. An
+# infinite end can be the absence of a bound or an impossibility, depending on
+# which end it is on, and a pair can be given the wrong way round. None of that
+# is a property of `x`, so it is raised where the pair is read rather than
+# reported as an assertion failure, and it stays an error inside chk_any().
+#
+# The unbounded direction has to reach checkmate as NULL and never as Inf.
+# as_length() in checkmate's C code guards a non-integerish double with
+# `fabs(x - nearbyint(x)) >= tol`, which is false for Inf because the
+# subtraction gives NaN and every comparison against NaN is false, and it then
+# casts the double to R_xlen_t. That cast is undefined for a non-finite value:
+# x86-64 yields INT64_MIN, so the bound reads back as -9.22337e+18 and nothing
+# at all can satisfy it, while arm64 saturates to INT64_MAX and the very same
+# call passes. The failure therefore appears on one machine and not another.
+#
+# Note how little the assertions that expect an error would have caught on
+# their own. A bound of -9.22337e+18 fails everything, including everything
+# that ought to fail, so only the message separates a working lower bound from
+# a broken upper one, which is why the messages are checked below.
+
+test_that("an infinite end is the absence of a bound, in one direction only", {
+
+  chr <- c("ab", "cde")
+  lst <- list(1, 2)
+
+  # unbounded above: a generated type, the hand-written chk_list(), and the
+  # character `range`, which counts characters and takes the same route
+  chk_character(chr, length = c(1, Inf)) |> expect_equal(chr)
+  chk_list(lst, length = c(1, Inf))      |> expect_equal(lst)
+  chk_character(chr, range = c(1, Inf))  |> expect_equal(chr)
+
+  # the finite end still binds, and still reports the way it always did
+  chk_character(chr, length = c(3, Inf)) |> expect_error("length >= 3")
+  chk_list(lst, length = c(3, Inf))      |> expect_error("length >= 3")
+  chk_character(chr, range = c(4, Inf))  |> expect_error("at least 4 characters")
+
+  # pointed the other way it is not a bound but an impossibility
+  chk_character(chr, length = c(Inf, Inf)) |> expect_error("lower bound of Inf")
+  chk_character(chr, length = Inf)         |> expect_error("lower bound of Inf")
+
+  # `range` on a numeric type is a pair of doubles, where Inf is already what
+  # checkmate would have used, so it passes through in both directions
+  chk_number(42, range = c(0, Inf))    |> expect_equal(42)
+  chk_number(42, range = c(-Inf, 100)) |> expect_equal(42)
+  chk_number(-1, range = c(0, Inf))    |> expect_error("not >= 0")
+
+  # the date and time types spell an absent bound NULL rather than Inf, and
+  # refuse an infinite date outright, so an infinite end becomes that instead
+  d <- as.Date("2024-06-01")
+  chk_date(d, range = c(d - 10, Inf))  |> expect_equal(d)
+  chk_date(d, range = c(-Inf, d + 10)) |> expect_equal(d)
+  chk_date(d, range = c(d + 10, Inf))  |> expect_error("must be >= 2024-06-11")
+  chk_date(d, range = c(-Inf, d - 10)) |> expect_error("must be <= 2024-05-22")
+
+  # NA says the same thing and survives being written next to a Date, which is
+  # the spelling to reach for when Inf would not
+  chk_date(d, range = c(d - 10, NA))   |> expect_equal(d)
+  chk_date(d, range = c(NA, d + 10))   |> expect_equal(d)
+  chk_date(d, range = c(d + 10, NA))   |> expect_error("must be >= 2024-06-11")
+  chk_number(42, range = c(0, NA))     |> expect_equal(42)
+  chk_number(42, range = c(NA, 10))    |> expect_error("not <= 10")
+  chk_character(chr, length = c(1, NA)) |> expect_equal(chr)
+  chk_character(chr, length = c(NA, 5)) |> expect_equal(chr)
+  chk_character(chr, length = c(NA, 1)) |> expect_error("length <= 1")
+
+  # a zoned POSIXct keeps its zone through arithmetic but not through c(),
+  # which drops `tzone` before the pair is ever handed over
+  p <- as.POSIXct("2024-06-01 12:00", tz = "UTC")
+  chk_posixct(p, range = p + c(-100, NA))  |> expect_equal(p)
+  chk_posixct(p, range = p + c(-100, Inf)) |> expect_equal(p)
+  chk_posixct(p, range = p + c(100, NA))   |> expect_error("not >= 2024-06-01 12:01:40")
+  chk_instant(p, range = p + c(-100, NA))  |> expect_equal(p)
+
+})
+
+
+test_that("a pair the wrong way round is refused, not reported as a failure", {
+
+  chr <- c("ab", "cde")
+
+  # counts, and the character `range` that is also a count
+  chk_character(chr, length = c(3, 1)) |> expect_error("not a usable pair")
+  chk_character(chr, length = c(3, 1)) |> expect_error("below the lower end")
+  chk_character(chr, range = c(9, 2))  |> expect_error("below the lower end")
+
+  # value bounds go the same way
+  chk_number(5, range = c(9, 1)) |> expect_error("below the lower end")
+
+  # a bound that is missing or not a number is a mistake in the call too, and
+  # says so rather than being quietly dropped or reaching checkmate
+  chk_character(chr, length = "a") |> expect_error("Both ends must be numeric")
+
+  # NA at both ends is no pair at all, and is the shape a range computed over
+  # missing data collapses to, so it is refused rather than read as no bounds
+  chk_character(chr, length = NA)     |> expect_error("Both ends are missing")
+  chk_character(chr, length = c(NA, NA)) |> expect_error("Both ends are missing")
+  chk_number(5, range = c(NA, NA))    |> expect_error("Both ends are missing")
+
+  # a pair computed from data can arrive empty, and says so rather than
+  # falling out of the subscript
+  chk_character(chr, length = numeric(0)) |> expect_error("must not be empty")
+  chk_number(5, range = numeric(0))       |> expect_error("must not be empty")
+
+  # a count has nothing below zero to admit, so neither end may be negative.
+  # That takes -Inf with it: unbounded below is 0, and there is no more reason
+  # to accept -Inf as a minimum length than -1
+  chk_character(chr, length = c(-1, 5))    |> expect_error("may be negative")
+  chk_character(chr, length = c(-Inf, 5))  |> expect_error("may be negative")
+  chk_character(chr, length = c(1, -Inf))  |> expect_error("may be negative")
+  chk_character(chr, range = c(-1, 5))     |> expect_error("may be negative")
+  chk_character(chr, length = c(0, 5))     |> expect_equal(chr)
+
+  # no pair at all is NULL, not a list of them: `$` reaches through it
+  lo_hi_count(NULL)        |> expect_null()
+  lo_hi_count(NULL)$max    |> expect_null()
+
+  # value bounds are not always numbers, are ordered all the same, and a
+  # negative end is ordinary there
+  chk_number(-5, range = c(-10, 0))    |> expect_equal(-5)
+  chk_number(-5, range = c(-Inf, 0))   |> expect_equal(-5)
+  jun <- as.Date("2024-06-01")
+  chk_date(jun, range = as.Date(c("2024-01-01", "2024-12-31"))) |>
+    expect_equal(jun)
+  chk_date(jun, range = as.Date(c("2024-12-31", "2024-01-01"))) |>
+    expect_error("below the lower end")
+
+  # the message names the argument it came from
+  chk_character(chr, length = c(3, 1)) |> expect_error("`length`")
+  chk_character(chr, range = c(9, 2))  |> expect_error("`range`")
+
+  # should pass if and when chk_any() is implemented, but commented out now
+  # # and it is an error, not a branch that failed, so chk_any() lets it through
+  # chk_any(chk_character(chr, length = c(3, 1)), chk_list(chr)) |>
+  #   expect_error("not a usable pair")
+
+})

@@ -414,11 +414,11 @@ chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 
 \item{attr.ok}{Which attributes \code{x} may carry beyond those intrinsic to its type: a character vector of permitted attribute names, \code{FALSE} for none at all, or \code{TRUE} for any.}
 
-\item{range}{Permitted range of values, under the same first/last rule as \code{length}. For the character types it constrains \code{nchar()} of the elements instead, and for the date and time types the bounds are themselves \code{Date} or \code{POSIXct}.}
+\item{range}{Permitted range of values, under the same first/last rule as \code{length}. For the character types it constrains \code{nchar()} of the elements instead, and for the date and time types the bounds are themselves \code{Date} or \code{POSIXct}. \code{NA} at an end means no bound there, and so does an infinite end wherever the type keeps that meaning.}
 
 \item{zero.ok}{Is zero permitted?}
 
-\item{length}{Permitted length. \code{NULL} for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum.}
+\item{length}{Permitted length. \code{NULL} for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum. Neither may be negative, and \code{NA} at an end, or \code{Inf} as the maximum, means no bound there.}
 }
 \value{
 The original object if the assertion passes.
