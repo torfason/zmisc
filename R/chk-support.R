@@ -131,6 +131,61 @@ bad_attrs <- function(x, attr.ok, structural = character()) {
   setdiff(nms, attr.ok)
 }
 
+# ---- Suppression protocol ----------------------------------------------------
+#
+# chk_any() needs the assertions it evaluates to report failure by returning
+# rather than by throwing, because rlang::abort() costs milliseconds, nearly all
+# of it a backtrace that is discarded when the failure is only one candidate
+# among several. It plants `.zmisc_suppress_chk_abort` in the environment it
+# evaluates its branches in, and chk_fail() looks for that name in the frame
+# that called the chk_*() function -- the frame `call` already points at. On
+# finding it, chk_fail() returns a failure object instead of aborting, and every
+# chk_*() function hands that value straight out, because chk_fail() is the last
+# expression in each of them. That is why no chk_*() function has to change.
+#
+# The lookup does not inherit, so only an assertion that chk_any() calls itself
+# is affected. One reached through a helper, or from inside a lambda, throws as
+# it always did, and a stray variable of that name in an enclosing scope cannot
+# switch aborting off for a call that scope does not make directly. Nor can one
+# in the right scope: what is planted is not TRUE but the token below, so a
+# binding of that name that zmisc did not write is simply not the flag.
+
+chk_suppress_flag <- ".zmisc_suppress_chk_abort"
+
+# The one object that proves a value came from inside this namespace. It is
+# what marks a failure object, rather than a class, because there is no class a
+# chk_*() function cannot legitimately return: chk_string() returns strings,
+# chk_list() returns lists, and chk_class(x, "zmisc_chk_failure") returns an
+# object of that very class. It is also what chk_any() plants as the value of
+# the suppression flag, for the same reason. Nothing outside the namespace can
+# reach it, so nothing outside can forge either.
+chk_token <- new.env(parent = emptyenv())
+
+# The same flag in the shape eval() takes it. Handing eval() a list rather than
+# an environment lets it build the frame in C, from a pairlist, and that is
+# cheaper than new.env() plus an assignment even though it happens once per
+# branch instead of once per call: new.env() allocates a hash table that an
+# environment holding one binding never needs. Built here rather than at the
+# call site so that the name is written once.
+chk_suppress_data <- list(chk_token)
+names(chk_suppress_data) <- chk_suppress_flag
+
+# `arg` is kept as the unevaluated expression and deparsed only if the failure
+# is reported in the end. deparse1() costs more than the rest of this path put
+# together, and a branch that turns out to pass never needs it.
+chk_failure <- function(bullets, arg) {
+  structure(list(bullets = bullets, arg = arg),
+            class = "zmisc_chk_failure", token = chk_token)
+}
+
+is_chk_failure <- function(x) {
+  identical(attr(x, "token", exact = TRUE), chk_token)
+}
+
+chk_suppressed <- function(env) {
+  identical(get0(chk_suppress_flag, envir = env, inherits = FALSE), chk_token)
+}
+
 # ---- Failure path ------------------------------------------------------------
 
 # arg  : caller_arg(x) resolves the promise for `x` one frame up, in the
@@ -157,6 +212,9 @@ chk_fail <- function(x, res, attr.ok = TRUE, structural = character(),
     bullets <- c(bullets, paste0("Must not have attributes: ", toString(rest)))
   if (length(bullets) == 0L)
     rlang::abort("chk_fail() reached with nothing to report.", .internal = TRUE)
+  if (chk_suppressed(parent.frame(2)))
+    return(chk_failure(bullets,
+                       if (missing(arg)) substitute(x, parent.frame()) else arg))
   rlang::abort(
     c(paste0("Assertion on `", arg, "` failed:"),
       rlang::set_names(bullets, "*")),

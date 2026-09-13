@@ -19,6 +19,7 @@ reference:
   - checkmate_rlang
   - checkmate_rlang_other
   - checkmate_rlang_dots
+  - chk_any
 - title: Glue interpolation
   contents:
   - glue_vector
