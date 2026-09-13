@@ -52,6 +52,8 @@ errors and return their input.
 - [`chk_dots_empty()`](https://torfason.github.io/zmisc/reference/checkmate_rlang_dots.md)
   [`chk_match()`](https://torfason.github.io/zmisc/reference/checkmate_rlang_dots.md)
   : Aliases for rlang assertions
+- [`chk_any()`](https://torfason.github.io/zmisc/reference/chk_any.md) :
+  Assert that at least one of several assertions passes
 
 ## Glue interpolation
 
