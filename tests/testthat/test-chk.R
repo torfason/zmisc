@@ -1006,6 +1006,102 @@ test_that("chk_match() works for all params", {
 })
 
 
+# Tests for chk_that(), the catch-all assertion.
+#
+# Its seams are the two ways it builds the frame the expression runs in, the
+# expression itself standing in for the check name in the error, and what
+# check_true() will and will not accept as a verdict.
+
+test_that("chk_that() passes an expression that holds, and returns its input", {
+
+  v <- 1:10
+
+  chk_that(v, length(.) == 10L)  |> expect_equal(v)
+  chk_that(v, is.integer(.))     |> expect_equal(v)
+  chk_that(v, is.double(.))      |> expect_error()
+  expect_invisible(chk_that(v, TRUE))
+
+  # attributes are along for the ride, as they are everywhere else
+  w <- c(a = 1, b = 2)
+  chk_that(w, length(.) == 2L) |> expect_equal(w)
+
+  # the expression is evaluated where it was written, so it can read the
+  # caller's variables as well as `.`
+  (function() {
+    lim <- 10L
+    chk_that(v, length(.) == lim) |> expect_equal(v)
+  })()
+
+})
+
+
+test_that("chk_that() reports the expression it was given", {
+
+  v <- 1:10
+
+  chk_that(v, length(.) == 3L) |>
+    expect_error("Assertion on `length(.) == 3L` failed", fixed = TRUE)
+  chk_that(v, length(.) == 3L) |>
+    expect_error("Must be TRUE")
+
+  # and the same when the expression came in through the .varnames path
+  chk_that(v, length(y) == 3L, .varnames = "y") |>
+    expect_error("Assertion on `length(y) == 3L` failed", fixed = TRUE)
+
+})
+
+
+test_that("chk_that() binds the value to every name in .varnames", {
+
+  v <- 1:10
+
+  chk_that(v, length(y) == 10L, .varnames = "y")       |> expect_equal(v)
+  chk_that(v, identical(., y), .varnames = c(".", "y"))|> expect_equal(v)
+
+  # naming the default explicitly takes the other branch and must not change
+  # the answer
+  chk_that(v, length(.) == 10L, .varnames = ".") |> expect_equal(v)
+  chk_that(v, length(.) == 3L,  .varnames = ".") |> expect_error("Must be TRUE")
+
+  # the bindings live in a frame of their own and do not reach the caller
+  (function() {
+    chk_that(v, length(zz) == 10L, .varnames = "zz")
+    expect_false(exists("zz", inherits = FALSE))
+  })()
+
+  .varnames_must_be_character <- 1L
+  chk_that(v, TRUE, .varnames = .varnames_must_be_character) |>
+    expect_error("Must be of type 'character'")
+
+})
+
+
+test_that("chk_that() wants one TRUE, and na.ok says what NA counts as", {
+
+  v <- 1:10
+
+  # a verdict that is not a single TRUE is a failed assertion, not an error
+  chk_that(v, length(.))    |> expect_error("Must be TRUE")   # not logical
+  chk_that(v, . > 5L)       |> expect_error("Must be TRUE")   # not length 1
+  chk_that(v, logical(0))   |> expect_error("Must be TRUE")   # not length 1
+
+  chk_that(v, NA)                |> expect_error("Must be TRUE")
+  chk_that(v, NA, na.ok = TRUE)  |> expect_equal(v)
+
+})
+
+
+test_that("chk_that() takes nothing in the dots", {
+
+  v <- 1:10
+
+  chk_that(v, TRUE, nosucharg = 1) |> expect_error("must be empty")
+  chk_that(v, TRUE, na.ok)         |> expect_error("must be empty")
+  chk_that(v, TRUE, 5)            |> expect_error("must be empty")
+
+})
+
+
 # Bounds that no value can satisfy --------------------------------------------
 #
 # `length` and `range` are pairs, and not every pair states a constraint. An

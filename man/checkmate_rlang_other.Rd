@@ -9,6 +9,7 @@
 \alias{chk_tibble}
 \alias{chk_class}
 \alias{chk_true}
+\alias{chk_that}
 \title{Assertion functions for objects that are not atomic vectors}
 \usage{
 chk_environment(x, ..., null.ok = FALSE, contains = character())
@@ -24,6 +25,8 @@ chk_tibble(x, ..., null.ok = FALSE)
 chk_class(x, classes, ..., null.ok = FALSE, ordered = FALSE)
 
 chk_true(x, ..., na.ok = FALSE)
+
+chk_that(x, expr, ..., na.ok = FALSE, .varnames = ".")
 }
 \arguments{
 \item{x}{Object to check.}
@@ -62,12 +65,18 @@ vector types.\tabular{ll}{
    \code{chk_tibble(x)} \tab \code{x} is also a \code{tbl_df} \cr
    \code{chk_class(x, classes)} \tab \code{x} inherits from every class in \code{classes} \cr
    \code{chk_true(x)} \tab \code{x} is \code{TRUE} \cr
+   \code{chk_that(x, expr)} \tab \code{x} mapped to \code{.} results in \code{expr} being TRUE \cr
 }
 
 
 \code{chk_true()} is the catch-all: any property of any object that can be
 written as a condition, at the cost of a message that can only report that
 the condition was not met.
+
+\code{chk_that()} is a variant of \code{chk_true()} that separates the value to be
+checked (\code{x}) from the expression to be evaluated on it (\code{expr}). This
+can be helpful when evaluating an arbitrary condition on an object passing
+through a pipe.
 
 These take far fewer arguments than their \link[checkmate:checkmate]{checkmate} counterparts. The
 container checks carry no \code{attr.ok}, since a \code{data.frame} is its class and

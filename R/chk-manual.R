@@ -30,10 +30,16 @@
 #' | `chk_tibble(x)`         | `x` is also a `tbl_df`                          |
 #' | `chk_class(x, classes)` | `x` inherits from every class in `classes`      |
 #' | `chk_true(x)`           | `x` is `TRUE`                                   |
+#' | `chk_that(x, expr)`     | `x` mapped to `.` results in `expr` being TRUE  |
 #'
 #' `chk_true()` is the catch-all: any property of any object that can be
 #' written as a condition, at the cost of a message that can only report that
 #' the condition was not met.
+#'
+#' `chk_that()` is a variant of `chk_true()` that separates the value to be
+#' checked (`x`) from the expression to be evaluated on it (`expr`). This
+#' can be helpful when evaluating an arbitrary condition on an object passing
+#' through a pipe.
 #'
 #' These take far fewer arguments than their [checkmate] counterparts. The
 #' container checks carry no `attr.ok`, since a `data.frame` is its class and
@@ -208,4 +214,28 @@ chk_true <- function(x, ..., na.ok = FALSE) {
   res <- check_true(x, na.ok = na.ok)
   if (isTRUE(res)) return(invisible(x))
   chk_fail(x, res)
+}
+
+# chk_that(): backed by check_true()
+# chk_true() variant that works in pipe by passing var and expr separately
+
+#' @rdname checkmate_rlang_other
+#' @export
+chk_that <- function(x, expr, ..., na.ok = FALSE, .varnames = ".") {
+
+  # No optional arguments, evaluate against `.` alone
+  if (nargs() == 2L) {
+    value <- eval(substitute(expr), list(. = x), parent.frame())
+    if (isTRUE(value)) return(invisible(x))
+  } else {
+    if (...length()) chk_dots_empty()
+    chk_character(.varnames)
+    bindings <- rep(list(x), length(.varnames))
+    names(bindings) <- .varnames
+    value <- eval(substitute(expr), bindings, parent.frame())
+  }
+
+  res <- check_true(value, na.ok = na.ok)
+  if (isTRUE(res)) return(invisible(x))
+  chk_fail(x, res, attr.ok = TRUE, arg = deparse1(substitute(expr)))
 }
