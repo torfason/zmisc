@@ -10,6 +10,7 @@ chk_data_table(x)x is also a data.table
 chk_tibble(x)x is also a tbl_df
 chk_class(x, classes)x inherits from every class in classes
 chk_true(x)x is TRUE
+chk_that(x, expr)x mapped to . results in expr being TRUE
 
 
 
@@ -17,6 +18,10 @@ chk_true(x)x is TRUE
 chk_true() is the catch-all: any property of any object that can be
 written as a condition, at the cost of a message that can only report that
 the condition was not met.
+chk_that() is a variant of chk_true() that separates the value to be
+checked (x) from the expression to be evaluated on it (expr). This
+can be helpful when evaluating an arbitrary condition on an object passing
+through a pipe.
 These take far fewer arguments than their checkmate counterparts. The
 container checks carry no attr.ok, since a data.frame is its class and
 its row names, and only chk_list() takes a length."><meta property="og:description" content="Assertions for containers and for properties that no type check covers,
@@ -30,6 +35,7 @@ chk_data_table(x)x is also a data.table
 chk_tibble(x)x is also a tbl_df
 chk_class(x, classes)x inherits from every class in classes
 chk_true(x)x is TRUE
+chk_that(x, expr)x mapped to . results in expr being TRUE
 
 
 
@@ -37,6 +43,10 @@ chk_true(x)x is TRUE
 chk_true() is the catch-all: any property of any object that can be
 written as a condition, at the cost of a message that can only report that
 the condition was not met.
+chk_that() is a variant of chk_true() that separates the value to be
+checked (x) from the expression to be evaluated on it (expr). This
+can be helpful when evaluating an arbitrary condition on an object passing
+through a pipe.
 These take far fewer arguments than their checkmate counterparts. The
 container checks carry no attr.ok, since a data.frame is its class and
 its row names, and only chk_list() takes a length."></head><body>
@@ -77,9 +87,13 @@ its row names, and only chk_list() takes a length."></head><body>
     <div class="ref-description section level2">
     <p>Assertions for containers and for properties that no type check covers,
 with <a href="https://rlang.r-lib.org/reference/rlang-package.html" class="external-link">rlang</a> style error messages. See <a href="checkmate_rlang.html">checkmate_rlang</a> for the scalar and
-vector types.</p><table class="table table"><tr><td><strong>Function</strong></td><td><strong>Passes when</strong></td></tr><tr><td><code>chk_environment(x)</code></td><td><code>x</code> is an environment</td></tr><tr><td><code>chk_list(x)</code></td><td><code>x</code> is a list, and carries no class</td></tr><tr><td><code>chk_data_frame(x)</code></td><td><code>x</code> is a <code>data.frame</code> of sound structure</td></tr><tr><td><code>chk_data_table(x)</code></td><td><code>x</code> is also a <code>data.table</code></td></tr><tr><td><code>chk_tibble(x)</code></td><td><code>x</code> is also a <code>tbl_df</code></td></tr><tr><td><code>chk_class(x, classes)</code></td><td><code>x</code> inherits from every class in <code>classes</code></td></tr><tr><td><code>chk_true(x)</code></td><td><code>x</code> is <code>TRUE</code></td></tr></table><p><code>chk_true()</code> is the catch-all: any property of any object that can be
+vector types.</p><table class="table table"><tr><td><strong>Function</strong></td><td><strong>Passes when</strong></td></tr><tr><td><code>chk_environment(x)</code></td><td><code>x</code> is an environment</td></tr><tr><td><code>chk_list(x)</code></td><td><code>x</code> is a list, and carries no class</td></tr><tr><td><code>chk_data_frame(x)</code></td><td><code>x</code> is a <code>data.frame</code> of sound structure</td></tr><tr><td><code>chk_data_table(x)</code></td><td><code>x</code> is also a <code>data.table</code></td></tr><tr><td><code>chk_tibble(x)</code></td><td><code>x</code> is also a <code>tbl_df</code></td></tr><tr><td><code>chk_class(x, classes)</code></td><td><code>x</code> inherits from every class in <code>classes</code></td></tr><tr><td><code>chk_true(x)</code></td><td><code>x</code> is <code>TRUE</code></td></tr><tr><td><code>chk_that(x, expr)</code></td><td><code>x</code> mapped to <code>.</code> results in <code>expr</code> being TRUE</td></tr></table><p><code>chk_true()</code> is the catch-all: any property of any object that can be
 written as a condition, at the cost of a message that can only report that
 the condition was not met.</p>
+<p><code>chk_that()</code> is a variant of <code>chk_true()</code> that separates the value to be
+checked (<code>x</code>) from the expression to be evaluated on it (<code>expr</code>). This
+can be helpful when evaluating an arbitrary condition on an object passing
+through a pipe.</p>
 <p>These take far fewer arguments than their <a href="https://mllg.github.io/checkmate/reference/checkmate-package.html" class="external-link">checkmate</a> counterparts. The
 container checks carry no <code>attr.ok</code>, since a <code>data.frame</code> is its class and
 its row names, and only <code>chk_list()</code> takes a <code>length</code>.</p>
@@ -99,7 +113,9 @@ its row names, and only <code>chk_list()</code> takes a <code>length</code>.</p>
 <span></span>
 <span><span class="fu">chk_class</span><span class="op">(</span><span class="va">x</span>, <span class="va">classes</span>, <span class="va">...</span>, null.ok <span class="op">=</span> <span class="cn">FALSE</span>, ordered <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">chk_true</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, na.ok <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">chk_true</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, na.ok <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">chk_that</span><span class="op">(</span><span class="va">x</span>, <span class="va">expr</span>, <span class="va">...</span>, na.ok <span class="op">=</span> <span class="cn">FALSE</span>, .varnames <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">

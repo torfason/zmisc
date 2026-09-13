@@ -488,6 +488,7 @@ errors and return their input.
   [`chk_tibble()`](https://torfason.github.io/zmisc/reference/checkmate_rlang_other.md)
   [`chk_class()`](https://torfason.github.io/zmisc/reference/checkmate_rlang_other.md)
   [`chk_true()`](https://torfason.github.io/zmisc/reference/checkmate_rlang_other.md)
+  [`chk_that()`](https://torfason.github.io/zmisc/reference/checkmate_rlang_other.md)
   : Assertion functions for objects that are not atomic vectors
 - [`chk_dots_empty()`](https://torfason.github.io/zmisc/reference/checkmate_rlang_dots.md)
   [`chk_match()`](https://torfason.github.io/zmisc/reference/checkmate_rlang_dots.md)

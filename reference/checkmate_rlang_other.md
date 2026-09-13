@@ -6,20 +6,26 @@ error messages. See
 [checkmate_rlang](https://torfason.github.io/zmisc/reference/checkmate_rlang.md)
 for the scalar and vector types.
 
-|                         |                                            |
-|-------------------------|--------------------------------------------|
-| **Function**            | **Passes when**                            |
-| `chk_environment(x)`    | `x` is an environment                      |
-| `chk_list(x)`           | `x` is a list, and carries no class        |
-| `chk_data_frame(x)`     | `x` is a `data.frame` of sound structure   |
-| `chk_data_table(x)`     | `x` is also a `data.table`                 |
-| `chk_tibble(x)`         | `x` is also a `tbl_df`                     |
-| `chk_class(x, classes)` | `x` inherits from every class in `classes` |
-| `chk_true(x)`           | `x` is `TRUE`                              |
+|                         |                                                |
+|-------------------------|------------------------------------------------|
+| **Function**            | **Passes when**                                |
+| `chk_environment(x)`    | `x` is an environment                          |
+| `chk_list(x)`           | `x` is a list, and carries no class            |
+| `chk_data_frame(x)`     | `x` is a `data.frame` of sound structure       |
+| `chk_data_table(x)`     | `x` is also a `data.table`                     |
+| `chk_tibble(x)`         | `x` is also a `tbl_df`                         |
+| `chk_class(x, classes)` | `x` inherits from every class in `classes`     |
+| `chk_true(x)`           | `x` is `TRUE`                                  |
+| `chk_that(x, expr)`     | `x` mapped to `.` results in `expr` being TRUE |
 
 `chk_true()` is the catch-all: any property of any object that can be
 written as a condition, at the cost of a message that can only report
 that the condition was not met.
+
+`chk_that()` is a variant of `chk_true()` that separates the value to be
+checked (`x`) from the expression to be evaluated on it (`expr`). This
+can be helpful when evaluating an arbitrary condition on an object
+passing through a pipe.
 
 These take far fewer arguments than their
 [checkmate](https://mllg.github.io/checkmate/reference/checkmate-package.html)
@@ -43,6 +49,8 @@ chk_tibble(x, ..., null.ok = FALSE)
 chk_class(x, classes, ..., null.ok = FALSE, ordered = FALSE)
 
 chk_true(x, ..., na.ok = FALSE)
+
+chk_that(x, expr, ..., na.ok = FALSE, .varnames = ".")
 ```
 
 ## Arguments
