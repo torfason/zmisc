@@ -14,7 +14,7 @@
 \usage{
 chk_environment(x, ..., null.ok = FALSE, contains = character())
 
-chk_list(x, ..., null.ok = FALSE, length = NULL)
+chk_list(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL)
 
 chk_data_frame(x, ..., null.ok = FALSE)
 

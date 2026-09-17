@@ -824,7 +824,9 @@ test_that("chk_environment() works for all params", {
 
 test_that("chk_list() works for all params", {
 
-  lst <- list(1, "a")
+  lst     <- list(1, "a")
+  named   <- list(a = 1, b = 2)
+  classed <- structure(list(1), class = "myclass")
 
   chk_list(lst)                        |> expect_equal(lst)
   chk_list(list())                     |> expect_equal(list())
@@ -838,9 +840,32 @@ test_that("chk_list() works for all params", {
   chk_list(lst, length = 3)            |> expect_error()
   chk_list(lst, length = c(1, Inf))    |> expect_equal(lst)
   chk_list(lst, length = c(3, Inf))    |> expect_error()
+  chk_list(lst, length = c(1, NA))     |> expect_equal(lst)
+  chk_list(lst, length = c(3, NA))     |> expect_error()
+  chk_list(lst, length = c(NA, 1))     |> expect_error()
+  chk_list(lst, length = c(NA, 3))     |> expect_equal(lst)
 
-  # containers take no attr.ok
-  chk_list(lst, attr.ok = FALSE)       |> expect_error()
+
+  # names by default, as for every other type
+  chk_list(named)                      |> expect_equal(named)
+  chk_list(named, attr.ok = "names")   |> expect_equal(named)
+  chk_list(named, attr.ok = FALSE)     |> expect_error("Must not have attributes: names")
+  chk_list(lst, attr.ok = FALSE)       |> expect_equal(lst)
+  chk_list(lst, attr.ok = "names")     |> expect_equal(lst)
+
+  # a class on a list is an extra, and the caller decides whether to allow it
+  chk_list(classed)                        |> expect_error("class attribute")
+  chk_list(classed, attr.ok = "class")     |> expect_equal(classed)
+  chk_list(classed, attr.ok = TRUE)        |> expect_equal(classed)
+  chk_list(as.POSIXlt("2024-01-01"), attr.ok = TRUE) |> expect_s3_class("POSIXlt")
+
+  # the policy composes with the rest
+  chk_list(classed, attr.ok = TRUE, length = 1) |> expect_equal(classed)
+  chk_list(classed, attr.ok = TRUE, length = 2) |> expect_error("length")
+
+  # a data.frame is not a list whatever the policy says, since checkmate reads
+  # it as a type of its own. chk_data_frame() is where it belongs.
+  chk_list(data.frame(a = 1), attr.ok = TRUE) |> expect_error("not 'data.frame'")
 
 })
 
