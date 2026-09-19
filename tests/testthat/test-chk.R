@@ -981,20 +981,41 @@ test_that("chk_dots_empty() works for all params", {
   f_len_dots(1)        |> expect_equal(1)
   f_len_dots(1, 2)     |> expect_error()
 
+  # a trailing comma leaves an argument that was never written, and R ignores
+  # it, so this does too
+  f_x_dots(1, )        |> expect_equal(1)
+
+  # what was passed is reported as it was written, by name or by position
+  f_dots(11)               |> expect_error("has 1 argument: \\.\\.1 = 11")
+  f_dots(bogus = 1)        |> expect_error("has 1 argument: bogus = 1")
+  f_dots(1, bogus = 2)     |> expect_error("has 2 arguments: \\.\\.1 = 1, bogus = 2")
+  f_dots(1)                |> expect_error("Did you forget to name an argument")
+  f_dots(bogus = 1)        |> expect_error("misspelled")
+
+  # the arguments are never evaluated, so an argument that cannot be is still
+  # reported as what it was
+  f_dots(stop("never forced"))  |> expect_error("stop\\(\"never forced\"\\)")
+  f_dots(no_such_object)        |> expect_error("no_such_object")
+
+  # the failure is attributed to the call the argument was written in, and
+  # reads like the rest of the family
+  f_dots(1) |> expect_error("Assertion on `\\.\\.\\.` failed")
+  chk_string("a", bogus = 1) |> expect_error("Assertion on `\\.\\.\\.` failed")
+
 })
 
 
-test_that("chk_match() works for all params", {
+test_that("EXTENDED chk_match() works for all params", {
 
   f_match <- function(type = c("alpha", "beta")) chk_match(type)
   alpha <- "alpha"
   beta  <- "beta"
   gamma <- "gamma"
-  ab <- c("alpha", "beta")
+  ab    <- c("alpha", "beta")
   empty <- character()
 
-  # NOTE: Literals are not accepted by chk_match() / arg_match()
-  chk_match("alpha", c("alpha", "beta"))        |> expect_error()
+  # NOTE: zmisc::chk_match() serves as a switch as well
+  chk_match("alpha", c("alpha", "beta"))        |> expect_equal("alpha")
 
   f_match()                                     |> expect_equal("alpha")
   f_match("beta")                               |> expect_equal("beta")
@@ -1004,29 +1025,62 @@ test_that("chk_match() works for all params", {
   chk_match(beta,  c("alpha", "beta"))          |> expect_equal("beta")
   chk_match(gamma, c("alpha", "beta"))          |> expect_error()
 
+  # given the values, `x` is any expression that yields a string, not only a
+  # symbol: a literal, an element, a component of a list
+  chk_match("alpha", ab)                        |> expect_equal("alpha")
+  chk_match(ab[[2]], ab)                        |> expect_equal("beta")
+  chk_match(list(type = "beta")$type, ab)       |> expect_equal("beta")
+  chk_match(toupper("alpha"), ab)               |> expect_error("not \"ALPHA\"")
+
+  # without them, the values come from the formal that `x` names, which needs
+  # a name to look up and a default to read
+  chk_match("alpha")                            |> expect_error("must be given")
+  chk_match(alpha)                              |> expect_error("must be given")
+  (function(type) chk_match(type))("alpha")     |> expect_error("must be given")
+  (function(type = letters) chk_match(type))()  |> expect_equal("a")
+
   # NOTE: multiple elements in arg do NOT automatically cause an error,
   #       if arg has exactly the same elements as values, the first
   #       element in arg is returned
   f_match(c("alpha", "beta"))                   |> expect_equal("alpha")
   f_match(c("beta", "alpha"))                   |> expect_equal("beta")
   f_match(c("alpha", "gamma"))                  |> expect_error()
-  f_match(character())                          |> expect_error()
+  f_match(character())                          |> expect_error("length 1, not length 0")
   chk_match(ab, c("alpha", "beta"))             |> expect_equal("alpha")
   chk_match(ab, c("alpha", "gamma"))            |> expect_error()
   chk_match(ab, c("beta", "gamma"))             |> expect_error()
+  chk_match(ab, c("alpha", "beta", "gamma"))    |> expect_error("length 1, not length 2")
 
   # multiple = TRUE specifies a more reasonable handling of multi arg
   chk_match(ab, c("alpha", "beta", "gamma"), multiple = TRUE) |> expect_equal(c("alpha", "beta"))
   chk_match(ab, c("beta", "alpha"), multiple = TRUE)          |> expect_equal(c("alpha", "beta"))
-  chk_match(ab, c("alpha", "gamma"), multiple = TRUE)         |> expect_error()
+  chk_match(ab, c("alpha", "gamma"), multiple = TRUE)         |> expect_error("not \"beta\"")
   chk_match(empty, c("alpha", "beta"), multiple = TRUE)       |> expect_equal(character())
 
   # error_arg: the name the failure is reported against
   chk_match(gamma, c("alpha", "beta"), error_arg = "flavour") |> expect_error("flavour")
   chk_match(alpha, c("alpha", "beta"), error_arg = "flavour") |> expect_equal("alpha")
 
+  # what is wrong with `x`, in the words the rest of the family uses
+  chk_match(1, ab)                              |> expect_error("Must be of type 'character', not 'double'")
+  chk_match(NA_character_, ab)                  |> expect_error("not NA")
+  chk_match("gamma", ab)                        |> expect_error("Must be one of \"alpha\" or \"beta\", not \"gamma\"")
+  chk_match("gamma", c("alpha", "beta", "delta")) |> expect_error("\"alpha\", \"beta\", or \"delta\"")
+
+  # a near miss is guessed at, by prefix in either direction
+  chk_match("alp", ab)                          |> expect_error("Did you mean \"alpha\"")
+  chk_match("ALPHA", ab)                        |> expect_error("Did you mean \"alpha\"")
+  err <- tryCatch(chk_match("zeta", ab), error = identity)
+  expect_false(grepl("Did you mean", conditionMessage(err)))
+
+  # values that nothing can match are a mistake in the call, not a failure of
+  # `x`, and are an error even where a failure would not be
+  chk_match("alpha", character())               |> expect_error("usable set")
+  chk_match("alpha", c("alpha", NA))            |> expect_error("usable set")
+  chk_match("alpha", 1:3)                       |> expect_error("usable set")
+
   # Leaking into ... is an error
-  chk_match("alpha", c("alpha", "beta"), bogus = TRUE) |> expect_error()
+  chk_match("alpha", c("alpha", "beta"), bogus = TRUE) |> expect_error("[Mm]ust be empty")
 
 })
 
@@ -1120,9 +1174,9 @@ test_that("chk_that() takes nothing in the dots", {
 
   v <- 1:10
 
-  chk_that(v, TRUE, nosucharg = 1) |> expect_error("must be empty")
-  chk_that(v, TRUE, na.ok)         |> expect_error("must be empty")
-  chk_that(v, TRUE, 5)            |> expect_error("must be empty")
+  chk_that(v, TRUE, nosucharg = 1) |> expect_error("[Mm]ust be empty")
+  chk_that(v, TRUE, na.ok)         |> expect_error("[Mm]ust be empty")
+  chk_that(v, TRUE, 5)             |> expect_error("[Mm]ust be empty")
 
 })
 
