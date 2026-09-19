@@ -9,6 +9,15 @@
 #    reads checkmate's, and they rewrite checkmate's messages where needed so
 #    that a scalar reports failure the same way its family does.
 
+#' @importFrom checkmate  check_flag check_string check_number check_int
+#' @importFrom checkmate  check_count check_class check_integer check_double
+#' @importFrom checkmate  check_numeric check_logical check_character check_raw
+#' @importFrom checkmate  check_date check_integerish check_complex check_factor
+#' @importFrom checkmate  check_list check_data_frame check_data_table check_tibble
+#' @importFrom checkmate  check_scalar check_atomic check_environment check_posixct
+#' @importFrom checkmate  check_true
+NULL
+
 # ---- Parameter translation ---------------------------------------------------
 
 # First and last element of `v`, which is how both `length` and `range` are
@@ -273,4 +282,42 @@ check_naturalish <- function(x, lower = 0, upper = Inf, positive = FALSE,
                                         unique = unique, sorted = sorted,
                                         names = names, null.ok = null.ok)
   if (isTRUE(result)) result else sub("integerish", "naturalish", result)
+}
+
+# Check for single instant (scalar POSIXct)
+#
+# Mirrors check_day(), except that lower/upper default to NULL rather than
+# +-Inf, because check_posixct() insists that any bound it is given is itself
+# a single POSIXct time.
+check_instant <- function(x, na.ok = FALSE, lower = NULL, upper = NULL, null.ok = FALSE) {
+  if (!isTRUE(check_posixct(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, null.ok = null.ok))) {
+    result <- check_posixct(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, null.ok = null.ok)
+    if (is.null(x) && !null.ok) {
+      return("Must be of type 'instant', not 'NULL'")
+    } else  if (!is.null(x) && length(x) ==1 && all(is.na(x)) && !na.ok) {
+      return("May not be NA")
+    }  else {
+      return(result)
+    }
+  }
+  TRUE
+}
+
+# Check for single day (scalar Date)
+#
+# lower/upper default to NULL rather than +-Inf, matching check_instant() and
+# checkmate::check_date(), so that the generator reads an unbounded default it
+# can pass straight back.
+check_day <- function(x, na.ok = FALSE, lower = NULL, upper = NULL, null.ok = FALSE) {
+  if (!isTRUE(check_date(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, null.ok = null.ok))) {
+    result <- check_date(x, len = 1, any.missing = na.ok, lower = lower, upper = upper, null.ok = null.ok)
+    if (is.null(x) && !null.ok) {
+      return("Must be of type 'day', not 'NULL'")
+    } else  if (!is.null(x) && length(x) ==1 && all(is.na(x)) && !na.ok) {
+      return("May not be NA")
+    }  else {
+      return(result)
+    }
+  }
+  TRUE
 }

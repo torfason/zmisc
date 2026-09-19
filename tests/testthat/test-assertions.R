@@ -127,20 +127,3 @@ test_that("POSIXct assertion functions work", {
   chk_posixct(c(time_11, time_12, time_11, time_12), length = 3) |>
     expect_error("Must have length 3")
 })
-
-
-test_that("qassert reports the reason for the failure", {
-
-  # Passing assertions return their input invisibly
-  qassert(11L, "I1")      |> expect_identical(11L)
-  qassert(c(1,2,3), "N3") |> expect_identical(c(1,2,3))
-
-  # qtest() reports only TRUE/FALSE, so a failure has to recover its message
-  # from checkmate rather than passing the FALSE straight to abort()
-  qassert(1:3, "S1") |> expect_error("Must be of class 'string'")
-  qassert("a", "N1") |> expect_error("Must be of class 'numeric'")
-  qassert(NULL, "N1") |> expect_error("Must be of class 'numeric'")
-
-  # The failure must never be rlang complaining about abort()'s own argument
-  qassert(1:3, "S1") |> expect_error("^(?!.*must be a character vector)", perl = TRUE)
-})

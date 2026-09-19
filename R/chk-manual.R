@@ -239,3 +239,38 @@ chk_that <- function(x, expr, ..., na.ok = FALSE, .varnames = ".") {
   if (isTRUE(res)) return(invisible(x))
   chk_fail(x, res, attr.ok = TRUE, arg = deparse1(substitute(expr)))
 }
+
+
+#### RLANG ALIASES ####
+
+#' Aliases for rlang assertions
+#'
+#' @description
+#' Two [rlang] functions under the `chk_` name, for consistency with the rest
+#' of the family.
+#'
+#' - `chk_dots_empty()` is [rlang::check_dots_empty()], and fails if anything
+#'   was passed through `...`.
+#' - `chk_match()` is [rlang::arg_match()], and fails unless `arg` matches one
+#'   of `values`, which default to the values in the caller's own formals.
+#'   Like every assertion here it returns its input, but visibly rather than
+#'   invisibly, so it is written as `type <- chk_match(type)`. Note that `arg`
+#'   must be a symbol (variable or function argument) representing a string,
+#'   it cannot be a string literal.
+#'
+#' @inheritParams rlang::check_dots_empty
+#' @return `chk_match()` returns the matched value; `chk_dots_empty()` returns
+#'   `NULL` invisibly.
+#'
+#' @seealso [checkmate_rlang] and [checkmate_rlang_other].
+#'
+#' @rdname checkmate_rlang_dots
+#' @export
+chk_dots_empty <- rlang::check_dots_empty
+
+
+#' @inheritParams rlang::arg_match
+#' @rdname checkmate_rlang_dots
+#' @aliases checkmate_rlang_dots
+#' @export
+chk_match <- rlang::arg_match

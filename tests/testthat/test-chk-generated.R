@@ -1,17 +1,3 @@
-# test_that("R/chk-generated.R is up to date with its generator", {
-#   skip_on_cran()
-#   skip_if_not_installed("tibble")
-#   skip_if_not_installed("purrr")
-#   gen <- test_path("..", "..", "data-raw", "generate-chk.R")
-#   out <- test_path("..", "..", "R", "chk-generated.R")
-#   skip_if_not(file.exists(gen) && file.exists(out), "generator not available")
-#
-#   env <- new.env()
-#   suppressMessages(sys.source(gen, envir = env))
-#   expect_identical(readLines(out), env$render_chk())
-# })
-
-
 test_that("the inlined fast path agrees with attrs_ok()", {
   cases <- list(
     1:3, c(a = 1, b = 2), "x", TRUE, NULL, NA,

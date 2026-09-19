@@ -104,5 +104,3 @@ paste_na <- function(..., sep = " ") {
   values <- cbind(...)
   apply(values, 1, function(x) paste(x[!is.na(x)], collapse = sep))
 }
-# paste_na(c(1,1), c(2, NA))
-# paste_na(c(1,1), c(2, NA), 4:5)

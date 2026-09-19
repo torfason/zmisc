@@ -32,6 +32,7 @@
 #' # Each bound must be a single whole number, so this errors as well
 #' tryCatch(zeq(c(11,12),15), error=wrap_error)
 #'
+#' @importFrom rlang seq2 abort
 #' @export
 zeq <- function(from, to) {
 
