@@ -23,10 +23,9 @@
 #' @return `chk_match()` returns the matched value; `chk_dots_empty()` returns
 #'   `NULL` invisibly.
 #'
-#' @seealso [checkmate_rlang] and [checkmate_rlang_other].
+#' @seealso [chk_atomic] and [chk_composite].
 #'
-#' @rdname checkmate_rlang_dots
-#' @aliases checkmate_rlang_dots
+#' @rdname chk_other
 #' @export
 chk_match <- function(x, values = NULL, ..., multiple = FALSE, error_arg = NULL) {
 
@@ -100,7 +99,7 @@ chk_match <- function(x, values = NULL, ..., multiple = FALSE, error_arg = NULL)
 }
 
 
-#' @rdname checkmate_rlang_dots
+#' @rdname chk_other
 #' @export
 chk_dots_empty <- function() {
 

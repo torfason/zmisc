@@ -96,6 +96,9 @@ NULL
 #'   exact length, or a vector whose first and last elements give the minimum
 #'   and the maximum. Neither may be negative, and `NA` at an end, or `Inf` as
 #'   the maximum, means no bound there.
+#' @param attr.ok Which attributes `x` may carry beyond those intrinsic to its
+#'   type: a character vector of permitted attribute names, `FALSE` for none at
+#'   all, or `TRUE` for any. Applies to `chk_list()`.
 #' @param contains Character vector of names that must be bound in the
 #'   environment.
 #' @return The original object if the check passes.

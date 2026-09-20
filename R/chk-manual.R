@@ -193,17 +193,3 @@ chk_that <- function(x, expr, ..., na.ok = FALSE, .varnames = ".") {
   if (isTRUE(res)) return(invisible(x))
   chk_fail(x, res, attr.ok = TRUE, arg = deparse1(substitute(expr)))
 }
-
-
-#### RLANG ALIASES ####
-
-#' @inheritParams rlang::check_dots_empty
-#' @rdname chk_other
-#' @export
-chk_dots_empty <- rlang::check_dots_empty
-
-
-#' @inheritParams rlang::arg_match
-#' @rdname chk_other
-#' @export
-chk_match <- rlang::arg_match

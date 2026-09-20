@@ -11,7 +11,7 @@
 \usage{
 chk_environment(x, ..., null.ok = FALSE, contains = character())
 
-chk_list(x, ..., null.ok = FALSE, length = NULL)
+chk_list(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL)
 
 chk_data_frame(x, ..., null.ok = FALSE)
 
@@ -28,6 +28,10 @@ chk_tibble(x, ..., null.ok = FALSE)
 
 \item{contains}{Character vector of names that must be bound in the
 environment.}
+
+\item{attr.ok}{Which attributes \code{x} may carry beyond those intrinsic to its
+type: a character vector of permitted attribute names, \code{FALSE} for none at
+all, or \code{TRUE} for any. Applies to \code{chk_list()}.}
 
 \item{length}{Permitted length. \code{NULL} for any length, a scalar for one
 exact length, or a vector whose first and last elements give the minimum
