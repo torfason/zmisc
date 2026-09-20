@@ -8,9 +8,9 @@
 ##   write_chk()
 ##
 ## render_chk() returns the file contents as a character vector; write_chk()
-## writes them to disk. tests/testthat/test-chk-generated.R compares the
-## checked-in file against a fresh render_chk(), so stale generation fails the
-## test suite rather than shipping.
+## writes them to disk. Nothing checks that the file on disk is current, so
+## write_chk() belongs at the head of the build, as it is in
+## build/build_and_release_process.R.
 ##
 ## Each generated function exposes one cohesive parameter set:
 ##

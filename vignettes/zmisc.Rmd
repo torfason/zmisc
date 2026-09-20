@@ -123,6 +123,13 @@ roxy_get_section(blocks, "zingle", "examples") |> kat_code()
 ```
 
 
+## Checks with rlang-style errors
+
+The `chk_*()` functions check the type and shape of an argument and, on
+failure, raise an rlang-style error naming the argument as the caller wrote it.
+Each returns its input, so a check composes in a pipe. See `vignette("chk")`
+for the full set.
+
 ## Getting a better view on variables
 
 The [notate()] function adds annotations to `factor` and `labelled` variables
@@ -148,7 +155,7 @@ roxy_get_section(blocks, "notate", "examples") |> kat_code()
 [zample()]:   https://torfason.github.io/zmisc/reference/zample.html
 [zingle()]:   https://torfason.github.io/zmisc/reference/zingle.html
 
-[notate()]:   https://torfason.github.io/zmisc/reference/zingle.html
+[notate()]:   https://torfason.github.io/zmisc/reference/notate.html
 
 
 [seq()]:      https://rdrr.io/r/base/seq.html

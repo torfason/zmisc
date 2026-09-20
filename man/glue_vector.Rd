@@ -38,7 +38,7 @@ A character vector with interpolated values. The length is determined
 by tidyverse recycling rules for all referenced variables.
 }
 \description{
-Applies \code{glue::glue()} to each element of a character vector using a template
+Applies \code{\link[glue:glue]{glue::glue()}} to each element of a character vector using a template
 string, enabling pipe-friendly, element-wise interpolation. Useful when the
 vector to process is not encapsulated in a \code{data.frame} or other
 environment-like object.

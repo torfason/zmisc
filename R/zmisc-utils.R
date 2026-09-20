@@ -22,7 +22,7 @@ wrap_error <- function(e, wrap=50) {
   chk_class(e, "condition")
   chk_znumber(wrap, range = c(1, Inf))
 
-  cat( paste0("#E> ", strwrap(e$message, width=50), "\n"), sep="" )
+  cat( paste0("#E> ", strwrap(e$message, width = wrap), "\n"), sep="" )
   invisible(e)
 }
 

@@ -1,13 +1,15 @@
 Type: Package
 Package: zmisc
 Title: Vector Look-Ups and Safer Sampling
-Version: 0.2.3.9007
+Version: 0.2.3.9008
 Author: Magnus Thor Torfason
 Maintainer: Magnus Thor Torfason <m@zulutime.net>
 Description: A collection of utility functions that facilitate looking up
-    vector values from a lookup table, annotate values in at table for 
-    clearer viewing, and support a safer approach to vector sampling, 
-    sequence generation, and aggregation.
+    vector values from a lookup table, annotate values in a table for
+    clearer viewing, and support a safer approach to vector sampling,
+    sequence generation, and aggregation. Also included is a family of
+    argument checks which return their input so that they compose 
+    nicely in a pipe.
 License: MIT + file LICENSE
 URL: https://github.com/torfason/zmisc/, https://torfason.github.io/zmisc/
 Imports: 

@@ -17,7 +17,7 @@ glue::glue_data
 
 #' Glue interpolation vectors in pipes
 #'
-#' Applies `glue::glue()` to each element of a character vector using a template
+#' Applies [glue::glue()] to each element of a character vector using a template
 #' string, enabling pipe-friendly, element-wise interpolation. Useful when the
 #' vector to process is not encapsulated in a `data.frame` or other
 #' environment-like object.

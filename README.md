@@ -8,16 +8,17 @@ zmisc
 [![CRAN
 version](https://www.r-pkg.org/badges/version/zmisc)](https://CRAN.R-project.org/package=zmisc)
 [![GitHub
-version](https://img.shields.io/badge/Git-0.2.3.9007-success)](https://github.com/torfason/zmisc)
+version](https://img.shields.io/badge/Git-0.2.3.9008-success)](https://github.com/torfason/zmisc)
 [![R-CMD-check](https://github.com/torfason/zmisc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/torfason/zmisc/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ## Vector Look-Ups and Safer Sampling
 
 A collection of utility functions that facilitate looking up vector
-values from a lookup table, annotate values in at table for clearer
+values from a lookup table, annotate values in a table for clearer
 viewing, and support a safer approach to vector sampling, sequence
-generation, and aggregation.
+generation, and aggregation. Also included is a family of argument
+checks which return their input so that they compose nicely in a pipe.
 
 ## Installation
 
