@@ -37,16 +37,21 @@ chk_environment <- function(x, ..., null.ok = FALSE, contains = character()) {
 # chk_list(): container, backed by check_list()
 # pinned: types = character(0L), any.missing = TRUE, all.missing = TRUE,
 #   unique = FALSE, names = NULL
-# check_list() passes anything of type list, so the attribute policy is what
-# keeps a data.frame out. Fixed at "names", not offered as an argument.
+# Allowed attributes generally follow the same policy as for atomic types, with
+# the same "names" default, which is exactly is.vector(x, "list") and is what
+# the fast path inlines. Arbitrary classed lists pass on attr.ok = "class", or
+# TRUE for any.
+# NOTE: A data.frame never passes this check, regardless of the attr.ok value:
+# that is checkmate's own rule, since check_list() reports it as a type of its
+# own rather than as a list.
 
 #' @rdname chk_composite
 #' @export
-chk_list <- function(x, ..., null.ok = FALSE, length = NULL) {
+chk_list <- function(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_list(x)) && is.vector(x, "any"))
-      return(invisible(x))
+  if (nargs() == 1L && isTRUE(check_list(x)) && is.vector(x, "list"))
+    return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
   chk_dots_empty()
@@ -57,8 +62,8 @@ chk_list <- function(x, ..., null.ok = FALSE, length = NULL) {
                     len = len$exact,
                     min.len = len$min,
                     max.len = len$max)
-  if (isTRUE(res) && attrs_ok(x, "names")) return(invisible(x))
-  chk_fail(x, res, "names")
+  if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
+  chk_fail(x, res, attr.ok)
 }
 
 # chk_data_frame(): container, backed by check_data_frame()

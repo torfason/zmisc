@@ -88,7 +88,7 @@ test_that("chk_any() catches assertion failures and nothing else", {
   # a misspelled assertion, an argument that does not exist, and an object that
   # was never bound all travel, where tryCatch() would have swallowed them
   chk_any(chk_strng(s), chk_number(s))               |> expect_error("could not find function")
-  chk_any(chk_string(s, nosucharg = 1), chk_flag(s)) |> expect_error("must be empty")
+  chk_any(chk_string(s, nosucharg = 1), chk_flag(s)) |> expect_error("[Mm]ust be empty")
   chk_any(chk_string(nosuchobject), chk_number(1))   |> expect_error("not found")
 
   # an assertion one frame further down is not a branch, and still throws
