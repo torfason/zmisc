@@ -6,6 +6,10 @@ pipe-friendly, element-wise interpolation. Useful when the vector to
 process is not encapsulated in a `data.frame` or other environment-like
 object.
 
+The [`glue::glue()`](https://glue.tidyverse.org/reference/glue.html) and
+[`glue::glue_data()`](https://glue.tidyverse.org/reference/glue.html)
+functions are also re-exported for convenience
+
 ## Usage
 
 ``` r

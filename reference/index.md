@@ -47,12 +47,12 @@ errors and return their input.
   [`chk_data_table()`](https://torfason.github.io/zmisc/reference/chk_composite.md)
   [`chk_tibble()`](https://torfason.github.io/zmisc/reference/chk_composite.md)
   : Checks for lists and composite objects
-- [`chk_any()`](https://torfason.github.io/zmisc/reference/chk_other.md)
-  [`chk_class()`](https://torfason.github.io/zmisc/reference/chk_other.md)
-  [`chk_true()`](https://torfason.github.io/zmisc/reference/chk_other.md)
+- [`chk_true()`](https://torfason.github.io/zmisc/reference/chk_other.md)
   [`chk_that()`](https://torfason.github.io/zmisc/reference/chk_other.md)
+  [`chk_class()`](https://torfason.github.io/zmisc/reference/chk_other.md)
   [`chk_match()`](https://torfason.github.io/zmisc/reference/chk_other.md)
   [`chk_dots_empty()`](https://torfason.github.io/zmisc/reference/chk_other.md)
+  [`chk_any()`](https://torfason.github.io/zmisc/reference/chk_other.md)
   : Various other check functions
 
 ## Glue interpolation

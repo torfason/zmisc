@@ -1,67 +1,85 @@
 # Various other check functions
 
-Various checks for classes and other, together with the two
-[rlang](https://rlang.r-lib.org/reference/rlang-package.html) assertions
-carried under the `chk_` name. See
-[chk_atomic](https://torfason.github.io/zmisc/reference/chk_atomic.md)
-for the scalar and vector types.
+Various checks not directly related to atomic vectors (see
+[chk_atomic](https://torfason.github.io/zmisc/reference/chk_atomic.md)),
+or composite objects (see
+[chk_composite](https://torfason.github.io/zmisc/reference/chk_composite.md)).
 
 |                         |                                            |
 |-------------------------|--------------------------------------------|
 | **Function**            | **Passes when**                            |
-| `chk_class(x, classes)` | `x` inherits from every class in `classes` |
-| `chk_true(x)`           | `x` is `TRUE`                              |
+| `chk_true(x)`           | `x` is `TRUE` (implement arbitrary checks) |
 | `chk_that(x, expr)`     | `expr`, with `.` bound to `x`, is `TRUE`   |
+| `chk_class(x, classes)` | `x` inherits from every class in `classes` |
+| `chk_match(x, values)`  | `x` matches one of `values`                |
 | `chk_dots_empty()`      | nothing was passed through `...`           |
-| `chk_match(arg)`        | `arg` matches one of `values`              |
 | `chk_any(...)`          | at least one of the checks given passes    |
 
-`chk_true()` is the catch-all: any property of any object that can be
-written as a condition, at the cost of a message that can only report
-that the condition was not met. `chk_that()` also checks that an
-expression is true, but separates the value to be checked (`x`) from the
-expression evaluated on it (`expr`), which makes an arbitrary condition
-usable on an object passing through a pipe.
+`chk_true()` is a catch-all function that can be used to implement
+arbitrary checks (by checking any expression that should be true).
 
-`chk_dots_empty()` is equivalent to
-[`rlang::check_dots_empty()`](https://rlang.r-lib.org/reference/check_dots_empty.html)
-and `chk_match()` is equivalent to
-[`rlang::arg_match()`](https://rlang.r-lib.org/reference/arg_match.html).
-Like every check here `chk_match()` returns its input, but visibly
-rather than invisibly, so it is written as `type <- chk_match(type)`.
-Its `arg` must be a symbol standing for a string, not a string literal.
+`chk_that()` provides an alternative for checking that an expression is
+true, but separates the value to be checked (`x`) from the expression
+evaluated on it (`expr`), which makes an arbitrary condition usable on
+an object passing through a pipe.
 
-Two assertions for the use cases of
+`chk_class()` provides a quick way to check the class of an object.
+
+`chk_match()` can be used either as an equivalent to
 [`rlang::arg_match()`](https://rlang.r-lib.org/reference/arg_match.html)
-and
+or [`match.arg()`](https://rdrr.io/r/base/match.arg.html) for checking a
+function argument against default values in a function, or to check that
+any (`character`) variable x is an element of a (`character`) vector of
+`values`. When used to select default value in a function, it must be
+called as `arg <- chk_match(arg)`.
+
+`chk_dots_empty()` verifies that no arguments were passed to the `...`
+parameters, similarly to
 [`rlang::check_dots_empty()`](https://rlang.r-lib.org/reference/check_dots_empty.html).
+
+`chk_any(...)` can be used to combine multiple other checks, and will
+fail only if all constituent checks fail.
 
 ## Usage
 
 ``` r
-chk_any(...)
+chk_true(x, ..., na.ok = FALSE)
+
+chk_that(x, expr, ..., na.ok = FALSE, bindings = ".")
 
 chk_class(x, classes, ..., null.ok = FALSE, ordered = FALSE)
 
-chk_true(x, ..., na.ok = FALSE)
-
-chk_that(x, expr, ..., na.ok = FALSE, .varnames = ".")
-
-chk_match(x, values = NULL, ..., multiple = FALSE, error_arg = NULL)
+chk_match(x, values = NULL, ..., multiple = FALSE)
 
 chk_dots_empty()
+
+chk_any(...)
 ```
 
 ## Arguments
 
-- ...:
-
-  These dots are for future extensions and must be empty.
-
 - x:
 
-  Value to check and match. A string, or the untouched default of the
-  argument being matched.
+  Object to check.
+
+- ...:
+
+  For `chk_any()`, the checks to try (see examples). For every other
+  function here the dots must be empty.
+
+- na.ok:
+
+  Are missing values permitted?
+
+- expr:
+
+  Expression to evaluate on `x`, which is bound to `.` unless `bindings`
+  says otherwise.
+
+- bindings:
+
+  Character vector with name (or names) to bind `x` to when evaluating
+  `expr`.
 
 - classes:
 
@@ -75,34 +93,15 @@ chk_dots_empty()
 
   Must `classes` appear in that order at the head of `class(x)`?
 
-- na.ok:
-
-  Are missing values permitted?
-
-- expr:
-
-  Expression to evaluate on `x`, which is bound to `.` unless
-  `.varnames` says otherwise.
-
-- .varnames:
-
-  Names to bind `x` to when evaluating `expr`.
-
 - values:
 
-  Permitted values, as a character vector. `NULL` reads them from the
-  default of the caller's formal named by `x`, which then has to be a
-  symbol.
+  Character vector of values which the object checked by `chk_match()`
+  must be an element of.
 
 - multiple:
 
-  Is `x` allowed to hold several values? Each must then match, and all
-  are returned.
-
-- error_arg:
-
-  Name to report the failure against, in place of the expression `x` was
-  written as.
+  Logical determining if the return value of `chk_match()` can contain
+  more than one element.
 
 ## Value
 
@@ -110,9 +109,6 @@ The original object if the check passes. `chk_match()` returns the
 matched value visibly, `chk_dots_empty()` returns `NULL` invisibly, and
 `chk_any()` returns the value of the first argument that passes, which
 is the object that was checked.
-
-`chk_match()` returns the matched value; `chk_dots_empty()` returns
-`NULL` invisibly.
 
 ## Details
 
@@ -138,24 +134,12 @@ accommodated, since the first would evaluate the checks in the wrong
 scope and the second would return the piped object as a branch that
 passed. Write the checks at the call site, naming the object in each.
 
-- `chk_match()` looks up `x` from `values`, which default to the values
-  in the caller's own formals, and fails if it is not matched. To assign
-  a default value to arg, call with `arg <- chk_match(arg)`. If `values`
-  is not given, `x` must be a symbol, since the values are then read
-  from the formal of that name.
-
-- `chk_dots_empty()` fails if anything was passed through `...`.
-
 ## See also
 
 [chk_atomic](https://torfason.github.io/zmisc/reference/chk_atomic.md)
 for the scalar and vector types, and
 [chk_composite](https://torfason.github.io/zmisc/reference/chk_composite.md)
 for lists and composite objects.
-
-[chk_atomic](https://torfason.github.io/zmisc/reference/chk_atomic.md)
-and
-[chk_composite](https://torfason.github.io/zmisc/reference/chk_composite.md).
 
 ## Examples
 

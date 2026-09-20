@@ -46,6 +46,7 @@ chk_tibble(x, ..., null.ok = FALSE)
 - contains:
 
   Character vector of names that must be bound in the environment.
+  Applies to `chk_environment()`.
 
 - attr.ok:
 
