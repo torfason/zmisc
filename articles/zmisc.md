@@ -3,9 +3,10 @@
 ## Vector Look-Ups and Safer Sampling
 
 A collection of utility functions that facilitate looking up vector
-values from a lookup table, annotate values in at table for clearer
+values from a lookup table, annotate values in a table for clearer
 viewing, and support a safer approach to vector sampling, sequence
-generation, and aggregation.
+generation, and aggregation. Also included is a family of argument
+checks which return their input so that they compose nicely in a pipe.
 
 ## Installation
 
@@ -97,9 +98,17 @@ identical to the [sample()](https://rdrr.io/r/base/sample.html) and
 ``` r
 ```
 
+## Checks with rlang-style errors
+
+The `chk_*()` functions check the type and shape of an argument and, on
+failure, raise an rlang-style error naming the argument as the caller
+wrote it. Each returns its input, so a check composes in a pipe. See
+[`vignette("chk")`](https://torfason.github.io/zmisc/articles/chk.md)
+for the full set.
+
 ## Getting a better view on variables
 
-The [notate()](https://torfason.github.io/zmisc/reference/zingle.html)
+The [notate()](https://torfason.github.io/zmisc/reference/notate.html)
 function adds annotations to `factor` and `labelled` variables that make
 it easier to see both values and labels/levels when using the
 [View()](https://rdrr.io/r/utils/View.html) function

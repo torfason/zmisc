@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">zmisc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,6 +17,10 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/zmisc.html">Get started</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/chk.html">Checks with rlang-style errors</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -63,7 +67,7 @@
         </dt>
         <dd>Return the single (unique) value found in a vector</dd>
       </dl></div><div class="section level2">
-      <h2 id="assertions">Assertions<a class="anchor" aria-label="anchor" href="#assertions"></a></h2>
+      <h2 id="checks">Checks<a class="anchor" aria-label="anchor" href="#checks"></a></h2>
 
       <div class="section-desc"><p>The <code>chk_*()</code> family: checkmate type checks that raise rlang style errors and return their input.</p></div>
 
@@ -74,31 +78,24 @@
 
       <dl><dt>
 
-          <code><a href="checkmate_rlang.html">chk_flag()</a></code> <code><a href="checkmate_rlang.html">chk_string()</a></code> <code><a href="checkmate_rlang.html">chk_number()</a></code> <code><a href="checkmate_rlang.html">chk_inumber()</a></code> <code><a href="checkmate_rlang.html">chk_dnumber()</a></code> <code><a href="checkmate_rlang.html">chk_znumber()</a></code> <code><a href="checkmate_rlang.html">chk_count()</a></code> <code><a href="checkmate_rlang.html">chk_day()</a></code> <code><a href="checkmate_rlang.html">chk_instant()</a></code> <code><a href="checkmate_rlang.html">chk_scalar()</a></code> <code><a href="checkmate_rlang.html">chk_logical()</a></code> <code><a href="checkmate_rlang.html">chk_character()</a></code> <code><a href="checkmate_rlang.html">chk_numeric()</a></code> <code><a href="checkmate_rlang.html">chk_integer()</a></code> <code><a href="checkmate_rlang.html">chk_double()</a></code> <code><a href="checkmate_rlang.html">chk_integerish()</a></code> <code><a href="checkmate_rlang.html">chk_naturalish()</a></code> <code><a href="checkmate_rlang.html">chk_factor()</a></code> <code><a href="checkmate_rlang.html">chk_complex()</a></code> <code><a href="checkmate_rlang.html">chk_raw()</a></code> <code><a href="checkmate_rlang.html">chk_date()</a></code> <code><a href="checkmate_rlang.html">chk_posixct()</a></code> <code><a href="checkmate_rlang.html">chk_atomic()</a></code>
+          <code><a href="chk_atomic.html">chk_flag()</a></code> <code><a href="chk_atomic.html">chk_logical()</a></code> <code><a href="chk_atomic.html">chk_string()</a></code> <code><a href="chk_atomic.html">chk_character()</a></code> <code><a href="chk_atomic.html">chk_number()</a></code> <code><a href="chk_atomic.html">chk_numeric()</a></code> <code><a href="chk_atomic.html">chk_inumber()</a></code> <code><a href="chk_atomic.html">chk_integer()</a></code> <code><a href="chk_atomic.html">chk_dnumber()</a></code> <code><a href="chk_atomic.html">chk_double()</a></code> <code><a href="chk_atomic.html">chk_znumber()</a></code> <code><a href="chk_atomic.html">chk_integerish()</a></code> <code><a href="chk_atomic.html">chk_count()</a></code> <code><a href="chk_atomic.html">chk_naturalish()</a></code> <code><a href="chk_atomic.html">chk_factor()</a></code> <code><a href="chk_atomic.html">chk_complex()</a></code> <code><a href="chk_atomic.html">chk_raw()</a></code> <code><a href="chk_atomic.html">chk_day()</a></code> <code><a href="chk_atomic.html">chk_date()</a></code> <code><a href="chk_atomic.html">chk_instant()</a></code> <code><a href="chk_atomic.html">chk_posixct()</a></code> <code><a href="chk_atomic.html">chk_scalar()</a></code> <code><a href="chk_atomic.html">chk_atomic()</a></code>
 
         </dt>
-        <dd>Assertion functions for scalars and atomic vectors</dd>
+        <dd>Checks for scalars and atomic vectors</dd>
 
         <dt>
 
-          <code><a href="checkmate_rlang_other.html">chk_environment()</a></code> <code><a href="checkmate_rlang_other.html">chk_list()</a></code> <code><a href="checkmate_rlang_other.html">chk_data_frame()</a></code> <code><a href="checkmate_rlang_other.html">chk_data_table()</a></code> <code><a href="checkmate_rlang_other.html">chk_tibble()</a></code> <code><a href="checkmate_rlang_other.html">chk_class()</a></code> <code><a href="checkmate_rlang_other.html">chk_true()</a></code> <code><a href="checkmate_rlang_other.html">chk_that()</a></code>
+          <code><a href="chk_composite.html">chk_environment()</a></code> <code><a href="chk_composite.html">chk_list()</a></code> <code><a href="chk_composite.html">chk_data_frame()</a></code> <code><a href="chk_composite.html">chk_data_table()</a></code> <code><a href="chk_composite.html">chk_tibble()</a></code>
 
         </dt>
-        <dd>Assertion functions for objects that are not atomic vectors</dd>
+        <dd>Checks for lists and composite objects</dd>
 
         <dt>
 
-          <code><a href="checkmate_rlang_dots.html">chk_dots_empty()</a></code> <code><a href="checkmate_rlang_dots.html">chk_match()</a></code>
+          <code><a href="chk_other.html">chk_any()</a></code> <code><a href="chk_other.html">chk_class()</a></code> <code><a href="chk_other.html">chk_true()</a></code> <code><a href="chk_other.html">chk_that()</a></code> <code><a href="chk_other.html">chk_match()</a></code> <code><a href="chk_other.html">chk_dots_empty()</a></code>
 
         </dt>
-        <dd>Aliases for rlang assertions</dd>
-
-        <dt>
-
-          <code><a href="chk_any.html">chk_any()</a></code>
-
-        </dt>
-        <dd>Assert that at least one of several assertions passes</dd>
+        <dd>Various other check functions</dd>
       </dl></div><div class="section level2">
       <h2 id="glue-interpolation">Glue interpolation<a class="anchor" aria-label="anchor" href="#glue-interpolation"></a></h2>
 

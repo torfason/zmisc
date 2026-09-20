@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">zmisc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3.9007</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,6 +17,10 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/zmisc.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/chk.html">Checks with rlang-style errors</a></li>
+  </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -36,8 +40,17 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.4" id="zmisc-024">zmisc 0.2.4<a class="anchor" aria-label="anchor" href="#zmisc-024"></a></h2>
 <div class="section level3">
+<h3 id="new-features-0-2-4">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-4"></a></h3>
+<ul><li><p>Adds argument check functions, <code>chk_*()</code>. The family covers the atomic types in both scalar and vector form (<code><a href="../reference/chk_atomic.html">chk_string()</a></code>, <code><a href="../reference/chk_atomic.html">chk_character()</a></code>, <code><a href="../reference/chk_atomic.html">chk_number()</a></code>, and so on), lists and composite objects (<code><a href="../reference/chk_composite.html">chk_list()</a></code>, <code><a href="../reference/chk_composite.html">chk_data_frame()</a></code>, <code><a href="../reference/chk_composite.html">chk_tibble()</a></code>, …), classes and arbitrary conditions (<code><a href="../reference/chk_other.html">chk_class()</a></code>, <code><a href="../reference/chk_other.html">chk_true()</a></code>, <code><a href="../reference/chk_other.html">chk_that()</a></code>), and <code><a href="../reference/chk_other.html">chk_any()</a></code> for a requirement that any one of several checks may satisfy. See <code><a href="../articles/chk.html">vignette("chk")</a></code>, and <code><a href="../reference/chk_atomic.html">?chk_atomic</a></code>, <code><a href="../reference/chk_composite.html">?chk_composite</a></code> and <code><a href="../reference/chk_other.html">?chk_other</a></code>.</p></li>
+<li><p>Adds <code><a href="../reference/glue_vector.html">glue_vector()</a></code>, which applies a <code>glue</code> template element-wise to a vector. <code><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue()</a></code> and <code><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue_data()</a></code> are re-exported alongside it.</p></li>
+<li><p>Adds <code><a href="../reference/asciify.html">asciify()</a></code>, which transliterates accented characters to ASCII.</p></li>
+<li><p>Adds <code><a href="../reference/yencode.html">yencode()</a></code> and <code><a href="../reference/yencode.html">ydecode()</a></code>, which encode strings into a restricted character set and back.</p></li>
+</ul></div>
+<div class="section level3">
 <h3 id="bug-fixes-and-behavior-changes-0-2-4">Bug fixes and behavior changes<a class="anchor" aria-label="anchor" href="#bug-fixes-and-behavior-changes-0-2-4"></a></h3>
-<ul><li>Various fixes and improvements to zeq(), zample() and zingle().</li>
+<ul><li><p>Various fixes and improvements to zeq(), zample() and zingle().</p></li>
+<li><p><code>ll_assert_labelled()</code> is renamed to <code><a href="../reference/ll_chk_labelled.html">ll_chk_labelled()</a></code>, following the <code>chk_</code> naming used for the new check functions.</p></li>
+<li><p><code><a href="../reference/wrap_error.html">wrap_error()</a></code> now honors its <code>wrap</code> argument correctly.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
