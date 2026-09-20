@@ -8,13 +8,13 @@
 #' @param attr.ok Which attributes `x` may carry beyond those intrinsic to its type: a character vector of permitted attribute names, `FALSE` for none at all, or `TRUE` for any.
 #' @param length Permitted length. `NULL` for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum. Neither may be negative, and `NA` at an end, or `Inf` as the maximum, means no bound there.
 #' @param range Permitted range of values, under the same first/last rule as `length`. For the character types it constrains `nchar()` of the elements instead, and for the date and time types the bounds are themselves `Date` or `POSIXct`. `NA` at an end means no bound there, and so does an infinite end wherever the type keeps that meaning.
-#' @rdname checkmate_rlang
-#' @name checkmate_rlang
+#' @rdname chk_atomic
+#' @name chk_atomic
 NULL
 
 # chk_flag(): scalar, backed by check_flag()
 
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_flag <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") {
 
@@ -36,7 +36,7 @@ chk_flag <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") 
 # chk_logical(): vector, backed by check_logical()
 # pinned: all.missing = TRUE, unique = FALSE, names = NULL, typed.missing =
 #   FALSE
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_logical <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL) {
 
@@ -60,7 +60,7 @@ chk_logical <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 }
 # chk_string(): scalar, backed by check_string()
 # pinned: pattern = NULL, fixed = NULL, ignore.case = FALSE
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_string <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
@@ -85,7 +85,7 @@ chk_string <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
 # chk_character(): vector, backed by check_character()
 # pinned: pattern = NULL, fixed = NULL, ignore.case = FALSE, all.missing =
 #   TRUE, unique = FALSE, sorted = FALSE, names = NULL, typed.missing = FALSE
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_character <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
@@ -113,7 +113,7 @@ chk_character <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "name
 }
 # chk_number(): scalar, backed by check_number()
 # pinned: finite = FALSE
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_number <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
@@ -137,7 +137,7 @@ chk_number <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
 # chk_numeric(): vector, backed by check_numeric()
 # pinned: finite = FALSE, all.missing = TRUE, unique = FALSE, sorted = FALSE,
 #   names = NULL, typed.missing = FALSE
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_numeric <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
@@ -164,7 +164,7 @@ chk_numeric <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 }
 # chk_inumber(): scalar, backed by check_inumber()
 
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_inumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
@@ -188,7 +188,7 @@ chk_inumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
 # chk_integer(): vector, backed by check_integer()
 # pinned: all.missing = TRUE, unique = FALSE, sorted = FALSE, names = NULL,
 #   typed.missing = FALSE
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_integer <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
@@ -215,7 +215,7 @@ chk_integer <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 }
 # chk_dnumber(): scalar, backed by check_dnumber()
 
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_dnumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
@@ -239,7 +239,7 @@ chk_dnumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
 # chk_double(): vector, backed by check_double()
 # pinned: finite = FALSE, all.missing = TRUE, unique = FALSE, sorted = FALSE,
 #   names = NULL, typed.missing = FALSE
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_double <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
@@ -266,7 +266,7 @@ chk_double <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
 }
 # chk_znumber(): scalar, backed by check_int()
 # pinned: tol = sqrt(.Machine$double.eps)
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_znumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
@@ -290,7 +290,7 @@ chk_znumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
 # chk_integerish(): vector, backed by check_integerish()
 # pinned: tol = sqrt(.Machine$double.eps), all.missing = TRUE, unique =
 #   FALSE, sorted = FALSE, names = NULL, typed.missing = FALSE
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_integerish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
@@ -317,7 +317,7 @@ chk_integerish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "nam
 }
 # chk_count(): scalar, backed by check_count()
 # pinned: tol = sqrt(.Machine$double.eps)
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_count <- function(x, ..., na.ok = FALSE, zero.ok = TRUE, null.ok = FALSE, attr.ok = "names") {
 
@@ -340,7 +340,7 @@ chk_count <- function(x, ..., na.ok = FALSE, zero.ok = TRUE, null.ok = FALSE, at
 # chk_naturalish(): vector, backed by check_naturalish()
 # pinned: tol = sqrt(.Machine$double.eps), all.missing = TRUE, unique =
 #   FALSE, sorted = FALSE, names = NULL
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_naturalish <- function(x, ..., na.ok = TRUE, zero.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
@@ -370,7 +370,7 @@ chk_naturalish <- function(x, ..., na.ok = TRUE, zero.ok = TRUE, null.ok = FALSE
 # pinned: levels = NULL, ordered = NA, empty.levels.ok = TRUE, all.missing =
 #   TRUE, n.levels = NULL, min.levels = NULL, max.levels = NULL, unique =
 #   FALSE, names = NULL
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_factor <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL) {
 
@@ -395,7 +395,7 @@ chk_factor <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
 # chk_complex(): vector, backed by check_complex()
 # pinned: all.missing = TRUE, unique = FALSE, names = NULL, typed.missing =
 #   FALSE
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_complex <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL) {
 
@@ -419,7 +419,7 @@ chk_complex <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 }
 # chk_raw(): vector, backed by check_raw()
 # pinned: names = NULL
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_raw <- function(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL) {
 
@@ -442,7 +442,7 @@ chk_raw <- function(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL) {
 }
 # chk_day(): scalar, backed by check_day()
 
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_day <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
@@ -465,7 +465,7 @@ chk_day <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", r
 }
 # chk_date(): vector, backed by check_date()
 # pinned: all.missing = TRUE, unique = FALSE
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_date <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
@@ -492,7 +492,7 @@ chk_date <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", l
 }
 # chk_instant(): scalar, backed by check_instant()
 
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_instant <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
@@ -515,7 +515,7 @@ chk_instant <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
 }
 # chk_posixct(): vector, backed by check_posixct()
 # pinned: all.missing = TRUE, unique = FALSE, sorted = FALSE
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_posixct <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
@@ -542,7 +542,7 @@ chk_posixct <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 }
 # chk_scalar(): scalar, backed by check_scalar()
 
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_scalar <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") {
 
@@ -563,7 +563,7 @@ chk_scalar <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
 }
 # chk_atomic(): vector, backed by check_atomic()
 # pinned: all.missing = TRUE, unique = FALSE, names = NULL
-#' @rdname checkmate_rlang
+#' @rdname chk_atomic
 #' @export
 chk_atomic <- function(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL) {
 

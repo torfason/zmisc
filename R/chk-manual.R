@@ -10,66 +10,15 @@
 # an argument: a bare list is a vector, checkmate::check_list() passes anything
 # of type list including data frames, and the absence of a class attribute is
 # the only thing separating the two. Containers get no `range`, and `length`
-# only where it counts something a caller would recognise. Everything else
+# only where it counts something a caller would recognize. Everything else
 # checkmate offers stays pinned, so a misspelled argument raises rather than
 # being silently dropped.
-
-#' Assertion functions for objects that are not atomic vectors
-#'
-#' @description
-#' Assertions for containers and for properties that no type check covers,
-#' with [rlang] style error messages. See [checkmate_rlang] for the scalar and
-#' vector types.
-#'
-#' | **Function**            | **Passes when**                                 |
-#' | ----------------------- | ----------------------------------------------- |
-#' | `chk_environment(x)`    | `x` is an environment                           |
-#' | `chk_list(x)`           | `x` is a list, and carries no class             |
-#' | `chk_data_frame(x)`     | `x` is a `data.frame` of sound structure        |
-#' | `chk_data_table(x)`     | `x` is also a `data.table`                      |
-#' | `chk_tibble(x)`         | `x` is also a `tbl_df`                          |
-#' | `chk_class(x, classes)` | `x` inherits from every class in `classes`      |
-#' | `chk_true(x)`           | `x` is `TRUE`                                   |
-#' | `chk_that(x, expr)`     | `x` mapped to `.` results in `expr` being TRUE  |
-#'
-#' `chk_true()` is the catch-all: any property of any object that can be
-#' written as a condition, at the cost of a message that can only report that
-#' the condition was not met.
-#'
-#' `chk_that()` is a variant of `chk_true()` that separates the value to be
-#' checked (`x`) from the expression to be evaluated on it (`expr`). This
-#' can be helpful when evaluating an arbitrary condition on an object passing
-#' through a pipe.
-#'
-#' These take far fewer arguments than their [checkmate] counterparts. The
-#' container checks carry no `attr.ok`, since a `data.frame` is its class and
-#' its row names, and only `chk_list()` takes a `length`.
-#'
-#' @param x Object to check.
-#' @param ... These dots are for future extensions and must be empty.
-#' @param na.ok Are missing values permitted?
-#' @param null.ok Is `NULL` permitted?
-#' @param length Permitted length. `NULL` for any length, a scalar for one
-#'   exact length, or a vector whose first and last elements give the minimum
-#'   and the maximum. Neither may be negative, and `NA` at an end, or `Inf` as
-#'   the maximum, means no bound there.
-#' @param classes Character vector of class names `x` must inherit from.
-#' @param contains Character vector of names that must be bound in the
-#'   environment.
-#' @param ordered Must `classes` appear in that order at the head of
-#'   `class(x)`?
-#' @return The original object if the assertion passes.
-#'
-#' @seealso [checkmate_rlang] for the scalar and vector types.
-#'
-#' @name checkmate_rlang_other
-NULL
 
 #### CONTAINERS ####
 
 # chk_environment(): container, backed by check_environment()
 
-#' @rdname checkmate_rlang_other
+#' @rdname chk_composite
 #' @export
 chk_environment <- function(x, ..., null.ok = FALSE, contains = character()) {
 
@@ -91,7 +40,7 @@ chk_environment <- function(x, ..., null.ok = FALSE, contains = character()) {
 # check_list() passes anything of type list, so the attribute policy is what
 # keeps a data.frame out. Fixed at "names", not offered as an argument.
 
-#' @rdname checkmate_rlang_other
+#' @rdname chk_composite
 #' @export
 chk_list <- function(x, ..., null.ok = FALSE, length = NULL) {
 
@@ -117,7 +66,7 @@ chk_list <- function(x, ..., null.ok = FALSE, length = NULL) {
 #   min.rows = NULL, max.rows = NULL, min.cols = NULL, max.cols = NULL,
 #   nrows = NULL, ncols = NULL, row.names = NULL, col.names = NULL
 
-#' @rdname checkmate_rlang_other
+#' @rdname chk_composite
 #' @export
 chk_data_frame <- function(x, ..., null.ok = FALSE) {
 
@@ -139,7 +88,7 @@ chk_data_frame <- function(x, ..., null.ok = FALSE) {
 #   max.cols = NULL, nrows = NULL, ncols = NULL, row.names = NULL,
 #   col.names = NULL
 
-#' @rdname checkmate_rlang_other
+#' @rdname chk_composite
 #' @export
 chk_data_table <- function(x, ..., null.ok = FALSE) {
 
@@ -160,7 +109,7 @@ chk_data_table <- function(x, ..., null.ok = FALSE) {
 #   min.rows = NULL, max.rows = NULL, min.cols = NULL, max.cols = NULL,
 #   nrows = NULL, ncols = NULL, row.names = NULL, col.names = NULL
 
-#' @rdname checkmate_rlang_other
+#' @rdname chk_composite
 #' @export
 chk_tibble <- function(x, ..., null.ok = FALSE) {
 
@@ -181,7 +130,7 @@ chk_tibble <- function(x, ..., null.ok = FALSE) {
 # chk_class(): backed by check_class()
 # The fast path needs two arguments, since `classes` is required.
 
-#' @rdname checkmate_rlang_other
+#' @rdname chk_other
 #' @export
 chk_class <- function(x, classes, ..., null.ok = FALSE, ordered = FALSE) {
 
@@ -200,7 +149,7 @@ chk_class <- function(x, classes, ..., null.ok = FALSE, ordered = FALSE) {
 # chk_true(): backed by check_true()
 # The catch-all: any property of any object, expressed as a condition.
 
-#' @rdname checkmate_rlang_other
+#' @rdname chk_other
 #' @export
 chk_true <- function(x, ..., na.ok = FALSE) {
 
@@ -219,7 +168,7 @@ chk_true <- function(x, ..., na.ok = FALSE) {
 # chk_that(): backed by check_true()
 # chk_true() variant that works in pipe by passing var and expr separately
 
-#' @rdname checkmate_rlang_other
+#' @rdname chk_other
 #' @export
 chk_that <- function(x, expr, ..., na.ok = FALSE, .varnames = ".") {
 
@@ -243,34 +192,13 @@ chk_that <- function(x, expr, ..., na.ok = FALSE, .varnames = ".") {
 
 #### RLANG ALIASES ####
 
-#' Aliases for rlang assertions
-#'
-#' @description
-#' Two [rlang] functions under the `chk_` name, for consistency with the rest
-#' of the family.
-#'
-#' - `chk_dots_empty()` is [rlang::check_dots_empty()], and fails if anything
-#'   was passed through `...`.
-#' - `chk_match()` is [rlang::arg_match()], and fails unless `arg` matches one
-#'   of `values`, which default to the values in the caller's own formals.
-#'   Like every assertion here it returns its input, but visibly rather than
-#'   invisibly, so it is written as `type <- chk_match(type)`. Note that `arg`
-#'   must be a symbol (variable or function argument) representing a string,
-#'   it cannot be a string literal.
-#'
 #' @inheritParams rlang::check_dots_empty
-#' @return `chk_match()` returns the matched value; `chk_dots_empty()` returns
-#'   `NULL` invisibly.
-#'
-#' @seealso [checkmate_rlang] and [checkmate_rlang_other].
-#'
-#' @rdname checkmate_rlang_dots
+#' @rdname chk_other
 #' @export
 chk_dots_empty <- rlang::check_dots_empty
 
 
 #' @inheritParams rlang::arg_match
-#' @rdname checkmate_rlang_dots
-#' @aliases checkmate_rlang_dots
+#' @rdname chk_other
 #' @export
 chk_match <- rlang::arg_match

@@ -11,15 +11,14 @@ reference:
   - zample
   - zeq
   - zingle
-- title: Assertions
+- title: Checks
   desc: >
     The `chk_*()` family: checkmate type checks that raise rlang style errors
     and return their input.
   contents:
-  - checkmate_rlang
-  - checkmate_rlang_other
-  - checkmate_rlang_dots
-  - chk_any
+  - chk_atomic
+  - chk_composite
+  - chk_other
 - title: Glue interpolation
   contents:
   - glue_vector

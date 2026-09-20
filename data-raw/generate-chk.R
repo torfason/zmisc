@@ -253,7 +253,7 @@ render_fun <- function(name, kind, check, attrs) {
   glu(r"---(
     # chk_{{name}}(): {{kind}}, backed by {{check}}()
     {{fold(render_pinned(p))}}
-    #' @rdname checkmate_rlang
+    #' @rdname chk_atomic
     #' @export
     {{fold(render_signature(name, p))}}
 
@@ -288,8 +288,8 @@ render_params <- function(spec) {
     if (any(map_lgl(used, \(p) !is.na(p$range)))) "range"
   )
   c(glu("#' @param {{nms}} {{param_desc[nms]}}"),
-    "#' @rdname checkmate_rlang",
-    "#' @name checkmate_rlang",
+    "#' @rdname chk_atomic",
+    "#' @name chk_atomic",
     "NULL", "")
 }
 

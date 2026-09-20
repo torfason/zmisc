@@ -8,52 +8,7 @@
 # and parented on the caller's, so the assertions see exactly what they would
 # have seen and nothing one branch assigns is visible to the next.
 
-#' Assert that at least one of several assertions passes
-#'
-#' @description
-#' `chk_any()` evaluates its arguments in turn and returns the value of the
-#' first assertion that passes. If none pass, it raises one error reporting
-#' every failure. It is how a composite requirement is written, where each
-#' `chk_*()` function states only one thing:
-#'
-#' ```
-#' chk_any(chk_string(x), chk_number(x))
-#' ```
-#'
-#' @details
-#' Only the assertions `chk_any()` calls itself are candidates. An assertion
-#' reached through a helper function, or from inside a lambda passed to
-#' `lapply()`, throws where it stands, and so does everything that is not an
-#' assertion failure: a misspelled function, an argument that does not exist,
-#' an object that was never bound. That is the difference between this and
-#' wrapping the branches in [tryCatch()], which cannot tell a failed check from
-#' a typo, and it is also why the passing case costs microseconds rather than
-#' the milliseconds an [rlang::abort()] spends capturing a backtrace.
-#'
-#' The arguments are captured as expressions and evaluated in the calling
-#' environment, which rules out two ways of reaching `chk_any()` indirectly.
-#' `...` cannot be forwarded into it from another function, and an object
-#' cannot be piped into it. Both raise an error rather than being accommodated,
-#' since the first would evaluate the assertions in the wrong scope and the
-#' second would return the piped object as a branch that passed. Write the
-#' assertions at the call site, naming the object in each.
-#'
-#' @param ... Assertion calls. Evaluated left to right, stopping at the first
-#'   that passes. Must not be named.
-#' @return The value of the first argument that passes, invisibly. This is the
-#'   object that was asserted on, so `chk_any()` can be used inline the same way
-#'   the individual assertions can.
-#'
-#' @seealso [checkmate_rlang] for the scalar and vector types,
-#'   [checkmate_rlang_other] for containers and `chk_true()`.
-#'
-#' @examples
-#' x <- "a"
-#' chk_any(chk_string(x), chk_number(x))
-#'
-#' y <- 3
-#' chk_any(chk_string(y), chk_number(y))
-#'
+#' @rdname chk_other
 #' @export
 chk_any <- function(...) {
   exprs <- as.list(substitute(list(...)))[-1L]
