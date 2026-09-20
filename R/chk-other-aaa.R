@@ -1,33 +1,65 @@
 
-#' Assertions for arguments and for dots
-#'
-#' Two assertions for the use cases of `rlang::arg_match()` and `rlang::check_dots_empty()`.
-#'
-#' - `chk_match()` looks up `x` from `values`, which default to the values in
-#'   the caller's own formals, and fails if it is not matched. To assign a
-#'   default value to arg, call with `arg <- chk_match(arg)`. If `values` is
-#'   not given, `x` must be a symbol, since the values are then read from the
-#'   formal of that name.
-#' - `chk_dots_empty()` fails if anything was passed through `...`.
-#'
-#' @param x Value to check and match. A string, or the untouched default of the
-#'   argument being matched.
-#' @param values Permitted values, as a character vector. `NULL` reads them
-#'   from the default of the caller's formal named by `x`, which then has to
-#'   be a symbol.
-#' @param ... These dots are for future extensions and must be empty.
-#' @param multiple Is `x` allowed to hold several values? Each must then match,
-#'   and all are returned.
-#' @param error_arg Name to report the failure against, in place of the
-#'   expression `x` was written as.
-#' @return `chk_match()` returns the matched value; `chk_dots_empty()` returns
-#'   `NULL` invisibly.
-#'
-#' @seealso [chk_atomic] and [chk_composite].
-#'
+#### OTHER CHECKS ####
+
 #' @rdname chk_other
 #' @export
-chk_match <- function(x, values = NULL, ..., multiple = FALSE, error_arg = NULL) {
+chk_true <- function(x, ..., na.ok = FALSE) {
+
+  # No arguments, return on fastest path
+  if (nargs() == 1L && isTRUE(check_true(x)))
+    return(invisible(x))
+
+  # Anything in the dots is a typo, not an extension
+  chk_dots_empty()
+
+  res <- check_true(x, na.ok = na.ok)
+  if (isTRUE(res)) return(invisible(x))
+  chk_fail(x, res)
+}
+
+#' @rdname chk_other
+#' @export
+chk_that <- function(x, expr, ..., na.ok = FALSE, bindings = ".") {
+
+  # No optional arguments, evaluate against `.` alone
+  if (nargs() == 2L) {
+    value <- eval(substitute(expr), list(. = x), parent.frame())
+    if (isTRUE(value)) return(invisible(x))
+  } else {
+    if (...length()) chk_dots_empty()
+    chk_character(bindings)
+    binding_list <- rep(list(x), length(bindings))
+    names(binding_list) <- bindings
+    value <- eval(substitute(expr), binding_list, parent.frame())
+  }
+
+  res <- check_true(value, na.ok = na.ok)
+  if (isTRUE(res)) return(invisible(x))
+  chk_fail(x, res, attr.ok = TRUE, arg = deparse1(substitute(expr)))
+}
+
+#' @rdname chk_other
+#' @export
+chk_class <- function(x, classes, ..., null.ok = FALSE, ordered = FALSE) {
+
+  # No optional arguments, return on fastest path
+  if (nargs() == 2L && isTRUE(check_class(x, classes)))
+    return(invisible(x))
+
+  # Anything in the dots is a typo, not an extension
+  chk_dots_empty()
+
+  res <- check_class(x, classes, ordered = ordered, null.ok = null.ok)
+  if (isTRUE(res)) return(invisible(x))
+  chk_fail(x, res)
+}
+
+#' @rdname chk_other
+#' @export
+chk_match <- function(x, values = NULL, ..., multiple = FALSE) {
+
+  # Name to report the failure against, in place of `x` (not user-settable)
+  error_arg = NULL
 
   # Anything in the dots is a typo, not an extension
   if (...length()) chk_dots_empty()

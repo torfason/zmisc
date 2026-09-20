@@ -5,13 +5,13 @@
 
 ## Run source code generation
 {
-  source("data-raw/generate-chk.R")
+  source("data-raw/generate-chk-atomic.R")
   write_chk()
 }
 
 ## Build package and basic documentation (run before every commit)
 {
-  source("data-raw/generate-chk.R")
+  source("data-raw/generate-chk-atomic.R")
   write_chk()
   devtools::document()
   devtools::build()

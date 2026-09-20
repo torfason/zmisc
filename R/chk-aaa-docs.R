@@ -100,7 +100,7 @@ NULL
 #'   type: a character vector of permitted attribute names, `FALSE` for none at
 #'   all, or `TRUE` for any. Applies to `chk_list()`.
 #' @param contains Character vector of names that must be bound in the
-#'   environment.
+#'   environment. Applies to `chk_environment()`.
 #' @return The original object if the check passes.
 #'
 #' @seealso [chk_atomic] for the scalar and vector types, and [chk_other] for
@@ -120,35 +120,63 @@ NULL
 #' Various other check functions
 #'
 #' @description
-#' Various checks for classes and other, together
-#' with the two [rlang] assertions carried under the `chk_` name. See
-#' [chk_atomic] for the scalar and vector types.
+#' Various checks not directly related to atomic vectors (see [chk_atomic]), or
+#' composite objects (see [chk_composite]).
 #'
-#' | **Function**            | **Passes when**                             |
-#' | ----------------------- | ------------------------------------------- |
-#' | `chk_class(x, classes)` | `x` inherits from every class in `classes`  |
-#' | `chk_true(x)`           | `x` is `TRUE`                               |
-#' | `chk_that(x, expr)`     | `expr`, with `.` bound to `x`, is `TRUE`    |
-#' | `chk_dots_empty()`      | nothing was passed through `...`            |
-#' | `chk_match(arg)`        | `arg` matches one of `values`               |
-#' | `chk_any(...)`          | at least one of the checks given passes     |
+#' | **Function**             | **Passes when**                             |
+#' | ------------------------ | ------------------------------------------- |
+#' | `chk_true(x)`            | `x` is `TRUE` (implement arbitrary checks)  |
+#' | `chk_that(x, expr)`      | `expr`, with `.` bound to `x`, is `TRUE`    |
+#' | `chk_class(x, classes)`  | `x` inherits from every class in `classes`  |
+#' | `chk_match(x, values)`   | `x` matches one of `values`                 |
+#' | `chk_dots_empty()`       | nothing was passed through `...`            |
+#' | `chk_any(...)`           | at least one of the checks given passes     |
 #'
-#' `chk_true()` is the catch-all: any property of any object that can be written
-#' as a condition, at the cost of a message that can only report that the
-#' condition was not met. `chk_that()` also checks that an expression is true,
+#' `chk_true()` is a catch-all function that can be used to implement arbitrary
+#' checks (by checking any expression that should be true).
+#'
+#' `chk_that()` provides an alternative for checking that an expression is true,
 #' but separates the value to be checked (`x`) from the expression evaluated on
 #' it (`expr`), which makes an arbitrary condition usable on an object passing
 #' through a pipe.
 #'
-#' `chk_dots_empty()` is equivalent to [rlang::check_dots_empty()] and
-#' `chk_match()` is equivalent to [rlang::arg_match()]. Like every check here
-#' `chk_match()` returns its input, but visibly rather than invisibly, so it is
-#' written as `type <- chk_match(type)`. Its `arg` must be a symbol standing for
-#' a string, not a string literal.
+#' `chk_class()` provides a quick way to check the class of an object.
+#'
+#' `chk_match()` can be used either as an equivalent to [rlang::arg_match()] or
+#' [match.arg()] for checking a function argument against default values in a
+#' function, or to check that any (`character`) variable x is an element of a
+#' (`character`) vector of `values`. When used to select default value in a
+#' function, it must be called as `arg <- chk_match(arg)`.
+#'
+#' `chk_dots_empty()` verifies that no arguments were passed to the `...`
+#' parameters, similarly to [rlang::check_dots_empty()].
+#'
+#' `chk_any(...)` can be used to combine multiple other checks, and will fail
+#' only if all constituent checks fail.
+#'
+#' @param x Object to check.
+#' @param ... For `chk_any()`, the checks to try (see examples). For every other
+#'   function here the dots must be empty.
+#' @param classes Character vector of class names `x` must inherit from.
+#' @param ordered Must `classes` appear in that order at the head of `class(x)`?
+#' @param expr Expression to evaluate on `x`, which is bound to `.` unless
+#'   `bindings` says otherwise.
+#' @param bindings Character vector with name (or names) to bind `x` to when
+#'   evaluating  `expr`.
+#' @param na.ok Are missing values permitted?
+#' @param null.ok Is `NULL` permitted?
+#' @param values Character vector of values which the object checked by
+#'   `chk_match()` must be an element of.
+#' @param multiple Logical determining if the return value of `chk_match()` can
+#'   contain more than one element.
+#' @return The original object if the check passes. `chk_match()` returns the
+#'   matched value visibly, `chk_dots_empty()` returns `NULL` invisibly, and
+#'   `chk_any()` returns the value of the first argument that passes, which is
+#'   the object that was checked.
 #'
 #' @details
-#' `chk_any()` evaluates its arguments in turn and returns the value of the
-#' first that passes. If none pass, it raises one error reporting every
+#' `chk_any()` evaluates its arguments in turn and returns the value of
+#' the first that passes. If none pass, it raises one error reporting every
 #' failure. It is how a composite requirement is written, where each individual
 #' `chk_*()` function states only one thing:
 #'
@@ -169,22 +197,6 @@ NULL
 #' return the piped object as a branch that passed. Write the checks at the call
 #' site, naming the object in each.
 #'
-#' @param x Object to check.
-#' @param ... For `chk_any()`, the checks to try, evaluated left to right and
-#'   stopping at the first that passes; they must not be named. For every other
-#'   function here the dots must be empty.
-#' @param classes Character vector of class names `x` must inherit from.
-#' @param ordered Must `classes` appear in that order at the head of
-#'   `class(x)`?
-#' @param expr Expression to evaluate on `x`, which is bound to `.` unless
-#'   `.varnames` says otherwise.
-#' @param .varnames Names to bind `x` to when evaluating `expr`.
-#' @param na.ok Are missing values permitted?
-#' @param null.ok Is `NULL` permitted?
-#' @return The original object if the check passes. `chk_match()` returns the
-#'   matched value visibly, `chk_dots_empty()` returns `NULL` invisibly, and
-#'   `chk_any()` returns the value of the first argument that passes, which is
-#'   the object that was checked.
 #'
 #' @seealso [chk_atomic] for the scalar and vector types, and [chk_composite]
 #'   for lists and composite objects.

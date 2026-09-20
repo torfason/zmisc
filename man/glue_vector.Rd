@@ -42,6 +42,9 @@ Applies \code{\link[glue:glue]{glue::glue()}} to each element of a character vec
 string, enabling pipe-friendly, element-wise interpolation. Useful when the
 vector to process is not encapsulated in a \code{data.frame} or other
 environment-like object.
+
+The \code{\link[glue:glue]{glue::glue()}} and \code{\link[glue:glue_data]{glue::glue_data()}} functions are also re-exported
+for convenience
 }
 \examples{
   letters |> glue_vector("Letters include {.} and {LETTERS}")

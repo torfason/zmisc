@@ -14,7 +14,7 @@
 # checkmate offers stays pinned, so a misspelled argument raises rather than
 # being silently dropped.
 
-#### CONTAINERS ####
+#### COMPOSITE OBJECTS ####
 
 # chk_environment(): container, backed by check_environment()
 
@@ -128,68 +128,4 @@ chk_tibble <- function(x, ..., null.ok = FALSE) {
   res <- check_tibble(x, null.ok = null.ok)
   if (isTRUE(res)) return(invisible(x))
   chk_fail(x, res)
-}
-
-#### OTHER ####
-
-# chk_class(): backed by check_class()
-# The fast path needs two arguments, since `classes` is required.
-
-#' @rdname chk_other
-#' @export
-chk_class <- function(x, classes, ..., null.ok = FALSE, ordered = FALSE) {
-
-  # No optional arguments, return on fastest path
-  if (nargs() == 2L && isTRUE(check_class(x, classes)))
-      return(invisible(x))
-
-  # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
-
-  res <- check_class(x, classes, ordered = ordered, null.ok = null.ok)
-  if (isTRUE(res)) return(invisible(x))
-  chk_fail(x, res)
-}
-
-# chk_true(): backed by check_true()
-# The catch-all: any property of any object, expressed as a condition.
-
-#' @rdname chk_other
-#' @export
-chk_true <- function(x, ..., na.ok = FALSE) {
-
-  # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_true(x)))
-      return(invisible(x))
-
-  # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
-
-  res <- check_true(x, na.ok = na.ok)
-  if (isTRUE(res)) return(invisible(x))
-  chk_fail(x, res)
-}
-
-# chk_that(): backed by check_true()
-# chk_true() variant that works in pipe by passing var and expr separately
-
-#' @rdname chk_other
-#' @export
-chk_that <- function(x, expr, ..., na.ok = FALSE, .varnames = ".") {
-
-  # No optional arguments, evaluate against `.` alone
-  if (nargs() == 2L) {
-    value <- eval(substitute(expr), list(. = x), parent.frame())
-    if (isTRUE(value)) return(invisible(x))
-  } else {
-    if (...length()) chk_dots_empty()
-    chk_character(.varnames)
-    bindings <- rep(list(x), length(.varnames))
-    names(bindings) <- .varnames
-    value <- eval(substitute(expr), bindings, parent.frame())
-  }
-
-  res <- check_true(value, na.ok = na.ok)
-  if (isTRUE(res)) return(invisible(x))
-  chk_fail(x, res, attr.ok = TRUE, arg = deparse1(substitute(expr)))
 }
