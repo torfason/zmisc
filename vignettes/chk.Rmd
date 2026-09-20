@@ -1,0 +1,191 @@
+---
+title: "Checks with rlang-style errors"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Checks with rlang-style errors}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(zmisc)
+```
+
+The `chk_*()` functions check the type and shape of an argument and, on
+failure, raise an [rlang]-style error naming the argument as the caller wrote
+it. The checking itself is done by [checkmate]. Each function returns its
+input, so a check can sit in the middle of a pipe, and each is cheap enough on
+the passing path to leave at the top of any function: the passing case is one
+call to the backing `check_*()`, a test, and a return. Assembling a good
+message happens on the failing path, which runs once and then stops.
+
+A passing check returns its input invisibly, so on its own it prints nothing.
+
+```{r basics}
+# The check returns its input, so it composes in a pipe
+c(2, 4, 6) |> chk_numeric(length = 3) |> sum()
+
+# On failure, the error names the argument as the caller wrote it
+my_mean <- function(x) {
+  chk_numeric(x)
+  sum(x) / length(x)
+}
+tryCatch(my_mean("seven"), error = wrap_error)
+```
+
+## Scalars and atomic vectors
+
+Every atomic type is covered in both a scalar and a vector form.
+
+| R type       | Scalar            | Vector              |
+| ------------ | ----------------- | ------------------- |
+| any type     | `chk_scalar()`    | `chk_atomic()`      |
+| `logical`    | `chk_flag()`      | `chk_logical()`     |
+| `character`  | `chk_string()`    | `chk_character()`   |
+| `numeric`    | `chk_number()`    | `chk_numeric()`     |
+| `integer`    | `chk_inumber()`   | `chk_integer()`     |
+| `double`     | `chk_dnumber()`   | `chk_double()`      |
+| integerish   | `chk_znumber()`   | `chk_integerish()`  |
+| naturalish   | `chk_count()`     | `chk_naturalish()`  |
+| `factor`     |                   | `chk_factor()`      |
+| `complex`    |                   | `chk_complex()`     |
+| `raw`        |                   | `chk_raw()`         |
+| `Date`       | `chk_day()`       | `chk_date()`        |
+| `POSIXct`    | `chk_instant()`   | `chk_posixct()`     |
+
+*integerish* means a functional integer: a number very close to a whole number,
+whether stored as `integer` or as `double`. *naturalish* restricts that to the
+natural numbers, zero and up.
+
+Every one of them takes the same set of arguments: `na.ok`, `null.ok`,
+`attr.ok`, and `length` or `range` where they apply, plus `zero.ok` for the
+naturalish pair. The dots are reserved, so a misspelled argument raises rather
+than being quietly ignored.
+
+```{r params}
+tryCatch(chk_character(c("a", NA), na.ok = FALSE), error = wrap_error)
+tryCatch(chk_integer(1:5, length = 3), error = wrap_error)
+tryCatch(chk_numeric(c(1, 99), range = c(0, 10)), error = wrap_error)
+tryCatch(chk_count(0, zero.ok = FALSE), error = wrap_error)
+```
+
+`length` and `range` are pairs. A scalar pins both ends, `NA` at an end means
+no bound there, and the same rule applies whether the pair counts elements,
+counts characters, or bounds values.
+
+```{r pairs}
+chk_character(letters, length = c(10, NA)) |> length()
+chk_string("abc", range = c(1, 3)) |> nchar()
+```
+
+`attr.ok` lists the attributes `x` may carry beyond those intrinsic to its type,
+defaults to `"names"`, and takes `FALSE` for none at all or `TRUE` for any.
+
+```{r attrs}
+labelled_ages <- structure(c(38L, 41L), label = "Age at interview")
+tryCatch(chk_integer(labelled_ages), error = wrap_error)
+chk_integer(labelled_ages, attr.ok = "label") |> sum()
+```
+
+## Lists and composite objects
+
+Container checks take `null.ok`. `chk_list()` additionally takes `length` with
+the same semantics as for atomic vectors. `chk_environment()` additionally takes
+`contains` as a list of item names that must be present in the environment.
+
+```{r composite}
+chk_data_frame(mtcars) |> nrow()
+chk_list(list(a = 1, b = 2), length = 2) |> names()
+
+# A data.frame is a list to typeof(), but not to chk_list()
+tryCatch(chk_list(mtcars), error = wrap_error)
+```
+
+`chk_environment()`, `chk_data_table()` and `chk_tibble()` complete the set.
+
+## Classes and conditions
+
+`chk_class()` checks inheritance, and `chk_true()` is the catch-all: any
+property of any object that can be written as a condition, at the cost of a
+message that can only report that the condition was not met.
+
+```{r other}
+tryCatch(chk_class(1:3, "factor"), error = wrap_error)
+tryCatch(chk_true(nrow(mtcars) > 100), error = wrap_error)
+```
+
+`chk_that()` is parallel to `chk_true()`, but with the value and the expression
+separated, so that the condition can be applied to an object passing through a
+pipe. The value is bound to `.` by default.
+
+```{r chk_that}
+mtcars |> chk_that(nrow(.) > 10) |> ncol()
+tryCatch(mtcars |> chk_that(nrow(.) > 100), error = wrap_error)
+```
+
+`chk_dots_empty()` fails if anything was passed through `...`, and `chk_match()`
+matches an argument against the values in its own default, returning the match.
+`chk_match()` can be used *either* instead of `match.arg()` for a choice style
+argument (in which case `x` must be a symbol), or as an way to check that an
+arbitrary `character` value is an element of a set.
+
+```{r match}
+plot_kind <- function(kind = c("scatter", "line", "bar")) {
+  kind <- chk_match(kind)
+  kind
+}
+plot_kind()
+tryCatch(plot_kind("pie"), error = wrap_error)
+```
+
+## Alternatives
+
+Each `chk_*()` function states one thing. A requirement that is satisfied by
+either of two shapes is written with `chk_any()`, which evaluates its arguments
+in turn, returns the value of the first that passes, and otherwise raises one
+error reporting every failure.
+
+```{r chk_any}
+x <- "a"
+chk_any(chk_string(x), chk_number(x)) |> toupper()
+
+y <- TRUE
+tryCatch(chk_any(chk_string(y), chk_number(y)), error = wrap_error)
+```
+
+`chk_any()` relies on other `chk_*()` functions being aware that they are being
+called by `chk_any()` and does not catch arbitrary errors. An error is never
+raised unless all the checks fail, so a composite `chk_any()` call is not
+unbearably slow. `chk_any()` on two passing elementary checks takes 10-20
+microseconds compared to 1-4 microseconds for the elementary checks themselves.
+If the first elementary check fails, this goes up to around 50 microseconds,
+compared with around a millisecond (1000 microseconds) for a minimally caught
+actual error.
+
+Only the direct `chk_any()` calls itself are handled. Calls reached through a
+helper function, or from inside a lambda passed to `lapply()` will error
+directly, and so does everything that is not a failed check: a misspelled
+function, an argument that does not exist, an object that was never bound.
+
+The arguments are captured as expressions and evaluated in the calling
+environment, so `...` cannot be forwarded into `chk_any()` from another
+function, and an object cannot be piped into it. Both raise an error.
+
+## Reference
+
+The full argument documentation is in the help files, one per group:
+[chk_atomic], [chk_composite] and [chk_other].
+
+[chk_atomic]:    https://torfason.github.io/zmisc/reference/chk_atomic.html
+[chk_composite]: https://torfason.github.io/zmisc/reference/chk_composite.html
+[chk_other]:     https://torfason.github.io/zmisc/reference/chk_other.html
+
+[checkmate]:     https://mllg.github.io/checkmate/
+[rlang]:         https://rlang.r-lib.org/

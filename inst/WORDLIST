@@ -23,6 +23,11 @@ tidyverse
 integerish
 urlencode
 yencode
+ydecode
 roxygen2
 naturalish
 backtrace
+asciify
+chk
+onwards
+tibble's
