@@ -23,7 +23,7 @@ NULL
 chk_flag <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_flag(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "logical") && length(x) == 1L && !is.na(x))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -45,7 +45,7 @@ chk_flag <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") 
 chk_logical <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_logical(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "logical"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -69,7 +69,7 @@ chk_logical <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 chk_string <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_string(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "character") && length(x) == 1L && !is.na(x))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -94,7 +94,7 @@ chk_string <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
 chk_character <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_character(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "character"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -122,7 +122,7 @@ chk_character <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "name
 chk_number <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_number(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "numeric") && length(x) == 1L && !is.na(x))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -146,7 +146,7 @@ chk_number <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
 chk_numeric <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_numeric(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "numeric"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -173,7 +173,7 @@ chk_numeric <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 chk_inumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_inumber(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "integer") && length(x) == 1L && !is.na(x))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -197,7 +197,7 @@ chk_inumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
 chk_integer <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_integer(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "integer"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -224,7 +224,7 @@ chk_integer <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 chk_dnumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_dnumber(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "double") && length(x) == 1L && !is.na(x))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -248,7 +248,7 @@ chk_dnumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
 chk_double <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_double(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "double"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -275,7 +275,7 @@ chk_double <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
 chk_znumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_int(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "integer") && length(x) == 1L && !is.na(x))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -299,7 +299,7 @@ chk_znumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
 chk_integerish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_integerish(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "integer"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -326,7 +326,7 @@ chk_integerish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "nam
 chk_count <- function(x, ..., na.ok = FALSE, zero.ok = TRUE, null.ok = FALSE, attr.ok = "names") {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_count(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "integer") && length(x) == 1L && !is.na(x) && x >= 0L)
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -349,7 +349,7 @@ chk_count <- function(x, ..., na.ok = FALSE, zero.ok = TRUE, null.ok = FALSE, at
 chk_naturalish <- function(x, ..., na.ok = TRUE, zero.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_naturalish(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && isTRUE(check_naturalish(x)) && is.vector(x, "any"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -379,7 +379,7 @@ chk_naturalish <- function(x, ..., na.ok = TRUE, zero.ok = TRUE, null.ok = FALSE
 chk_factor <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_factor(x)) && (attrs_ok(x, "names", c("class", "levels"))) )
+  if (nargs() == 1L && isTRUE(check_factor(x)) && attrs_ok(x, "names", c("class", "levels")))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -404,7 +404,7 @@ chk_factor <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
 chk_complex <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_complex(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "complex"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -428,7 +428,7 @@ chk_complex <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 chk_raw <- function(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_raw(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && is.vector(x, "raw"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -451,7 +451,7 @@ chk_raw <- function(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL) {
 chk_day <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_day(x)) && (attrs_ok(x, "names", "class")) )
+  if (nargs() == 1L && isTRUE(check_day(x)) && attrs_ok(x, "names", "class"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -474,7 +474,7 @@ chk_day <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", r
 chk_date <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_date(x)) && (attrs_ok(x, "names", "class")) )
+  if (nargs() == 1L && isTRUE(check_date(x)) && attrs_ok(x, "names", "class"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -501,7 +501,7 @@ chk_date <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", l
 chk_instant <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_instant(x)) && (attrs_ok(x, "names", c("class", "tzone"))) )
+  if (nargs() == 1L && isTRUE(check_instant(x)) && attrs_ok(x, "names", c("class", "tzone")))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -524,7 +524,7 @@ chk_instant <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
 chk_posixct <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_posixct(x)) && (attrs_ok(x, "names", c("class", "tzone"))) )
+  if (nargs() == 1L && isTRUE(check_posixct(x)) && attrs_ok(x, "names", c("class", "tzone")))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -551,7 +551,7 @@ chk_posixct <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 chk_scalar <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_scalar(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && isTRUE(check_scalar(x)) && is.vector(x, "any"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
@@ -572,7 +572,7 @@ chk_scalar <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
 chk_atomic <- function(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL) {
 
   # No arguments, return on fastest path
-  if (nargs() == 1L && isTRUE(check_atomic(x)) && (is.vector(x, "any")) )
+  if (nargs() == 1L && isTRUE(check_atomic(x)) && is.vector(x, "any"))
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension

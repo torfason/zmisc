@@ -44,9 +44,10 @@
 ##
 ## Two paths through each generated body:
 ##
-##   nargs() == 1  the backing check with its own defaults, plus is.vector(),
-##                 which is exactly attr.ok = "names", and no argument
-##                 construction at all
+##   nargs() == 1  a cheap sufficient predicate, usually is.vector(x, <mode>),
+##                 standing in for the backing check at its own defaults and
+##                 for attr.ok = "names", with no argument construction at
+##                 all; see render_fast()
 ##   nargs()  > 1  parameters translated into checkmate's vocabulary, and
 ##                 attrs_ok() to honour whatever attr.ok was given
 
@@ -67,32 +68,35 @@ glu <- function(..., .envir = parent.frame()) {
 # kind  : "scalar" or "vector"; carried into the generated file as a comment
 # check : the check_*() function that does the work
 # attrs : attributes intrinsic to the type, exempt from the attr.ok contract
+# mode  : the is.vector() mode that gives the fast path a cheap sufficient
+#         predicate, or NA to keep the backing check there; see render_fast()
+# extra : one further fast-path clause the type needs, or NA
 
 chk_spec <- tribble(
-  ~name,        ~kind,    ~check,             ~attrs,
-  "flag",       "scalar", "check_flag",       character(),
-  "logical",    "vector", "check_logical",    character(),
-  "string",     "scalar", "check_string",     character(),
-  "character",  "vector", "check_character",  character(),
-  "number",     "scalar", "check_number",     character(),
-  "numeric",    "vector", "check_numeric",    character(),
-  "inumber",    "scalar", "check_inumber",    character(),
-  "integer",    "vector", "check_integer",    character(),
-  "dnumber",    "scalar", "check_dnumber",    character(),
-  "double",     "vector", "check_double",     character(),
-  "znumber",    "scalar", "check_int",        character(),
-  "integerish", "vector", "check_integerish", character(),
-  "count",      "scalar", "check_count",      character(),
-  "naturalish", "vector", "check_naturalish", character(),
-  "factor",     "vector", "check_factor",     c("class", "levels"),
-  "complex",    "vector", "check_complex",    character(),
-  "raw",        "vector", "check_raw",        character(),
-  "day",        "scalar", "check_day",        "class",
-  "date",       "vector", "check_date",       "class",
-  "instant",    "scalar", "check_instant",    c("class", "tzone"),
-  "posixct",    "vector", "check_posixct",    c("class", "tzone"),
-  "scalar",     "scalar", "check_scalar",     character(),
-  "atomic",     "vector", "check_atomic",     character()
+  ~name,        ~kind,    ~check,             ~attrs,               ~mode,       ~extra,
+  "flag",       "scalar", "check_flag",       character(),          "logical",   NA,
+  "logical",    "vector", "check_logical",    character(),          "logical",   NA,
+  "string",     "scalar", "check_string",     character(),          "character", NA,
+  "character",  "vector", "check_character",  character(),          "character", NA,
+  "number",     "scalar", "check_number",     character(),          "numeric",   NA,
+  "numeric",    "vector", "check_numeric",    character(),          "numeric",   NA,
+  "inumber",    "scalar", "check_inumber",    character(),          "integer",   NA,
+  "integer",    "vector", "check_integer",    character(),          "integer",   NA,
+  "dnumber",    "scalar", "check_dnumber",    character(),          "double",    NA,
+  "double",     "vector", "check_double",     character(),          "double",    NA,
+  "znumber",    "scalar", "check_int",        character(),          "integer",   NA,
+  "integerish", "vector", "check_integerish", character(),          "integer",   NA,
+  "count",      "scalar", "check_count",      character(),          "integer",   "x >= 0L",
+  "naturalish", "vector", "check_naturalish", character(),          NA,          NA,
+  "factor",     "vector", "check_factor",     c("class", "levels"), NA,          NA,
+  "complex",    "vector", "check_complex",    character(),          "complex",   NA,
+  "raw",        "vector", "check_raw",        character(),          "raw",       NA,
+  "day",        "scalar", "check_day",        "class",              NA,          NA,
+  "date",       "vector", "check_date",       "class",              NA,          NA,
+  "instant",    "scalar", "check_instant",    c("class", "tzone"),  NA,          NA,
+  "posixct",    "vector", "check_posixct",    c("class", "tzone"),  NA,          NA,
+  "scalar",     "scalar", "check_scalar",     character(),          NA,          NA,
+  "atomic",     "vector", "check_atomic",     character(),          NA,          NA
 )
 
 param_desc <- c(
@@ -239,15 +243,53 @@ render_pinned <- function(p) {
 
 
 
-render_fun <- function(name, kind, check, attrs) {
+# A fast path only has to be sound, never complete. Whatever it rejects falls
+# through to the full check_*() call and gets the same answer, one order of
+# magnitude later, which is the licence for putting a cheap sufficient
+# condition where the semantic check used to be.
+#
+# is.vector(x, "<mode>") is TRUE only for a vector of that mode carrying no
+# attributes beyond names, so it implies both check_*(x) at its own defaults
+# and attrs_ok(x, "names"), at about a sixth of the cost of the two calls it
+# replaces. The scalar types add length(x) == 1L && !is.na(x), sound because
+# the fast path only fires at nargs() == 1L, where na.ok is still at its
+# default FALSE; is.na() covers NaN, as check_number() does.
+#
+# Incompleteness costs a fast path and nothing else. is.vector(3, "integer")
+# is FALSE, so chk_znumber(3) passes by the slow path, and so does
+# chk_character(NA), which check_character() accepts on typed.missing = FALSE.
+#
+# mode = NA keeps the semantic call, for the types with no sufficient
+# condition of this shape: naturalish, which needs a value scan that is
+# plausibly dearer than checkmate's C loop; scalar and atomic, whose shape is
+# not a mode at all, is.vector(x, "any") being TRUE for lists too; and the
+# classed types, which want is.factor() or inherits() and so a class column
+# rather than a mode.
+render_fast <- function(kind, check, attrs, mode, extra) {
+  if (length(attrs) > 0L)
+    glu(r"---(isTRUE({{check}}(x)) && attrs_ok(x, "names", {{deparse1(attrs)}}))---")
+  else if (is.na(mode))
+    glu(r"---(isTRUE({{check}}(x)) && is.vector(x, "any"))---")
+  else
+    glue_collapse(c(
+      glu(r"---(is.vector(x, "{{mode}}"))---"),
+      if (kind == "scalar") c("length(x) == 1L", "!is.na(x)"),
+      if (!is.na(extra)) extra
+    ), " && ")
+}
+
+render_fun <- function(name, kind, check, attrs, mode, extra) {
   p <- plan_args(check)
 
-  # A type with no intrinsic attributes keeps the inlined is.vector() and the
-  # two-argument calls, so its rendering is unchanged by the `attrs` column.
-  fast <- if (length(attrs) == 0L)
-    r"---(is.vector(x, "any"))---"
-  else
-    glu(r"---(attrs_ok(x, "names", {{deparse1(attrs)}}))---")
+  # The scalar clauses in render_fast() are sound only for as long as the
+  # backing check leaves na.ok FALSE at its default.
+  if (kind == "scalar" && !is.na(mode) && !identical(p$na_dflt, "FALSE"))
+    stop(glu("Fast path for `{{check}}()` assumes na.ok = FALSE, not {{p$na_dflt}}"),
+         call. = FALSE)
+
+  fast <- render_fast(kind, check, attrs, mode, extra)
+  # The slow path names the intrinsic attributes so that attrs_ok() and
+  # chk_fail() can subtract them before the attr.ok allow-list applies.
   strc <- if (length(attrs) == 0L) "" else glu(", {{deparse1(attrs)}}")
 
   glu(r"---(
@@ -258,7 +300,7 @@ render_fun <- function(name, kind, check, attrs) {
     {{fold(render_signature(name, p))}}
 
       # No arguments, return on fastest path
-      if (nargs() == 1L && isTRUE({{check}}(x)) && ({{fast}}) )
+      if (nargs() == 1L && {{fast}})
           return(invisible(x))
 
       # Anything in the dots is a typo, not an extension
@@ -302,7 +344,7 @@ render_chk <- function(spec = chk_spec) {
     "##",
     "",
     render_params(spec),
-    pmap(spec, \(name, kind, check, attrs) render_fun(name, kind, check, attrs)) |> unlist()
+    pmap(spec, render_fun) |> unlist()
   )
 }
 
