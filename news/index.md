@@ -46,13 +46,36 @@
 
 - Fixes NOTE regarding pipes and dependency on R 4.1.
 
-### Bug fixes and behavior changes
+### Breaking changes
 
-- Various fixes and improvements to zeq(), zample() and zingle().
+- In [`lookup()`](https://torfason.github.io/zmisc/reference/lookup.md)
+  and
+  [`lookuper()`](https://torfason.github.io/zmisc/reference/lookup.md),
+  the `default` argument is renamed to `.default` and follows `...`, so
+  it must be named. Calls that pass `default` by name or by position now
+  raise an error.
+
+- [`lookup()`](https://torfason.github.io/zmisc/reference/lookup.md) no
+  longer accepts factors, either as `x` or as columns of the lookup
+  table. Previously, a factor `x` had its levels looked up. Use
+  `levels(x) <- lookup(levels(x), lookup_table)` for that behavior.
+
+- [`zingle()`](https://torfason.github.io/zmisc/reference/zingle.md) no
+  longer has an `na.rm` argument. Missing values are handled by
+  `na.ok.partial`, `na.ok.all` and `empty.ok` instead. The closest
+  equivalent of `na.rm = TRUE` is
+  `na.ok.partial = TRUE, na.ok.all = TRUE, empty.ok = TRUE`, except that
+  `NaN` now counts as a value rather than as missing. An empty vector is
+  now an error unless `empty.ok = TRUE`; previously it returned `NA`.
 
 - `ll_assert_labelled()` is renamed to
   [`ll_chk_labelled()`](https://torfason.github.io/zmisc/reference/ll_chk_labelled.md),
-  following the `chk_` naming used for the new check functions.
+  following the `chk_` naming used for the new check functions. The old
+  name is removed.
+
+### Bug fixes and behavior changes
+
+- Various fixes and improvements to zeq(), zample() and zingle().
 
 - [`wrap_error()`](https://torfason.github.io/zmisc/reference/wrap_error.md)
   now honors its `wrap` argument correctly.

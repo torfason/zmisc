@@ -72,6 +72,17 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>The processed (encoded or decoded) string.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Letters and digits are never escaped. Other characters are escaped unless
+they appear in <code>whitelist</code>, which may include multi-byte characters. The
+escape character is removed from the whitelist, with a warning, if present,
+and must itself be a single ASCII character.</p>
+<p><code>yencode()</code> escapes the UTF-8 representation of <code>string</code>, whatever its
+declared encoding, so the same text always gives the same result.
+<code>ydecode()</code> returns strings marked as UTF-8, and raises an error if an
+escape sequence is malformed or the decoded bytes are not valid UTF-8.</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

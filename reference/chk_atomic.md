@@ -10,22 +10,22 @@ on a modern computer; with extra specification arguments it can take up
 to ten microseconds. Assembling a good message happens on the failing
 path, which runs once and then stops.
 
-|               |                   |                     |
-|---------------|-------------------|---------------------|
-| **R Type**    | **Scalar**        | **Vector**          |
-| Any type      | `chk_scalar(x)`   | `chk_atomic(x)`     |
-| `logical`     | `chk_flag(x)`     | `chk_logical(x)`    |
-| `character`   | `chk_string(x)`   | `chk_character(x)`  |
-| `numeric`     | `chk_number(x)`   | `chk_numeric(x)`    |
-| `integer`     | `chk_inumber(x)`⁴ | `chk_integer(x)`    |
-| `double`      | `chk_dnumber(x)`⁴ | `chk_double(x)`     |
-| `integerish`¹ | `chk_znumber(x)`  | `chk_integerish(x)` |
-| `naturalish`² | `chk_count(x)`    | `chk_naturalish(x)` |
-| `factor`      | ³                 | `chk_factor(x)`     |
-| `complex`     | ³                 | `chk_complex(x)`    |
-| `raw`         | ³                 | `chk_raw(x)`        |
-| `Date`        | `chk_day(x)`      | `chk_date(x)`       |
-| `POSIXct`     | `chk_instant(x)`  | `chk_posixct(x)`    |
+|               |                  |                     |
+|---------------|------------------|---------------------|
+| **R Type**    | **Scalar**       | **Vector**          |
+| Any type      | `chk_scalar(x)`  | `chk_atomic(x)`     |
+| `logical`     | `chk_flag(x)`    | `chk_logical(x)`    |
+| `character`   | `chk_string(x)`  | `chk_character(x)`  |
+| `numeric`     | `chk_number(x)`  | `chk_numeric(x)`    |
+| `integer`     | `chk_inumber(x)` | `chk_integer(x)`    |
+| `double`      | `chk_dnumber(x)` | `chk_double(x)`     |
+| `integerish`¹ | `chk_znumber(x)` | `chk_integerish(x)` |
+| `naturalish`² | `chk_count(x)`   | `chk_naturalish(x)` |
+| `factor`      | ³                | `chk_factor(x)`     |
+| `complex`     | ³                | `chk_complex(x)`    |
+| `raw`         | ³                | `chk_raw(x)`        |
+| `Date`        | `chk_day(x)`     | `chk_date(x)`       |
+| `POSIXct`     | `chk_instant(x)` | `chk_posixct(x)`    |
 
 - ¹ `integerish` refers to functional integers (numbers that are very
   close to integer values), regardless of type (`integer` or `double`)

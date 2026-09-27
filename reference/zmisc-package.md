@@ -19,3 +19,11 @@ Useful links:
 - <https://github.com/torfason/zmisc/>
 
 - <https://torfason.github.io/zmisc/>
+
+## Author
+
+**Maintainer**: Magnus Thor Torfason <m@zulutime.net>
+
+Authors:
+
+- Magnus Thor Torfason <m@zulutime.net>

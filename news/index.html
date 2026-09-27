@@ -47,9 +47,15 @@
 <li><p>Fixes NOTE regarding pipes and dependency on R 4.1.</p></li>
 </ul></div>
 <div class="section level3">
+<h3 id="breaking-changes-0-3-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-3-0"></a></h3>
+<ul><li><p>In <code><a href="../reference/lookup.html">lookup()</a></code> and <code><a href="../reference/lookup.html">lookuper()</a></code>, the <code>default</code> argument is renamed to <code>.default</code> and follows <code>...</code>, so it must be named. Calls that pass <code>default</code> by name or by position now raise an error.</p></li>
+<li><p><code><a href="../reference/lookup.html">lookup()</a></code> no longer accepts factors, either as <code>x</code> or as columns of the lookup table. Previously, a factor <code>x</code> had its levels looked up. Use <code>levels(x) &lt;- lookup(levels(x), lookup_table)</code> for that behavior.</p></li>
+<li><p><code><a href="../reference/zingle.html">zingle()</a></code> no longer has an <code>na.rm</code> argument. Missing values are handled by <code>na.ok.partial</code>, <code>na.ok.all</code> and <code>empty.ok</code> instead. The closest equivalent of <code>na.rm = TRUE</code> is <code>na.ok.partial = TRUE, na.ok.all = TRUE, empty.ok = TRUE</code>, except that <code>NaN</code> now counts as a value rather than as missing. An empty vector is now an error unless <code>empty.ok = TRUE</code>; previously it returned <code>NA</code>.</p></li>
+<li><p><code>ll_assert_labelled()</code> is renamed to <code><a href="../reference/ll_chk_labelled.html">ll_chk_labelled()</a></code>, following the <code>chk_</code> naming used for the new check functions. The old name is removed.</p></li>
+</ul></div>
+<div class="section level3">
 <h3 id="bug-fixes-and-behavior-changes-0-3-0">Bug fixes and behavior changes<a class="anchor" aria-label="anchor" href="#bug-fixes-and-behavior-changes-0-3-0"></a></h3>
 <ul><li><p>Various fixes and improvements to zeq(), zample() and zingle().</p></li>
-<li><p><code>ll_assert_labelled()</code> is renamed to <code><a href="../reference/ll_chk_labelled.html">ll_chk_labelled()</a></code>, following the <code>chk_</code> naming used for the new check functions.</p></li>
 <li><p><code><a href="../reference/wrap_error.html">wrap_error()</a></code> now honors its <code>wrap</code> argument correctly.</p></li>
 </ul></div>
 </div>

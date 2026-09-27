@@ -12,8 +12,8 @@ Any typechk_scalar(x)chk_atomic(x)
 logicalchk_flag(x)chk_logical(x)
 characterchk_string(x)chk_character(x)
 numericchk_number(x)chk_numeric(x)
-integerchk_inumber(x)⁴chk_integer(x)
-doublechk_dnumber(x)⁴chk_double(x)
+integerchk_inumber(x)chk_integer(x)
+doublechk_dnumber(x)chk_double(x)
 integerish¹chk_znumber(x)chk_integerish(x)
 naturalish²chk_count(x)chk_naturalish(x)
 factor³chk_factor(x)
@@ -44,8 +44,8 @@ Any typechk_scalar(x)chk_atomic(x)
 logicalchk_flag(x)chk_logical(x)
 characterchk_string(x)chk_character(x)
 numericchk_number(x)chk_numeric(x)
-integerchk_inumber(x)⁴chk_integer(x)
-doublechk_dnumber(x)⁴chk_double(x)
+integerchk_inumber(x)chk_integer(x)
+doublechk_dnumber(x)chk_double(x)
 integerish¹chk_znumber(x)chk_integerish(x)
 naturalish²chk_count(x)chk_naturalish(x)
 factor³chk_factor(x)
@@ -109,7 +109,7 @@ they apply.</p>
 passing value with default arguments tends to take under a microsecond on a
 modern computer; with extra specification arguments it can take up to ten
 microseconds. Assembling a good message happens on the failing path, which
-runs once and then stops.</p><table class="table table"><tr><td><strong>R Type</strong></td><td><strong>Scalar</strong></td><td><strong>Vector</strong></td></tr><tr><td>Any type</td><td><code>chk_scalar(x)</code></td><td><code>chk_atomic(x)</code></td></tr><tr><td><code>logical</code></td><td><code>chk_flag(x)</code></td><td><code>chk_logical(x)</code></td></tr><tr><td><code>character</code></td><td><code>chk_string(x)</code></td><td><code>chk_character(x)</code></td></tr><tr><td><code>numeric</code></td><td><code>chk_number(x)</code></td><td><code>chk_numeric(x)</code></td></tr><tr><td><code>integer</code></td><td><code>chk_inumber(x)</code>⁴</td><td><code>chk_integer(x)</code></td></tr><tr><td><code>double</code></td><td><code>chk_dnumber(x)</code>⁴</td><td><code>chk_double(x)</code></td></tr><tr><td><code>integerish</code>¹</td><td><code>chk_znumber(x)</code></td><td><code>chk_integerish(x)</code></td></tr><tr><td><code>naturalish</code>²</td><td><code>chk_count(x)</code></td><td><code>chk_naturalish(x)</code></td></tr><tr><td><code>factor</code></td><td>³</td><td><code>chk_factor(x)</code></td></tr><tr><td><code>complex</code></td><td>³</td><td><code>chk_complex(x)</code></td></tr><tr><td><code>raw</code></td><td>³</td><td><code>chk_raw(x)</code></td></tr><tr><td><code>Date</code></td><td><code>chk_day(x)</code></td><td><code>chk_date(x)</code></td></tr><tr><td><code>POSIXct</code></td><td><code>chk_instant(x)</code></td><td><code>chk_posixct(x)</code></td></tr></table><ul><li><p>¹ <code>integerish</code> refers to functional integers (numbers that are very close
+runs once and then stops.</p><table class="table table"><tr><td><strong>R Type</strong></td><td><strong>Scalar</strong></td><td><strong>Vector</strong></td></tr><tr><td>Any type</td><td><code>chk_scalar(x)</code></td><td><code>chk_atomic(x)</code></td></tr><tr><td><code>logical</code></td><td><code>chk_flag(x)</code></td><td><code>chk_logical(x)</code></td></tr><tr><td><code>character</code></td><td><code>chk_string(x)</code></td><td><code>chk_character(x)</code></td></tr><tr><td><code>numeric</code></td><td><code>chk_number(x)</code></td><td><code>chk_numeric(x)</code></td></tr><tr><td><code>integer</code></td><td><code>chk_inumber(x)</code></td><td><code>chk_integer(x)</code></td></tr><tr><td><code>double</code></td><td><code>chk_dnumber(x)</code></td><td><code>chk_double(x)</code></td></tr><tr><td><code>integerish</code>¹</td><td><code>chk_znumber(x)</code></td><td><code>chk_integerish(x)</code></td></tr><tr><td><code>naturalish</code>²</td><td><code>chk_count(x)</code></td><td><code>chk_naturalish(x)</code></td></tr><tr><td><code>factor</code></td><td>³</td><td><code>chk_factor(x)</code></td></tr><tr><td><code>complex</code></td><td>³</td><td><code>chk_complex(x)</code></td></tr><tr><td><code>raw</code></td><td>³</td><td><code>chk_raw(x)</code></td></tr><tr><td><code>Date</code></td><td><code>chk_day(x)</code></td><td><code>chk_date(x)</code></td></tr><tr><td><code>POSIXct</code></td><td><code>chk_instant(x)</code></td><td><code>chk_posixct(x)</code></td></tr></table><ul><li><p>¹ <code>integerish</code> refers to functional integers (numbers that are very close
 to integer values), regardless of type (<code>integer</code> or <code>double</code>)</p></li>
 <li><p>² <code>naturalish</code> refers to functional integers restricted to the natural
 numbers (zero and positive numbers)</p></li>

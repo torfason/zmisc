@@ -2,14 +2,14 @@
 
 ## Authors
 
-- **Magnus Thor Torfason**. Maintainer.
+- **Magnus Thor Torfason**. Author, maintainer.
 
 ## Citation
 
 Source:
 [`DESCRIPTION`](https://github.com/torfason/zmisc/blob/main/DESCRIPTION)
 
-Torfason MT (2026). *zmisc: Vector Look-Ups and Safer Sampling*. R
+Torfason M (2026). *zmisc: Vector Look-Ups and Safer Sampling*. R
 package version 0.3.0, <https://github.com/torfason/zmisc/>.
 
     @Manual{,
