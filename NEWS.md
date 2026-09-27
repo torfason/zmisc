@@ -1,5 +1,5 @@
 
-# zmisc 0.2.4
+# zmisc 0.3.0
 
 ## New features
 
@@ -18,6 +18,8 @@
 
 * Adds `yencode()` and `ydecode()`, which encode strings into a
   restricted character set and back.
+  
+* Fixes NOTE regarding pipes and dependency on R 4.1.
 
 ## Bug fixes and behavior changes
 
