@@ -18,18 +18,14 @@ Imports:
     glue
 Suggests: 
     rmarkdown,
-    rprojroot,
     labelled,
-    roxygen2,
     testthat,
-    stringr,
     tibble,
     dplyr,
     haven,
     knitr,
     purrr,
     withr,
-    desc,
     here,
     data.table,
     spelling
