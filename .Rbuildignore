@@ -10,6 +10,7 @@
 ^pkgdown$
 ^data-raw$
 ^build$
+^revdep$
 ^scratch$
 ^CRAN-SUBMISSION$
 ^\.github$
