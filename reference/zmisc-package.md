@@ -6,7 +6,11 @@ viewing, and support a safer approach to vector sampling, sequence
 generation, and aggregation. Also included is a family of argument
 checks which return their input so that they compose nicely in a pipe.
 
-For more information, see vignette("zmisc").
+## Details
+
+For an overview with examples, see the package website at
+<https://torfason.github.io/zmisc/>. For the argument checks, see
+[`vignette("chk")`](https://torfason.github.io/zmisc/articles/chk.md).
 
 ## See also
 
