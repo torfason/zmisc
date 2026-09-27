@@ -187,6 +187,11 @@ standardize_lookup_table <- function(lookup_table) {
   if ("name" %in% names(lookup_table))
     names(lookup_table)[match("name", names(lookup_table))]  <- "key"
 
+  # Factors are not supported. A factor column has mode() numeric, so it would
+  # pass the mode check in lookup() and be matched or assigned by its codes.
+  if (is.factor(lookup_table$key) || is.factor(lookup_table$value))
+    stop("lookup_table columns must not be factors")
+
   # Return the standardized lookup_table
   lookup_table
 }

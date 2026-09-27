@@ -251,4 +251,13 @@ test_that("lookup() should error with factors", {
     lookup(factor(letters), c("a"="alpha")),
     "Must not have a class attribute, but has class .factor." )
 
+  # factor columns in the lookup table would otherwise be matched or assigned
+  # by their integer codes
+  expect_error(lookup(1, data.frame(key = 1, value = factor("100"))),
+               "must not be factors")
+  expect_error(lookup(1, data.frame(key = factor("1"), value = 2)),
+               "must not be factors")
+  expect_error(lookuper(data.frame(key = 1, value = factor("100"))),
+               "must not be factors")
+
 })
