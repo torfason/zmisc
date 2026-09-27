@@ -1,6 +1,6 @@
 ## data-raw/generate-chk-atomic.R ---------------------------------------------------
 ##
-## Generates R/chk-atomic.R, covering the unclassed (bare) types only.
+## Generates R/chk-1-atomic.R, covering the unclassed (bare) types only.
 ##
 ## Usage:
 ##   pkgload::load_all()
@@ -306,7 +306,7 @@ render_chk <- function(spec = chk_spec) {
   )
 }
 
-write_chk <- function(path = "R/chk-atomic.R") {
+write_chk <- function(path = "R/chk-1-atomic.R") {
   writeLines(render_chk(), path)
   invisible(path)
 }
