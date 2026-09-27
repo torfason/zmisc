@@ -27,7 +27,7 @@ chk_flag <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") 
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
 
@@ -49,7 +49,7 @@ chk_logical <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
@@ -73,7 +73,7 @@ chk_string <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi_count(range)
@@ -98,7 +98,7 @@ chk_character <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "name
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
@@ -126,7 +126,7 @@ chk_number <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi(range, c(-Inf, Inf))
@@ -150,7 +150,7 @@ chk_numeric <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
@@ -177,7 +177,7 @@ chk_inumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi(range, c(-Inf, Inf))
@@ -201,7 +201,7 @@ chk_integer <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
@@ -228,7 +228,7 @@ chk_dnumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi(range, c(-Inf, Inf))
@@ -252,7 +252,7 @@ chk_double <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
@@ -279,7 +279,7 @@ chk_znumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi(range, c(-Inf, Inf))
@@ -303,7 +303,7 @@ chk_integerish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "nam
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
@@ -330,7 +330,7 @@ chk_count <- function(x, ..., na.ok = FALSE, zero.ok = TRUE, null.ok = FALSE, at
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
 
@@ -353,7 +353,7 @@ chk_naturalish <- function(x, ..., na.ok = TRUE, zero.ok = TRUE, null.ok = FALSE
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
@@ -383,7 +383,7 @@ chk_factor <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
@@ -408,7 +408,7 @@ chk_complex <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
@@ -432,7 +432,7 @@ chk_raw <- function(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL) {
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
@@ -455,7 +455,7 @@ chk_day <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", r
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi(range, NULL)
@@ -478,7 +478,7 @@ chk_date <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", l
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
@@ -505,7 +505,7 @@ chk_instant <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi(range, NULL)
@@ -528,7 +528,7 @@ chk_posixct <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
@@ -555,7 +555,7 @@ chk_scalar <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
 
@@ -576,7 +576,7 @@ chk_atomic <- function(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL) {
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)

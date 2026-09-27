@@ -27,7 +27,7 @@ chk_environment <- function(x, ..., null.ok = FALSE, contains = character()) {
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   res <- check_environment(x, null.ok = null.ok, contains = contains)
   if (isTRUE(res)) return(invisible(x))
@@ -54,7 +54,7 @@ chk_list <- function(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL) 
     return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   len <- lo_hi_count(length)
   res <- check_list(x,
@@ -80,7 +80,7 @@ chk_data_frame <- function(x, ..., null.ok = FALSE) {
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   res <- check_data_frame(x, null.ok = null.ok)
   if (isTRUE(res)) return(invisible(x))
@@ -102,7 +102,7 @@ chk_data_table <- function(x, ..., null.ok = FALSE) {
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   res <- check_data_table(x, null.ok = null.ok)
   if (isTRUE(res)) return(invisible(x))
@@ -123,7 +123,7 @@ chk_tibble <- function(x, ..., null.ok = FALSE) {
       return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   res <- check_tibble(x, null.ok = null.ok)
   if (isTRUE(res)) return(invisible(x))

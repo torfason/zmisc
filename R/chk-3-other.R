@@ -10,7 +10,7 @@ chk_true <- function(x, ..., na.ok = FALSE) {
     return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   res <- check_true(x, na.ok = na.ok)
   if (isTRUE(res)) return(invisible(x))
@@ -47,7 +47,7 @@ chk_class <- function(x, classes, ..., null.ok = FALSE, ordered = FALSE) {
     return(invisible(x))
 
   # Anything in the dots is a typo, not an extension
-  chk_dots_empty()
+  if (...length()) chk_dots_empty()
 
   res <- check_class(x, classes, ordered = ordered, null.ok = null.ok)
   if (isTRUE(res)) return(invisible(x))

@@ -304,7 +304,7 @@ render_fun <- function(name, kind, check, attrs, mode, extra) {
           return(invisible(x))
 
       # Anything in the dots is a typo, not an extension
-      chk_dots_empty()
+      if (...length()) chk_dots_empty()
 
       # More detailed translation of arguments to check_*() equivalents
     {{fold(render_locals(p))}}
