@@ -69,14 +69,11 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/torfason/zmisc/" class="external-link">zmisc</a></span><span class="op">)</span></span></code></pre></div>
 <p>The <code>chk_*()</code> functions check the type and shape of an
 argument and, on failure, raise an <a href="https://rlang.r-lib.org/" class="external-link">rlang</a>-style error naming the
-argument as the caller wrote it. The checking itself is done by <a href="https://mllg.github.io/checkmate/" class="external-link">checkmate</a>. Each function
-returns its input, so a check can sit in the middle of a pipe, and each
-is cheap enough on the passing path to leave at the top of any function:
-the passing case is one call to the backing <code>check_*()</code>, a
-test, and a return. Assembling a good message happens on the failing
-path, which runs once and then stops.</p>
-<p>A passing check returns its input invisibly, so on its own it prints
-nothing.</p>
+argument as the caller wrote it. Each function returns its input, so a
+check can sit in the middle of a pipe, and each is cheap enough on the
+passing path to leave at the top of any function. The checking is backed
+by the <a href="https://mllg.github.io/checkmate/" class="external-link">checkmate</a>
+package.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># The check returns its input, so it composes in a pipe</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/chk_atomic.html">chk_numeric</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">)</span></span>

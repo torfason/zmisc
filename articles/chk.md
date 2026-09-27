@@ -7,16 +7,10 @@ library(zmisc)
 
 The `chk_*()` functions check the type and shape of an argument and, on
 failure, raise an [rlang](https://rlang.r-lib.org/)-style error naming
-the argument as the caller wrote it. The checking itself is done by
-[checkmate](https://mllg.github.io/checkmate/). Each function returns
-its input, so a check can sit in the middle of a pipe, and each is cheap
-enough on the passing path to leave at the top of any function: the
-passing case is one call to the backing `check_*()`, a test, and a
-return. Assembling a good message happens on the failing path, which
-runs once and then stops.
-
-A passing check returns its input invisibly, so on its own it prints
-nothing.
+the argument as the caller wrote it. Each function returns its input, so
+a check can sit in the middle of a pipe, and each is cheap enough on the
+passing path to leave at the top of any function. The checking is backed
+by the [checkmate](https://mllg.github.io/checkmate/) package.
 
 ``` r
 

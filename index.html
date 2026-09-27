@@ -88,16 +88,7 @@
 <span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">fruit_lookup_vector</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "Apple"  "Banana" "Cherry" "d"      "e"</span></span>
 <span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, <span class="va">fruit_lookup_vector</span>, .default <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Apple"  "Banana" "Cherry" NA       NA</span></span>
-<span></span>
-<span><span class="va">mtcars_lookup_data_frame</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mpg"</span>, <span class="st">"hp"</span>, <span class="st">"wt"</span><span class="op">)</span>,</span>
-<span>  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Miles/(US) gallon"</span>, <span class="st">"Gross horsepower"</span>, <span class="st">"Weight (1000 lbs)"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/lookup.html">lookup</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="va">mtcars_lookup_data_frame</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "Miles/(US) gallon" "cyl"               "disp"             </span></span>
-<span><span class="co">#&gt;  [4] "Gross horsepower"  "drat"              "Weight (1000 lbs)"</span></span>
-<span><span class="co">#&gt;  [7] "qsec"              "vs"                "am"               </span></span>
-<span><span class="co">#&gt; [10] "gear"              "carb"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Apple"  "Banana" "Cherry" NA       NA</span></span></code></pre></div>
 <p><a href="https://torfason.github.io/zmisc/reference/lookuper.html">lookuper()</a> returns <em>a function</em> that does the same lookup, with the table embedded in the function itself. That is useful wherever a <code>character</code>-&gt;<code>character</code> function is expected but there is no good way to pass the table along with it.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lookup_fruits</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/lookup.html">lookuper</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="st">"Apple"</span>, b <span class="op">=</span> <span class="st">"Banana"</span>, c <span class="op">=</span> <span class="st">"Cherry"</span><span class="op">)</span><span class="op">)</span></span>
@@ -121,7 +112,7 @@
 <span><span class="co">#&gt; [1] 7</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1 5 7 6 2 3 4</span></span></code></pre></div>
-<p><a href="https://torfason.github.io/zmisc/reference/zeq.html">zeq()</a> is an increasing integer sequence that refuses to silently run backwards. A second argument one below the first gives an empty sequence, anything lower is an error.</p>
+<p><a href="https://torfason.github.io/zmisc/reference/zeq.html">zeq()</a> is gives a strictly increasing integer sequence. A second argument one below the first gives an empty sequence, anything lower is an error.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/zeq.html">zeq</a></span><span class="op">(</span><span class="fl">11</span>, <span class="fl">15</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 11 12 13 14 15</span></span>
@@ -136,14 +127,14 @@
 <span><span class="co">#&gt; [1] "Alpha"</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu"><a href="reference/zingle.html">zingle</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Alpha"</span>, <span class="st">"Beta"</span>, <span class="st">"Alpha"</span><span class="op">)</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span>
 <span><span class="co">#&gt; #E&gt; `x` must contain a single unique value, but found</span></span>
-<span><span class="co">#&gt; #E&gt; 2 distinct values.</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="co">#&gt; #E&gt; 2 distinct values.</span></span>
+<span></span>
+<span><span class="co"># zingle() is useful to ensure an data.frame summary is well formed</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>    id    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>    name  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"James"</span>, <span class="st">"Jack"</span>, <span class="st">"James"</span><span class="op">)</span>,</span>
-<span>    fouls <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
+<span>    fouls <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="va">d</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -158,8 +149,8 @@
 <div class="section level2">
 <h2 id="checks-with-rlang-style-errors">Checks with rlang-style errors<a class="anchor" aria-label="anchor" href="#checks-with-rlang-style-errors"></a>
 </h2>
-<p>The <code>chk_*()</code> functions check the type and shape of an argument and, on failure, raise an <a href="https://rlang.r-lib.org/" class="external-link">rlang</a>-style error naming the argument as the caller wrote it. The checking itself is done by <a href="https://mllg.github.io/checkmate/" class="external-link">checkmate</a>. Each function returns its input, so a check can sit in the middle of a pipe, and each is cheap enough on the passing path to leave at the top of any function.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p>The <code>chk_*()</code> functions check the type and shape of an argument and, on failure, raise an <a href="https://rlang.r-lib.org/" class="external-link">rlang</a>-style error naming the argument as the caller wrote it. Each function returns its input, so a check can sit in the middle of a pipe, and each is cheap enough on the passing path to leave at the top of any function. The checking is backed by the <a href="https://mllg.github.io/checkmate/" class="external-link">checkmate</a> package.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># The check returns its input, so it composes in a pipe</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="reference/chk_atomic.html">chk_numeric</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 12</span></span>
@@ -178,7 +169,7 @@
 <h2 id="getting-a-better-view-on-variables">Getting a better view on variables<a class="anchor" aria-label="anchor" href="#getting-a-better-view-on-variables"></a>
 </h2>
 <p><a href="https://torfason.github.io/zmisc/reference/notate.html">notate()</a> annotates <code>factor</code> and <code>labelled</code> variables so that both values and labels are visible at once, which neither printing nor <a href="https://rdrr.io/r/utils/View.html" class="external-link">View()</a> manages on its own.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  chr <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>,</span>
 <span>  fct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"alpha"</span>, <span class="st">"bravo"</span>, <span class="st">"chrly"</span>, <span class="st">"delta"</span><span class="op">)</span><span class="op">)</span>,</span>

@@ -48,15 +48,6 @@ lookup(letters[1:5], fruit_lookup_vector)
 #> [1] "Apple"  "Banana" "Cherry" "d"      "e"
 lookup(letters[1:5], fruit_lookup_vector, .default = NA)
 #> [1] "Apple"  "Banana" "Cherry" NA       NA
-
-mtcars_lookup_data_frame <- data.frame(
-  name = c("mpg", "hp", "wt"),
-  value = c("Miles/(US) gallon", "Gross horsepower", "Weight (1000 lbs)"))
-lookup(names(mtcars), mtcars_lookup_data_frame)
-#>  [1] "Miles/(US) gallon" "cyl"               "disp"             
-#>  [4] "Gross horsepower"  "drat"              "Weight (1000 lbs)"
-#>  [7] "qsec"              "vs"                "am"               
-#> [10] "gear"              "carb"
 ```
 
 [lookuper()](https://torfason.github.io/zmisc/reference/lookuper.html)
@@ -100,10 +91,9 @@ set.seed(42); sample(7)
 #> [1] 1 5 7 6 2 3 4
 ```
 
-[zeq()](https://torfason.github.io/zmisc/reference/zeq.html) is an
-increasing integer sequence that refuses to silently run backwards. A
-second argument one below the first gives an empty sequence, anything
-lower is an error.
+[zeq()](https://torfason.github.io/zmisc/reference/zeq.html) is gives a
+strictly increasing integer sequence. A second argument one below the
+first gives an empty sequence, anything lower is an error.
 
 ``` r
 
@@ -128,16 +118,13 @@ zingle(c("Alpha", "Alpha", "Alpha"))
 tryCatch(zingle(c("Alpha", "Beta", "Alpha")), error = wrap_error)
 #> #E> `x` must contain a single unique value, but found
 #> #E> 2 distinct values.
-```
 
-``` r
-
+# zingle() is useful to ensure an data.frame summary is well formed
 if (require("dplyr", quietly = TRUE, warn.conflicts = FALSE)) {
   d <- data.frame(
     id    = c(1, 2, 1),
     name  = c("James", "Jack", "James"),
-    fouls = c(3, 2, 4)
-  )
+    fouls = c(3, 2, 4))
 
   d |>
     group_by(id) |>
@@ -154,10 +141,10 @@ if (require("dplyr", quietly = TRUE, warn.conflicts = FALSE)) {
 
 The `chk_*()` functions check the type and shape of an argument and, on
 failure, raise an [rlang](https://rlang.r-lib.org/)-style error naming
-the argument as the caller wrote it. The checking itself is done by
-[checkmate](https://mllg.github.io/checkmate/). Each function returns
-its input, so a check can sit in the middle of a pipe, and each is cheap
-enough on the passing path to leave at the top of any function.
+the argument as the caller wrote it. Each function returns its input, so
+a check can sit in the middle of a pipe, and each is cheap enough on the
+passing path to leave at the top of any function. The checking is backed
+by the [checkmate](https://mllg.github.io/checkmate/) package.
 
 ``` r
 
