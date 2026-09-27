@@ -35,8 +35,8 @@
 #' | `logical`     | `chk_flag(x)`      | `chk_logical(x)`     |
 #' | `character`   | `chk_string(x)`    | `chk_character(x)`   |
 #' | `numeric`     | `chk_number(x)`    | `chk_numeric(x)`     |
-#' | `integer`     | `chk_inumber(x)`⁴  | `chk_integer(x)`     |
-#' | `double`      | `chk_dnumber(x)`⁴  | `chk_double(x)`      |
+#' | `integer`     | `chk_inumber(x)`   | `chk_integer(x)`     |
+#' | `double`      | `chk_dnumber(x)`   | `chk_double(x)`      |
 #' | `integerish`¹ | `chk_znumber(x)`   | `chk_integerish(x)`  |
 #' | `naturalish`² | `chk_count(x)`     | `chk_naturalish(x)`  |
 #' | `factor`      | ³                  | `chk_factor(x)`      |

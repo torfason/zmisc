@@ -249,8 +249,8 @@ runs once and then stops.\tabular{lll}{
    \code{logical} \tab \code{chk_flag(x)} \tab \code{chk_logical(x)} \cr
    \code{character} \tab \code{chk_string(x)} \tab \code{chk_character(x)} \cr
    \code{numeric} \tab \code{chk_number(x)} \tab \code{chk_numeric(x)} \cr
-   \code{integer} \tab \code{chk_inumber(x)}⁴ \tab \code{chk_integer(x)} \cr
-   \code{double} \tab \code{chk_dnumber(x)}⁴ \tab \code{chk_double(x)} \cr
+   \code{integer} \tab \code{chk_inumber(x)} \tab \code{chk_integer(x)} \cr
+   \code{double} \tab \code{chk_dnumber(x)} \tab \code{chk_double(x)} \cr
    \code{integerish}¹ \tab \code{chk_znumber(x)} \tab \code{chk_integerish(x)} \cr
    \code{naturalish}² \tab \code{chk_count(x)} \tab \code{chk_naturalish(x)} \cr
    \code{factor} \tab ³ \tab \code{chk_factor(x)} \cr
