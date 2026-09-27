@@ -10,12 +10,12 @@ Source:
 [`DESCRIPTION`](https://github.com/torfason/zmisc/blob/main/DESCRIPTION)
 
 Torfason MT (2026). *zmisc: Vector Look-Ups and Safer Sampling*. R
-package version 0.2.3.9009, <https://github.com/torfason/zmisc/>.
+package version 0.3.0, <https://github.com/torfason/zmisc/>.
 
     @Manual{,
       title = {zmisc: Vector Look-Ups and Safer Sampling},
       author = {Magnus Thor Torfason},
       year = {2026},
-      note = {R package version 0.2.3.9009},
+      note = {R package version 0.3.0},
       url = {https://github.com/torfason/zmisc/},
     }
