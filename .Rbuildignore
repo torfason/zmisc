@@ -9,7 +9,7 @@
 ^Meta$
 ^pkgdown$
 ^data-raw$
-^build$
+^build_and_release$
 ^revdep$
 ^scratch$
 ^CRAN-SUBMISSION$

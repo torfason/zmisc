@@ -28,3 +28,14 @@ The processed (encoded or decoded) string.
 \description{
 Yet (another urlencode compatible) encoding scheme
 }
+\details{
+Letters and digits are never escaped. Other characters are escaped unless
+they appear in \code{whitelist}, which may include multi-byte characters. The
+escape character is removed from the whitelist, with a warning, if present,
+and must itself be a single ASCII character.
+
+\code{yencode()} escapes the UTF-8 representation of \code{string}, whatever its
+declared encoding, so the same text always gives the same result.
+\code{ydecode()} returns strings marked as UTF-8, and raises an error if an
+escape sequence is malformed or the decoded bytes are not valid UTF-8.
+}

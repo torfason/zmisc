@@ -21,4 +21,13 @@ Useful links:
 }
 
 }
+\author{
+\strong{Maintainer}: Magnus Thor Torfason \email{m@zulutime.net}
+
+Authors:
+\itemize{
+  \item Magnus Thor Torfason \email{m@zulutime.net}
+}
+
+}
 \keyword{internal}
