@@ -21,12 +21,30 @@
   
 * Fixes NOTE regarding pipes and dependency on R 4.1.
 
+## Breaking changes
+
+* In `lookup()` and `lookuper()`, the `default` argument is renamed to
+  `.default` and follows `...`, so it must be named. Calls that pass
+  `default` by name or by position now raise an error.
+
+* `lookup()` no longer accepts factors, either as `x` or as columns of the
+  lookup table. Previously, a factor `x` had its levels looked up. Use
+  `levels(x) <- lookup(levels(x), lookup_table)` for that behavior.
+
+* `zingle()` no longer has an `na.rm` argument. Missing values are handled
+  by `na.ok.partial`, `na.ok.all` and `empty.ok` instead. The closest
+  equivalent of `na.rm = TRUE` is
+  `na.ok.partial = TRUE, na.ok.all = TRUE, empty.ok = TRUE`, except that
+  `NaN` now counts as a value rather than as missing. An empty vector is
+  now an error unless `empty.ok = TRUE`; previously it returned `NA`.
+
+* `ll_assert_labelled()` is renamed to `ll_chk_labelled()`, following
+  the `chk_` naming used for the new check functions. The old name is
+  removed.
+
 ## Bug fixes and behavior changes
 
 * Various fixes and improvements to zeq(), zample() and zingle().
-
-* `ll_assert_labelled()` is renamed to `ll_chk_labelled()`, following
-  the `chk_` naming used for the new check functions.
 
 * `wrap_error()` now honors its `wrap` argument correctly.
 
