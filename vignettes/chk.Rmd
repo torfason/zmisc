@@ -129,8 +129,9 @@ tryCatch(mtcars |> chk_that(nrow(.) > 100), error = wrap_error)
 `chk_dots_empty()` fails if anything was passed through `...`, and `chk_match()`
 matches an argument against the values in its own default, returning the match.
 `chk_match()` can be used *either* instead of `match.arg()` for a choice style
-argument (in which case `x` must be a symbol), or as an way to check that an
-arbitrary `character` value is an element of a set.
+argument (in which case `x` must be a symbol), or as a way to check that an
+arbitrary value is an element of a set. Any bare atomic type works, as long as
+`x` and the set have the same type (integer and double count as one).
 
 ```{r match}
 plot_kind <- function(kind = c("scatter", "line", "bar")) {

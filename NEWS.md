@@ -1,4 +1,12 @@
 
+# zmisc 0.3.0.9001
+
+* Extends `chk_match()` to work with any bare atomic type, as long as `x`
+  and `values` are of the same type. The extension applies regardless of 
+  whether `values` are explicitly provided or derived from `x` as a symbol
+  and the formals of a function within which `chk_match()` is called.
+
+
 # zmisc 0.3.0
 
 ## New features

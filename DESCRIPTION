@@ -1,7 +1,7 @@
 Type: Package
 Package: zmisc
 Title: Vector Look-Ups and Safer Sampling
-Version: 0.3.0
+Version: 0.3.0.9001
 Authors@R:
     person("Magnus Thor", "Torfason", , "m@zulutime.net", role = c("aut", "cre"))
 Description: A collection of utility functions that facilitate looking up

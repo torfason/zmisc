@@ -43,7 +43,7 @@ evaluating  \code{expr}.}
 
 \item{ordered}{Must \code{classes} appear in that order at the head of \code{class(x)}?}
 
-\item{values}{Character vector of values which the object checked by
+\item{values}{Bare atomic vector of values which the object checked by
 \code{chk_match()} must be an element of.}
 
 \item{multiple}{Logical determining if the return value of \code{chk_match()} can
@@ -80,8 +80,9 @@ through a pipe.
 
 \code{chk_match()} can be used either as an equivalent to \code{\link[rlang:arg_match]{rlang::arg_match()}} or
 \code{\link[=match.arg]{match.arg()}} for checking a function argument against default values in a
-function, or to check that any (\code{character}) variable x is an element of a
-(\code{character}) vector of \code{values}. When used to select default value in a
+function, or to check that any variable x is an element of a vector of
+\code{values}. Both must be bare atomic vectors of the same type, except that
+integer and double count as one type. When used to select default value in a
 function, it must be called as \code{arg <- chk_match(arg)}.
 
 \code{chk_dots_empty()} verifies that no arguments were passed to the \code{...}
@@ -121,6 +122,9 @@ mtcars |> chk_that(nrow(.) > 10) |> ncol()
 plot_kind <- function(kind = c("scatter", "line", "bar")) chk_match(kind)
 plot_kind()
 tryCatch(plot_kind("pie"), error = wrap_error)
+
+# Any bare atomic type, with integer and double interchangeable
+chk_match(2, 1:3)
 
 # chk_any() takes the first check that passes
 x <- "a"

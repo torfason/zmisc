@@ -99,13 +99,25 @@ chk_match <- function(x, values = NULL, ..., multiple = FALSE) {
 
   # Unmatchable values are a mistake in the call rather than a property of `x`,
   # so they are raised here rather than routed through chk_fail().
-  if (!is.character(values) || length(values) == 0L || anyNA(values))
+  if (!is.atomic(values) || !is.vector(values) || length(values) == 0L || anyNA(values))
     rlang::abort(c("`values` is not a usable set of values.",
-                   x = "It must be a character vector, not empty, and without NA."),
+                   x = "It must be a bare atomic vector, not empty, and without NA."),
                  call = rlang::caller_env())
 
-  if (!is.character(x)) {
-    res <- check_character(x)
+  # `x` is compared with `values` as it stands, so it must be of the same type.
+  # Integer and double count as one type, so that `2` matches `1:3`. Nothing
+  # else is coerced, so "2" does not. No `NA` are allowed in values so an `NA`
+  # in x must also fail, but `NA` types are considered fluid as with other
+  # assertions, so the failure is "must not be NA" rather than wrong type.
+  no_values <- !is.null(x) && is.atomic(x) && all(is.na(x))
+  if (!no_values && !identical(typeof(x), typeof(values)) &&
+      !(is.numeric(x) && is.numeric(values))) {
+    res <- paste0("Must be of type '", if (is.numeric(values)) "numeric" else typeof(values),
+                  "', not '", if (is.object(x)) class(x)[[1L]] else typeof(x), "'")
+  } else if (!attrs_ok(x, "names")) {
+    # A factor, a Date, a matrix: the right type, but not a bare vector. The
+    # attributes are what is reported, by chk_fail() below.
+    res <- TRUE
   } else {
 
     # A default that was never overridden arrives whole, and stands for its
@@ -127,7 +139,8 @@ chk_match <- function(x, values = NULL, ..., multiple = FALSE) {
 
   # One exit for failure, so that the label is settled in one place: chk_fail()
   # reads the expression `x` was written as, unless the caller named it.
-  if (is.null(error_arg)) chk_fail(x, res) else chk_fail(x, res, arg = error_arg)
+  if (is.null(error_arg)) chk_fail(x, res, attr.ok = "names")
+  else chk_fail(x, res, attr.ok = "names", arg = error_arg)
 }
 
 
@@ -164,21 +177,23 @@ chk_dots_empty <- function() {
 
 # --- Helpers for chk_dots_empty() error reporting below ---
 
-# The permitted values, spelled out, and a guess when one is close. The guess
-# is prefix matching in both directions rather than an edit distance: It
-# catches an abbreviation ("c" for "cherry") and a case slip ("Cherry"), but
-# does not do more advanced similarity matching.
+# The permitted values, spelled out, and a guess when one is close. Strings are
+# quoted and anything else is shown as as.character() writes it. The guess is
+# made for strings only, and is prefix matching in both directions rather than
+# an edit distance: It catches an abbreviation ("c" for "cherry") and a case
+# slip ("Cherry"), but does not do more advanced similarity matching.
 match_bullets <- function(x, values) {
-  quoted <- encodeString(values, quote = "\"")
-  one_of <- if (length(quoted) == 1L) {
-    quoted
+  show   <- function(v) if (is.character(v)) encodeString(v, quote = "\"") else as.character(v)
+  shown  <- show(values)
+  one_of <- if (length(shown) == 1L) {
+    shown
   } else {
-    paste0(paste(quoted[-length(quoted)], collapse = ", "),
-           if (length(quoted) > 2L) "," else "", " or ", quoted[[length(quoted)]])
+    paste0(paste(shown[-length(shown)], collapse = ", "),
+           if (length(shown) > 2L) "," else "", " or ", shown[[length(shown)]])
   }
-  got <- if (is.na(x)) "NA" else encodeString(x, quote = "\"")
+  got <- if (is.na(x)) "NA" else show(x)
   msg <- paste0("Must be one of ", one_of, ", not ", got)
-  if (!is.na(x)) {
+  if (is.character(x) && !is.na(x)) {
     lx   <- tolower(x)
     near <- values[startsWith(tolower(values), lx) | startsWith(lx, tolower(values))]
     if (length(near) > 0L)

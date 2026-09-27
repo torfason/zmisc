@@ -1005,7 +1005,7 @@ test_that("chk_dots_empty() works for all params", {
 })
 
 
-test_that("EXTENDED chk_match() works for all params", {
+test_that("chk_match() works for all params", {
 
   f_match <- function(type = c("alpha", "beta")) chk_match(type)
   alpha <- "alpha"
@@ -1077,10 +1077,70 @@ test_that("EXTENDED chk_match() works for all params", {
   # `x`, and are an error even where a failure would not be
   chk_match("alpha", character())               |> expect_error("usable set")
   chk_match("alpha", c("alpha", NA))            |> expect_error("usable set")
-  chk_match("alpha", 1:3)                       |> expect_error("usable set")
+  chk_match("alpha", list("alpha", "beta"))     |> expect_error("usable set")
+  chk_match("alpha", factor(ab))                |> expect_error("usable set")
+  chk_match(1, c(1, NA))                        |> expect_error("usable set")
 
   # Leaking into ... is an error
   chk_match("alpha", c("alpha", "beta"), bogus = TRUE) |> expect_error("[Mm]ust be empty")
+
+})
+
+
+test_that("chk_match() works for any bare atomic type", {
+
+  ab <- c("alpha", "beta")
+
+  # every bare atomic type matches the way character does
+  chk_match(2, c(1, 2, 3))                      |> expect_identical(2)
+  chk_match(TRUE, c(TRUE, FALSE))               |> expect_identical(TRUE)
+  chk_match(2+0i, c(1+0i, 2+0i))                |> expect_identical(2+0i)
+  chk_match(as.raw(2), as.raw(1:3))             |> expect_identical(as.raw(2))
+  chk_match(4, c(1, 2, 3))                      |> expect_error("Must be one of 1, 2, or 3, not 4")
+  chk_match(NA, c(TRUE, FALSE))                 |> expect_error("not NA")
+  err <- tryCatch(chk_match(4, c(1, 2, 3)), error = identity)
+  expect_false(grepl("Did you mean", conditionMessage(err)))
+
+  # integer and double are one type, and `x` is returned as given
+  chk_match(2, 1:3)                             |> expect_identical(2)
+  chk_match(2L, c(1, 2, 3))                     |> expect_identical(2L)
+
+  # the values can come from the default, as with character
+  f_int  <- function(n = c(10L, 20L, 30L))  chk_match(n)
+  f_flag <- function(flag = c(TRUE, FALSE)) chk_match(flag)
+  f_int()                                       |> expect_identical(10L)
+  f_int(20)                                     |> expect_identical(20)
+  f_int(25)                                     |> expect_error("not 25")
+  f_flag()                                      |> expect_identical(TRUE)
+  f_flag(FALSE)                                 |> expect_identical(FALSE)
+
+  # multiple = TRUE works the same way
+  chk_match(c(3, 1), 1:3, multiple = TRUE)      |> expect_identical(c(3, 1))
+  chk_match(c(3, 4), 1:3, multiple = TRUE)      |> expect_error("not 4")
+
+  # nothing else is coerced
+  chk_match("2", 1:3)                           |> expect_error("Must be of type 'numeric', not 'character'")
+  chk_match(2, c("1", "2"))                     |> expect_error("Must be of type 'character', not 'double'")
+  chk_match(1L, c(TRUE, FALSE))                 |> expect_error("Must be of type 'logical', not 'integer'")
+  chk_match(NULL, ab)                           |> expect_error("not 'NULL'")
+  chk_match(NULL, ab, multiple = TRUE)          |> expect_error("not 'NULL'")
+  chk_match(list("alpha"), ab)                  |> expect_error("not 'list'")
+
+  # an NA of any type is not a type mismatch, but a value not among `values`,
+  # and an empty vector is of any type, as in check_character()
+  chk_match(NA, ab)                             |> expect_error("Must be one of \"alpha\" or \"beta\", not NA")
+  chk_match(NA_integer_, ab)                    |> expect_error("not NA")
+  chk_match(NA, 1:3)                            |> expect_error("Must be one of 1, 2, or 3, not NA")
+  chk_match(c(NA, NA), ab, multiple = TRUE)     |> expect_error("not NA")
+  chk_match(logical(), ab, multiple = TRUE)     |> expect_identical(logical())
+  chk_match(logical(), ab)                      |> expect_error("length 1, not length 0")
+
+  # `x` must be bare, but may have names
+  chk_match(c(a = "alpha"), ab)                 |> expect_identical(c(a = "alpha"))
+  chk_match(factor("alpha"), ab)                |> expect_error("not 'factor'")
+  chk_match(factor("alpha"), 1:3)               |> expect_error("class attribute")
+  chk_match(as.Date("2026-01-01"), c(20454, 20455)) |> expect_error("class attribute")
+  chk_match(matrix(2), 1:3)                     |> expect_error("dim attribute")
 
 })
 

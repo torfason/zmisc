@@ -144,8 +144,9 @@ NULL
 #'
 #' `chk_match()` can be used either as an equivalent to [rlang::arg_match()] or
 #' [match.arg()] for checking a function argument against default values in a
-#' function, or to check that any (`character`) variable x is an element of a
-#' (`character`) vector of `values`. When used to select default value in a
+#' function, or to check that any variable x is an element of a vector of
+#' `values`. Both must be bare atomic vectors of the same type, except that
+#' integer and double count as one type. When used to select default value in a
 #' function, it must be called as `arg <- chk_match(arg)`.
 #'
 #' `chk_dots_empty()` verifies that no arguments were passed to the `...`
@@ -165,7 +166,7 @@ NULL
 #'   evaluating  `expr`.
 #' @param na.ok Are missing values permitted?
 #' @param null.ok Is `NULL` permitted?
-#' @param values Character vector of values which the object checked by
+#' @param values Bare atomic vector of values which the object checked by
 #'   `chk_match()` must be an element of.
 #' @param multiple Logical determining if the return value of `chk_match()` can
 #'   contain more than one element.
@@ -210,6 +211,9 @@ NULL
 #' plot_kind <- function(kind = c("scatter", "line", "bar")) chk_match(kind)
 #' plot_kind()
 #' tryCatch(plot_kind("pie"), error = wrap_error)
+#'
+#' # Any bare atomic type, with integer and double interchangeable
+#' chk_match(2, 1:3)
 #'
 #' # chk_any() takes the first check that passes
 #' x <- "a"
