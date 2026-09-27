@@ -23,8 +23,11 @@ chk_any <- function(...) {
 
   # checked before anything is evaluated, so that an argument that cannot assert
   # is an error whether or not an earlier branch would have passed first
-  for (i in seq_along(exprs))
-    if (!is.call(exprs[[i]])) chk_fail_not_a_call(exprs[[i]], i, length(exprs))
+  for (i in seq_along(exprs)) {
+    e <- exprs[[i]]
+    if (!is.call(e)) chk_fail_not_a_call(e, i, length(exprs))
+    if (length(e) == 1L && is_chk_name(e[[1L]])) chk_fail_no_object(e)
+  }
 
   # substitute() reaches through a forwarded `...` and hands back the original
   # expressions, but they were written a frame further up than the one they
@@ -103,6 +106,28 @@ chk_fail_not_a_call <- function(expr, i, n) {
     msg <- c(msg, i = paste0("An object cannot be piped into `chk_any()`. ",
                              "Name it inside each assertion instead."))
   rlang::abort(msg, call = rlang::caller_env())
+}
+
+# A chk_*() call with no arguments has nothing to check, and the reason it is
+# there is a pipe whose left-hand side is itself a call: `f(x) |> chk_any(
+# chk_string(), chk_number())` passes the check above, since `f(x)` is a call,
+# and would return the value of f(x) as a branch that passed. The object is
+# missing from every branch in that shape, which is what is caught here.
+chk_fail_no_object <- function(expr) {
+  rlang::abort(
+    c(paste0("`", deparse1(expr), "` has no object to check."),
+      i = paste0("An object cannot be piped into `chk_any()`. ",
+                 "Name it inside each assertion instead.")),
+    call = rlang::caller_env())
+}
+
+# Whether the head of a call names a chk_*() function, bare or qualified with
+# `::` or `:::`. Only reached for calls without arguments.
+is_chk_name <- function(head) {
+  if (is.call(head) && length(head) == 3L &&
+      (identical(head[[1L]], quote(`::`)) || identical(head[[1L]], quote(`:::`))))
+    head <- head[[3L]]
+  is.symbol(head) && startsWith(as.character(head), "chk_")
 }
 
 # A failure object carries the expression it was raised on, unless a caller of

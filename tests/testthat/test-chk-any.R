@@ -115,6 +115,13 @@ test_that("chk_any() rejects arguments that cannot assert", {
   # assertion was expected, and would otherwise come back unchecked
   ("a" |> chk_any(chk_string(), chk_number())) |> expect_error("cannot be piped")
 
+  # a left-hand side that is itself a call passes the check above, and is caught
+  # by the branches that were left without an object
+  (identity(TRUE) |> chk_any(chk_string(), chk_number())) |> expect_error("cannot be piped")
+  df <- data.frame(v = TRUE)
+  (df$v |> chk_any(chk_string(), chk_number()))           |> expect_error("cannot be piped")
+  (df$v |> chk_any(zmisc::chk_string()))                  |> expect_error("has no object")
+
   # forwarding evaluates the assertions a frame below where they were written,
   # where a local of the same name is invisible and a global one is not
   forwarder <- function(...) chk_any(...)
