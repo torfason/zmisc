@@ -62,11 +62,6 @@ returned unchanged, or replaced by `.default`.
 fruit_lookup_vector <- c(a = "Apple", b = "Banana", c = "Cherry")
 lookup(letters[1:5], fruit_lookup_vector)
 lookup(letters[1:5], fruit_lookup_vector, .default = NA)
-
-mtcars_lookup_data_frame <- data.frame(
-  name = c("mpg", "hp", "wt"),
-  value = c("Miles/(US) gallon", "Gross horsepower", "Weight (1000 lbs)"))
-lookup(names(mtcars), mtcars_lookup_data_frame)
 ```
 
 [lookuper()] returns *a function* that does the same lookup, with the table
@@ -98,9 +93,8 @@ set.seed(42); zample(7)
 set.seed(42); sample(7)
 ```
 
-[zeq()] is an increasing integer sequence that refuses to silently run
-backwards. A second argument one below the first gives an empty sequence,
-anything lower is an error.
+[zeq()] is gives a strictly increasing integer sequence. A second argument one
+below the first gives an empty sequence, anything lower is an error.
 
 ```{r zeq}
 zeq(11, 15)
@@ -115,15 +109,13 @@ should be identical, but where the assumption is worth checking.
 ```{r zingle}
 zingle(c("Alpha", "Alpha", "Alpha"))
 tryCatch(zingle(c("Alpha", "Beta", "Alpha")), error = wrap_error)
-```
 
-```{r zingle_dplyr}
+# zingle() is useful to ensure an data.frame summary is well formed
 if (require("dplyr", quietly = TRUE, warn.conflicts = FALSE)) {
   d <- data.frame(
     id    = c(1, 2, 1),
     name  = c("James", "Jack", "James"),
-    fouls = c(3, 2, 4)
-  )
+    fouls = c(3, 2, 4))
 
   d |>
     group_by(id) |>
@@ -134,11 +126,11 @@ if (require("dplyr", quietly = TRUE, warn.conflicts = FALSE)) {
 
 ## Checks with rlang-style errors
 
-The `chk_*()` functions check the type and shape of an argument and, on
-failure, raise an [rlang]-style error naming the argument as the caller wrote
-it. The checking itself is done by [checkmate]. Each function returns its
-input, so a check can sit in the middle of a pipe, and each is cheap enough on
-the passing path to leave at the top of any function.
+The `chk_*()` functions check the type and shape of an argument and, on failure,
+raise an [rlang]-style error naming the argument as the caller wrote it. Each
+function returns its input, so a check can sit in the middle of a pipe, and each
+is cheap enough on the passing path to leave at the top of any function. The
+checking is backed by the [checkmate] package.
 
 ```{r chk}
 # The check returns its input, so it composes in a pipe
