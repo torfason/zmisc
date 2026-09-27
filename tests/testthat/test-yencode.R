@@ -142,3 +142,27 @@ test_that("yencoder and decoder work", {
   x_perc_decoder <- f_perc(outputs_urlencode_default)
   expect_equal(x_perc_decoder, x_perc)
 })
+
+
+test_that("yencode encodes UTF-8 and ydecode returns UTF-8", {
+  o_utf8   <- "\u00f6"
+  o_latin1 <- iconv(o_utf8, "UTF-8", "latin1")
+
+  expect_identical(yencode(o_latin1), "%C3%B6")
+  expect_identical(yencode(o_latin1), yencode(o_utf8))
+  expect_identical(Encoding(ydecode("%C3%B6")), "UTF-8")
+  expect_identical(ydecode(yencode(o_latin1)), o_utf8)
+
+  # decoded bytes that are not UTF-8 are an error rather than an invalid string
+  expect_error(ydecode("%F6"), "not valid UTF-8")
+})
+
+
+test_that("ydecode rejects malformed escapes", {
+  for (s in c("% A", "%+A", "%-1", "%zz", "%0x", "a%4g"))
+    expect_error(ydecode(s), "Malformed escape", info = s)
+  expect_error(ydecode("#+A", escape = "#"), "Malformed escape")
+  expect_error(ydecode("%4"), "Truncated escape")
+  expect_error(yencode("a", escape = "\u00f6"))
+  expect_error(ydecode("a", escape = "\u00f6"))
+})

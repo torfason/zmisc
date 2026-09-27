@@ -25,15 +25,17 @@
 .yencode_map <- function(escape = "%",
                          whitelist = c("._~-", "][!$&'()*+,;=:/?@#")) {
 
-  # The escape string must be one single-byte character
+  # The escape string must be one ASCII character
   stopifnot( is.character(escape) ,
              length(escape) == 1 ,
-             length(charToRaw(escape)) == 1 )
+             length(charToRaw(escape)) == 1 ,
+             as.integer(charToRaw(escape)) < 128L )
 
   # Treat NULL or NA whitelist as empty string, but other types should error
   if (is.null(whitelist)) { whitelist <- "" }
   whitelist[is.na(whitelist)] <- ""
   stopifnot(is.character(whitelist))
+  whitelist <- enc2utf8(whitelist)
 
   # The following characters are always whitelisted and cannot be escaped
   whitelist_core <- "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
@@ -86,7 +88,8 @@
 #' @keywords internal
 .yencode_apply <- function(string, m) {
 
-  string <- as.character(string)
+  # Encode the UTF-8 bytes, whatever the declared encoding of the input
+  string <- enc2utf8(as.character(string))
 
   out <- vapply(string, function(s) {
     if (is.na(s)) return(NA_character_)
@@ -109,6 +112,17 @@
 #' @param escape The escape character to use.
 #' @param whitelist Any characters that should not be escaped. See details.
 #' @return The processed (encoded or decoded) string.
+#'
+#' @details
+#' Letters and digits are never escaped. Other characters are escaped unless
+#' they appear in `whitelist`, which may include multi-byte characters. The
+#' escape character is removed from the whitelist, with a warning, if present,
+#' and must itself be a single ASCII character.
+#'
+#' `yencode()` escapes the UTF-8 representation of `string`, whatever its
+#' declared encoding, so the same text always gives the same result.
+#' `ydecode()` returns strings marked as UTF-8, and raises an error if an
+#' escape sequence is malformed or the decoded bytes are not valid UTF-8.
 #'
 #' @md
 #' @export
@@ -142,11 +156,13 @@ ydecode <- function(string, escape = "%") {
 
   stopifnot( is.character(escape) ,
              length(escape) == 1 ,
-             length(charToRaw(escape)) == 1 )
+             length(charToRaw(escape)) == 1 ,
+             as.integer(charToRaw(escape)) < 128L )
 
-  pc <- charToRaw(escape)
+  pc         <- charToRaw(escape)
+  hex_digits <- charToRaw("0123456789ABCDEFabcdef")
 
-  vapply(as.character(string), function(s) {
+  vapply(enc2utf8(as.character(string)), function(s) {
 
     if (is.na(s)) return(NA_character_)
 
@@ -176,14 +192,19 @@ ydecode <- function(string, escape = "%") {
       stop("Truncated escape sequence at the end of the input string.")
     }
 
-    # strtoi() replaces the manual hex arithmetic and accepts either case
+    # Both bytes after each escape must be hex digits. strtoi() alone is not
+    # enough, since it accepts leading whitespace and signs (" A", "+A", "-1")
+    if (!all(c(x[starts + 1L], x[starts + 2L]) %in% hex_digits))
+      stop("Malformed escape sequence in the input string.")
     hex <- paste0(rawToChar(x[starts + 1L], multiple = TRUE),
                   rawToChar(x[starts + 2L], multiple = TRUE))
-    val <- strtoi(hex, 16L)
-    if (anyNA(val)) stop("Malformed escape sequence in the input string.")
 
-    x[starts] <- as.raw(val)
-    rawToChar(x[-c(starts + 1L, starts + 2L)])
+    x[starts] <- as.raw(strtoi(hex, 16L))
+    out <- rawToChar(x[-c(starts + 1L, starts + 2L)])
+    if (!validUTF8(out))
+      stop("The decoded string is not valid UTF-8.")
+    Encoding(out) <- "UTF-8"
+    out
 
   }, character(1), USE.NAMES = FALSE)
 }
