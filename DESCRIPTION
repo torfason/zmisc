@@ -2,8 +2,8 @@ Type: Package
 Package: zmisc
 Title: Vector Look-Ups and Safer Sampling
 Version: 0.3.0.9001
-Authors@R:
-    person("Magnus Thor", "Torfason", , "m@zulutime.net", role = c("aut", "cre"))
+Authors@R: person(given = c("Magnus", "Thor"), family = "Torfason", 
+                  email = "m@zulutime.net", role = c("aut", "cre"))
 Description: A collection of utility functions that facilitate looking up
     vector values from a lookup table, annotate values in a table for
     clearer viewing, and support a safer approach to vector sampling,
