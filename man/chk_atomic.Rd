@@ -26,13 +26,13 @@
 \alias{chk_scalar}
 \title{Checks for scalars and atomic vectors}
 \usage{
-chk_flag(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
+chk_flag(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names")
 
 chk_logical(
   x,
   ...,
-  na.ok = TRUE,
   null.ok = FALSE,
+  na.ok = TRUE,
   attr.ok = "names",
   length = NULL
 )
@@ -40,8 +40,8 @@ chk_logical(
 chk_string(
   x,
   ...,
-  na.ok = FALSE,
   null.ok = FALSE,
+  na.ok = FALSE,
   attr.ok = "names",
   range = NULL
 )
@@ -49,8 +49,8 @@ chk_string(
 chk_character(
   x,
   ...,
-  na.ok = TRUE,
   null.ok = FALSE,
+  na.ok = TRUE,
   attr.ok = "names",
   length = NULL,
   range = NULL
@@ -59,8 +59,8 @@ chk_character(
 chk_number(
   x,
   ...,
-  na.ok = FALSE,
   null.ok = FALSE,
+  na.ok = FALSE,
   attr.ok = "names",
   range = NULL
 )
@@ -68,8 +68,8 @@ chk_number(
 chk_numeric(
   x,
   ...,
-  na.ok = TRUE,
   null.ok = FALSE,
+  na.ok = TRUE,
   attr.ok = "names",
   length = NULL,
   range = NULL
@@ -78,8 +78,8 @@ chk_numeric(
 chk_inumber(
   x,
   ...,
-  na.ok = FALSE,
   null.ok = FALSE,
+  na.ok = FALSE,
   attr.ok = "names",
   range = NULL
 )
@@ -87,8 +87,8 @@ chk_inumber(
 chk_integer(
   x,
   ...,
-  na.ok = TRUE,
   null.ok = FALSE,
+  na.ok = TRUE,
   attr.ok = "names",
   length = NULL,
   range = NULL
@@ -97,8 +97,8 @@ chk_integer(
 chk_dnumber(
   x,
   ...,
-  na.ok = FALSE,
   null.ok = FALSE,
+  na.ok = FALSE,
   attr.ok = "names",
   range = NULL
 )
@@ -106,8 +106,8 @@ chk_dnumber(
 chk_double(
   x,
   ...,
-  na.ok = TRUE,
   null.ok = FALSE,
+  na.ok = TRUE,
   attr.ok = "names",
   length = NULL,
   range = NULL
@@ -116,8 +116,8 @@ chk_double(
 chk_znumber(
   x,
   ...,
-  na.ok = FALSE,
   null.ok = FALSE,
+  na.ok = FALSE,
   attr.ok = "names",
   range = NULL
 )
@@ -125,8 +125,8 @@ chk_znumber(
 chk_integerish(
   x,
   ...,
-  na.ok = TRUE,
   null.ok = FALSE,
+  na.ok = TRUE,
   attr.ok = "names",
   length = NULL,
   range = NULL
@@ -135,18 +135,18 @@ chk_integerish(
 chk_count(
   x,
   ...,
+  null.ok = FALSE,
   na.ok = FALSE,
   zero.ok = TRUE,
-  null.ok = FALSE,
   attr.ok = "names"
 )
 
 chk_naturalish(
   x,
   ...,
+  null.ok = FALSE,
   na.ok = TRUE,
   zero.ok = TRUE,
-  null.ok = FALSE,
   attr.ok = "names",
   length = NULL,
   range = NULL
@@ -155,8 +155,8 @@ chk_naturalish(
 chk_factor(
   x,
   ...,
-  na.ok = TRUE,
   null.ok = FALSE,
+  na.ok = TRUE,
   attr.ok = "names",
   length = NULL
 )
@@ -164,8 +164,8 @@ chk_factor(
 chk_complex(
   x,
   ...,
-  na.ok = TRUE,
   null.ok = FALSE,
+  na.ok = TRUE,
   attr.ok = "names",
   length = NULL
 )
@@ -175,8 +175,8 @@ chk_raw(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL)
 chk_day(
   x,
   ...,
-  na.ok = FALSE,
   null.ok = FALSE,
+  na.ok = FALSE,
   attr.ok = "names",
   range = NULL
 )
@@ -184,8 +184,8 @@ chk_day(
 chk_date(
   x,
   ...,
-  na.ok = TRUE,
   null.ok = FALSE,
+  na.ok = TRUE,
   attr.ok = "names",
   length = NULL,
   range = NULL
@@ -194,8 +194,8 @@ chk_date(
 chk_instant(
   x,
   ...,
-  na.ok = FALSE,
   null.ok = FALSE,
+  na.ok = FALSE,
   attr.ok = "names",
   range = NULL
 )
@@ -203,14 +203,14 @@ chk_instant(
 chk_posixct(
   x,
   ...,
-  na.ok = TRUE,
   null.ok = FALSE,
+  na.ok = TRUE,
   attr.ok = "names",
   length = NULL,
   range = NULL
 )
 
-chk_scalar(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
+chk_scalar(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names")
 
 chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 }
@@ -219,9 +219,9 @@ chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 
 \item{...}{These dots are for future extensions and must be empty.}
 
-\item{na.ok}{Are missing values permitted?}
-
 \item{null.ok}{Is \code{NULL} permitted?}
+
+\item{na.ok}{Are missing values permitted?}
 
 \item{attr.ok}{Which attributes \code{x} may carry beyond those intrinsic to its type: a character vector of permitted attribute names, \code{FALSE} for none at all, or \code{TRUE} for any.}
 

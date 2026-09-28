@@ -6,9 +6,9 @@
 
 #' @param x Object to check.
 #' @param ... These dots are for future extensions and must be empty.
+#' @param null.ok Is `NULL` permitted?
 #' @param na.ok Are missing values permitted?
 #' @param zero.ok Is zero permitted?
-#' @param null.ok Is `NULL` permitted?
 #' @param attr.ok Which attributes `x` may carry beyond those intrinsic to its type: a character vector of permitted attribute names, `FALSE` for none at all, or `TRUE` for any.
 #' @param length Permitted length. `NULL` for any length, a scalar for one exact length, or a vector whose first and last elements give the minimum and the maximum. Neither may be negative, and `NA` at an end, or `Inf` as the maximum, means no bound there.
 #' @param range Permitted range of values, under the same first/last rule as `length`. For the character types it constrains `nchar()` of the elements instead, and for the date and time types the bounds are themselves `Date` or `POSIXct`. `NA` at an end means no bound there, and so does an infinite end wherever the type keeps that meaning.
@@ -20,7 +20,7 @@ NULL
 
 #' @rdname chk_atomic
 #' @export
-chk_flag <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") {
+chk_flag <- function(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names") {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "logical") && length(x) == 1L && !is.na(x))
@@ -32,8 +32,8 @@ chk_flag <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") 
   # More detailed translation of arguments to check_*() equivalents
 
   res <- check_flag(x,
-                    na.ok = na.ok,
-                    null.ok = null.ok)
+                    null.ok = null.ok,
+                    na.ok = na.ok)
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -42,7 +42,7 @@ chk_flag <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") 
 #   FALSE
 #' @rdname chk_atomic
 #' @export
-chk_logical <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL) {
+chk_logical <- function(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names", length = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "logical"))
@@ -54,8 +54,8 @@ chk_logical <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
   res <- check_logical(x,
-                       any.missing = na.ok,
                        null.ok = null.ok,
+                       any.missing = na.ok,
                        len = len$exact,
                        min.len = len$min,
                        max.len = len$max)
@@ -66,7 +66,7 @@ chk_logical <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 # pinned: pattern = NULL, fixed = NULL, ignore.case = FALSE
 #' @rdname chk_atomic
 #' @export
-chk_string <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
+chk_string <- function(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "character") && length(x) == 1L && !is.na(x))
@@ -78,8 +78,8 @@ chk_string <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi_count(range)
   res <- check_string(x,
-                      na.ok = na.ok,
                       null.ok = null.ok,
+                      na.ok = na.ok,
                       n.chars = rng$exact,
                       min.chars = rng$min,
                       max.chars = rng$max)
@@ -91,7 +91,7 @@ chk_string <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
 #   TRUE, unique = FALSE, sorted = FALSE, names = NULL, typed.missing = FALSE
 #' @rdname chk_atomic
 #' @export
-chk_character <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
+chk_character <- function(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "character"))
@@ -104,8 +104,8 @@ chk_character <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "name
   len <- lo_hi_count(length)
   rng <- lo_hi_count(range)
   res <- check_character(x,
-                         any.missing = na.ok,
                          null.ok = null.ok,
+                         any.missing = na.ok,
                          len = len$exact,
                          min.len = len$min,
                          max.len = len$max,
@@ -119,7 +119,7 @@ chk_character <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "name
 # pinned: finite = FALSE
 #' @rdname chk_atomic
 #' @export
-chk_number <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
+chk_number <- function(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "numeric") && length(x) == 1L && !is.na(x))
@@ -131,8 +131,8 @@ chk_number <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi(range, c(-Inf, Inf))
   res <- check_number(x,
-                      na.ok = na.ok,
                       null.ok = null.ok,
+                      na.ok = na.ok,
                       lower = rng[[1L]],
                       upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
@@ -143,7 +143,7 @@ chk_number <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
 #   names = NULL, typed.missing = FALSE
 #' @rdname chk_atomic
 #' @export
-chk_numeric <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
+chk_numeric <- function(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "numeric"))
@@ -156,8 +156,8 @@ chk_numeric <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   len <- lo_hi_count(length)
   rng <- lo_hi(range, c(-Inf, Inf))
   res <- check_numeric(x,
-                       any.missing = na.ok,
                        null.ok = null.ok,
+                       any.missing = na.ok,
                        len = len$exact,
                        min.len = len$min,
                        max.len = len$max,
@@ -170,7 +170,7 @@ chk_numeric <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 
 #' @rdname chk_atomic
 #' @export
-chk_inumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
+chk_inumber <- function(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "integer") && length(x) == 1L && !is.na(x))
@@ -182,8 +182,8 @@ chk_inumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi(range, c(-Inf, Inf))
   res <- check_inumber(x,
-                       na.ok = na.ok,
                        null.ok = null.ok,
+                       na.ok = na.ok,
                        lower = rng[[1L]],
                        upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
@@ -194,7 +194,7 @@ chk_inumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
 #   typed.missing = FALSE
 #' @rdname chk_atomic
 #' @export
-chk_integer <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
+chk_integer <- function(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "integer"))
@@ -207,8 +207,8 @@ chk_integer <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   len <- lo_hi_count(length)
   rng <- lo_hi(range, c(-Inf, Inf))
   res <- check_integer(x,
-                       any.missing = na.ok,
                        null.ok = null.ok,
+                       any.missing = na.ok,
                        len = len$exact,
                        min.len = len$min,
                        max.len = len$max,
@@ -221,7 +221,7 @@ chk_integer <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 
 #' @rdname chk_atomic
 #' @export
-chk_dnumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
+chk_dnumber <- function(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "double") && length(x) == 1L && !is.na(x))
@@ -233,8 +233,8 @@ chk_dnumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi(range, c(-Inf, Inf))
   res <- check_dnumber(x,
-                       na.ok = na.ok,
                        null.ok = null.ok,
+                       na.ok = na.ok,
                        lower = rng[[1L]],
                        upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
@@ -245,7 +245,7 @@ chk_dnumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
 #   names = NULL, typed.missing = FALSE
 #' @rdname chk_atomic
 #' @export
-chk_double <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
+chk_double <- function(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "double"))
@@ -258,8 +258,8 @@ chk_double <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
   len <- lo_hi_count(length)
   rng <- lo_hi(range, c(-Inf, Inf))
   res <- check_double(x,
-                      any.missing = na.ok,
                       null.ok = null.ok,
+                      any.missing = na.ok,
                       len = len$exact,
                       min.len = len$min,
                       max.len = len$max,
@@ -272,7 +272,7 @@ chk_double <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
 # pinned: tol = sqrt(.Machine$double.eps)
 #' @rdname chk_atomic
 #' @export
-chk_znumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
+chk_znumber <- function(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "integer") && length(x) == 1L && !is.na(x))
@@ -284,8 +284,8 @@ chk_znumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi(range, c(-Inf, Inf))
   res <- check_int(x,
-                   na.ok = na.ok,
                    null.ok = null.ok,
+                   na.ok = na.ok,
                    lower = rng[[1L]],
                    upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
@@ -296,7 +296,7 @@ chk_znumber <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
 #   FALSE, sorted = FALSE, names = NULL, typed.missing = FALSE
 #' @rdname chk_atomic
 #' @export
-chk_integerish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
+chk_integerish <- function(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "integer"))
@@ -309,8 +309,8 @@ chk_integerish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "nam
   len <- lo_hi_count(length)
   rng <- lo_hi(range, c(-Inf, Inf))
   res <- check_integerish(x,
-                          any.missing = na.ok,
                           null.ok = null.ok,
+                          any.missing = na.ok,
                           len = len$exact,
                           min.len = len$min,
                           max.len = len$max,
@@ -323,7 +323,7 @@ chk_integerish <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "nam
 # pinned: tol = sqrt(.Machine$double.eps)
 #' @rdname chk_atomic
 #' @export
-chk_count <- function(x, ..., na.ok = FALSE, zero.ok = TRUE, null.ok = FALSE, attr.ok = "names") {
+chk_count <- function(x, ..., null.ok = FALSE, na.ok = FALSE, zero.ok = TRUE, attr.ok = "names") {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "integer") && length(x) == 1L && !is.na(x) && x >= 0L)
@@ -335,9 +335,9 @@ chk_count <- function(x, ..., na.ok = FALSE, zero.ok = TRUE, null.ok = FALSE, at
   # More detailed translation of arguments to check_*() equivalents
 
   res <- check_count(x,
+                     null.ok = null.ok,
                      na.ok = na.ok,
-                     positive = !zero.ok,
-                     null.ok = null.ok)
+                     positive = !zero.ok)
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }
@@ -346,7 +346,7 @@ chk_count <- function(x, ..., na.ok = FALSE, zero.ok = TRUE, null.ok = FALSE, at
 #   FALSE, sorted = FALSE, names = NULL
 #' @rdname chk_atomic
 #' @export
-chk_naturalish <- function(x, ..., na.ok = TRUE, zero.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
+chk_naturalish <- function(x, ..., null.ok = FALSE, na.ok = TRUE, zero.ok = TRUE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && isTRUE(check_naturalish(x)) && is.vector(x, "any"))
@@ -359,9 +359,9 @@ chk_naturalish <- function(x, ..., na.ok = TRUE, zero.ok = TRUE, null.ok = FALSE
   len <- lo_hi_count(length)
   rng <- lo_hi(range, c(0, Inf))
   res <- check_naturalish(x,
+                          null.ok = null.ok,
                           any.missing = na.ok,
                           positive = !zero.ok,
-                          null.ok = null.ok,
                           len = len$exact,
                           min.len = len$min,
                           max.len = len$max,
@@ -376,7 +376,7 @@ chk_naturalish <- function(x, ..., na.ok = TRUE, zero.ok = TRUE, null.ok = FALSE
 #   FALSE, names = NULL
 #' @rdname chk_atomic
 #' @export
-chk_factor <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL) {
+chk_factor <- function(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names", length = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && isTRUE(check_factor(x)) && attrs_ok(x, "names", c("class", "levels")))
@@ -388,8 +388,8 @@ chk_factor <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
   res <- check_factor(x,
-                      any.missing = na.ok,
                       null.ok = null.ok,
+                      any.missing = na.ok,
                       len = len$exact,
                       min.len = len$min,
                       max.len = len$max)
@@ -401,7 +401,7 @@ chk_factor <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names",
 #   FALSE
 #' @rdname chk_atomic
 #' @export
-chk_complex <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL) {
+chk_complex <- function(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names", length = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && is.vector(x, "complex"))
@@ -413,8 +413,8 @@ chk_complex <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   # More detailed translation of arguments to check_*() equivalents
   len <- lo_hi_count(length)
   res <- check_complex(x,
-                       any.missing = na.ok,
                        null.ok = null.ok,
+                       any.missing = na.ok,
                        len = len$exact,
                        min.len = len$min,
                        max.len = len$max)
@@ -448,7 +448,7 @@ chk_raw <- function(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL) {
 
 #' @rdname chk_atomic
 #' @export
-chk_day <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
+chk_day <- function(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && isTRUE(check_day(x)) && attrs_ok(x, "names", "class"))
@@ -460,8 +460,8 @@ chk_day <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", r
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi(range, NULL)
   res <- check_day(x,
-                   na.ok = na.ok,
                    null.ok = null.ok,
+                   na.ok = na.ok,
                    lower = rng[[1L]],
                    upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok, "class")) return(invisible(x))
@@ -471,7 +471,7 @@ chk_day <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", r
 # pinned: all.missing = TRUE, unique = FALSE
 #' @rdname chk_atomic
 #' @export
-chk_date <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
+chk_date <- function(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && isTRUE(check_date(x)) && attrs_ok(x, "names", "class"))
@@ -484,8 +484,8 @@ chk_date <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", l
   len <- lo_hi_count(length)
   rng <- lo_hi(range, NULL)
   res <- check_date(x,
-                    any.missing = na.ok,
                     null.ok = null.ok,
+                    any.missing = na.ok,
                     len = len$exact,
                     min.len = len$min,
                     max.len = len$max,
@@ -498,7 +498,7 @@ chk_date <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", l
 
 #' @rdname chk_atomic
 #' @export
-chk_instant <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names", range = NULL) {
+chk_instant <- function(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names", range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && isTRUE(check_instant(x)) && attrs_ok(x, "names", c("class", "tzone")))
@@ -510,8 +510,8 @@ chk_instant <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
   # More detailed translation of arguments to check_*() equivalents
   rng <- lo_hi(range, NULL)
   res <- check_instant(x,
-                       na.ok = na.ok,
                        null.ok = null.ok,
+                       na.ok = na.ok,
                        lower = rng[[1L]],
                        upper = rng[[2L]])
   if (isTRUE(res) && attrs_ok(x, attr.ok, c("class", "tzone"))) return(invisible(x))
@@ -521,7 +521,7 @@ chk_instant <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names
 # pinned: all.missing = TRUE, unique = FALSE, sorted = FALSE
 #' @rdname chk_atomic
 #' @export
-chk_posixct <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names", length = NULL, range = NULL) {
+chk_posixct <- function(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names", length = NULL, range = NULL) {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && isTRUE(check_posixct(x)) && attrs_ok(x, "names", c("class", "tzone")))
@@ -534,8 +534,8 @@ chk_posixct <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
   len <- lo_hi_count(length)
   rng <- lo_hi(range, NULL)
   res <- check_posixct(x,
-                       any.missing = na.ok,
                        null.ok = null.ok,
+                       any.missing = na.ok,
                        len = len$exact,
                        min.len = len$min,
                        max.len = len$max,
@@ -548,7 +548,7 @@ chk_posixct <- function(x, ..., na.ok = TRUE, null.ok = FALSE, attr.ok = "names"
 
 #' @rdname chk_atomic
 #' @export
-chk_scalar <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names") {
+chk_scalar <- function(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names") {
 
   # No arguments, return on fastest path
   if (nargs() == 1L && isTRUE(check_scalar(x)) && is.vector(x, "any"))
@@ -560,8 +560,8 @@ chk_scalar <- function(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names"
   # More detailed translation of arguments to check_*() equivalents
 
   res <- check_scalar(x,
-                      na.ok = na.ok,
-                      null.ok = null.ok)
+                      null.ok = null.ok,
+                      na.ok = na.ok)
   if (isTRUE(res) && attrs_ok(x, attr.ok)) return(invisible(x))
   chk_fail(x, res, attr.ok)
 }

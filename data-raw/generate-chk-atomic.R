@@ -14,13 +14,13 @@
 ##
 ## Each generated function exposes one cohesive parameter set:
 ##
+##   null.ok   passed straight through
 ##   na.ok     missing values permitted; mapped to any.missing for the vector
 ##             checks and to na.ok for the scalar ones, taking checkmate's
 ##             default in each case (TRUE and FALSE respectively)
 ##   zero.ok   zero permitted; the negation of checkmate's `positive`, which
 ##             only check_count() and check_naturalish() have, so only the
 ##             count and naturalish types get it
-##   null.ok   passed straight through
 ##   attr.ok   which attributes x may carry beyond those intrinsic to the type,
 ##             enforced here rather than by checkmate: a character vector of
 ##             permitted names, defaulting to "names"; FALSE for none; TRUE for
@@ -102,9 +102,9 @@ chk_spec <- tribble(
 param_desc <- c(
   x        = "Object to check.",
   ...      = "These dots are for future extensions and must be empty.",
+  null.ok  = "Is `NULL` permitted?",
   na.ok    = "Are missing values permitted?",
   zero.ok  = "Is zero permitted?",
-  null.ok  = "Is `NULL` permitted?",
   attr.ok  = paste("Which attributes `x` may carry beyond those intrinsic to",
                    "its type: a character vector of permitted attribute names,",
                    "`FALSE` for none at all, or `TRUE` for any."),
@@ -167,9 +167,9 @@ plan_args <- function(check) {
   } else NA_character_
 
   used <- c(
+    if (has("null.ok")) "null.ok",
     na_cm,
     if (zero) "positive",
-    if (has("null.ok")) "null.ok",
     if (len) c("len", "min.len", "max.len"),
     if (identical(range, "bounds")) c("lower", "upper"),
     if (identical(range, "chars")) c("n.chars", "min.chars", "max.chars")
@@ -177,13 +177,13 @@ plan_args <- function(check) {
   used <- used[!is.na(used)]
 
   list(
+    null_ok   = has("null.ok"),
+    null_dflt = if (has("null.ok")) dflt("null.ok") else NA_character_,
     na_cm     = na_cm,
     na_dflt   = if (is.na(na_cm)) NA_character_ else dflt(na_cm),
     zero      = zero,
     # zero.ok is the negation of checkmate's `positive`, default included
     zero_dflt = if (zero) deparse1(!as.logical(dflt("positive"))) else NA_character_,
-    null_ok   = has("null.ok"),
-    null_dflt = if (has("null.ok")) dflt("null.ok") else NA_character_,
     len       = len,
     range     = range,
     bounds    = bounds,
@@ -197,9 +197,9 @@ render_signature <- function(name, p) {
   args <- c(
     "x",
     "...",
+    if (p$null_ok) glu("null.ok = {{p$null_dflt}}"),
     if (!is.na(p$na_cm)) glu("na.ok = {{p$na_dflt}}"),
     if (p$zero) glu("zero.ok = {{p$zero_dflt}}"),
-    if (p$null_ok) glu("null.ok = {{p$null_dflt}}"),
     r"---(attr.ok = "names")---",
     if (p$len) "length = NULL",
     if (!is.na(p$range)) "range = NULL"
@@ -218,9 +218,9 @@ render_locals <- function(p) {
 
 render_slow_call <- function(check, p) {
   pairs <- c(
+    if (p$null_ok) "null.ok = null.ok",
     if (!is.na(p$na_cm)) glu("{{p$na_cm}} = na.ok"),
     if (p$zero) "positive = !zero.ok",
-    if (p$null_ok) "null.ok = null.ok",
     if (p$len) c("len = len$exact", "min.len = len$min", "max.len = len$max"),
     if (identical(p$range, "bounds")) c("lower = rng[[1L]]", "upper = rng[[2L]]"),
     if (identical(p$range, "chars")) c("n.chars = rng$exact", "min.chars = rng$min",
@@ -322,9 +322,9 @@ render_params <- function(spec) {
   nms <- c(
     "x",
     "...",
+    if (any(map_lgl(used, "null_ok"))) "null.ok",
     if (any(map_lgl(used, \(p) !is.na(p$na_cm)))) "na.ok",
     if (any(map_lgl(used, "zero"))) "zero.ok",
-    if (any(map_lgl(used, "null_ok"))) "null.ok",
     "attr.ok",
     if (any(map_lgl(used, "len"))) "length",
     if (any(map_lgl(used, \(p) !is.na(p$range)))) "range"
