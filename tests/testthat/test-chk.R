@@ -1052,10 +1052,16 @@ test_that("chk_match() works for all params", {
   chk_match(ab, c("alpha", "beta", "gamma"))    |> expect_error("length 1, not length 2")
 
   # multiple = TRUE specifies a more reasonable handling of multi arg
+  chk_match("alpha", ab, multiple = TRUE)                     |> expect_equal("alpha")
   chk_match(ab, c("alpha", "beta", "gamma"), multiple = TRUE) |> expect_equal(c("alpha", "beta"))
   chk_match(ab, c("beta", "alpha"), multiple = TRUE)          |> expect_equal(c("alpha", "beta"))
   chk_match(ab, c("alpha", "gamma"), multiple = TRUE)         |> expect_error("not \"beta\"")
   chk_match(empty, c("alpha", "beta"), multiple = TRUE)       |> expect_equal(character())
+
+  # multiple = FALSE specifies no special case on setequal()
+  chk_match("alpha", ab, multiple = FALSE)                     |> expect_equal("alpha")
+  chk_match(ab, c("alpha", "beta"), multiple = FALSE)          |> expect_error("length 1, not length 2")
+  chk_match(ab, c("alpha", "beta", "gamma"), multiple = FALSE) |> expect_error("length 1, not length 2")
 
   # # error_arg: the name the failure is reported against (disabled)
   # chk_match(gamma, c("alpha", "beta"), error_arg = "flavour") |> expect_error("flavour")
@@ -1117,6 +1123,21 @@ test_that("chk_match() works for any bare atomic type", {
   # multiple = TRUE works the same way
   chk_match(c(3, 1), 1:3, multiple = TRUE)      |> expect_identical(c(3, 1))
   chk_match(c(3, 4), 1:3, multiple = TRUE)      |> expect_error("not 4")
+
+  # for x length 1, all multiple values are equivalent
+  chk_match(1, 1:3, multiple = FALSE) |> expect_equal(1)
+  chk_match(1, 1:3, multiple = NULL)  |> expect_equal(1)
+  chk_match(1, 1:3, multiple = TRUE)  |> expect_equal(1)
+
+  # for length>1 but not setequal(), multiple NULL and FALSE yield same result
+  chk_match(1:2, 1:3, multiple = FALSE) |> expect_error("length 1, not length 2")
+  chk_match(1:2, 1:3, multiple = NULL)  |> expect_error("length 1, not length 2")
+  chk_match(1:2, 1:3, multiple = TRUE)  |> expect_equal(1:2)
+
+  # for setequal(x, values), the NULL special case from match.arg() stands out
+  chk_match(1:3, 1:3, multiple = FALSE) |> expect_error("length 1, not length 3")
+  chk_match(1:3, 1:3, multiple = NULL)  |> expect_equal(1)
+  chk_match(1:3, 1:3, multiple = TRUE)  |> expect_equal(1:3)
 
   # nothing else is coerced
   chk_match("2", 1:3)                           |> expect_error("Must be of type 'numeric', not 'character'")

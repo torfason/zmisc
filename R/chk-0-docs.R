@@ -168,8 +168,13 @@ NULL
 #' @param null.ok Is `NULL` permitted?
 #' @param values Bare atomic vector of values which the object checked by
 #'   `chk_match()` must be an element of.
-#' @param multiple Logical determining if the return value of `chk_match()` can
-#'   contain more than one element.
+#' @param multiple Logical determining the argument (and return value) of
+#'   `chk_match()` can contain more than one element. If `FALSE` the argument
+#'   must be strictly of length 1. If `TRUE` the argument can be of any length
+#'   as long as all elements are contained in `values`. If `NULL` the function
+#'   follows the special handling that allows a vector containing all elements
+#'   of `values` to pass, giving the same behavior as `match.arg` in order to
+#'   allow default arguments to be correctly matched.
 #' @return The original object if the check passes. `chk_match()` returns the
 #'   matched value visibly, `chk_dots_empty()` returns `NULL` invisibly, and
 #'   `chk_any()` returns the value of the first argument that passes, which is

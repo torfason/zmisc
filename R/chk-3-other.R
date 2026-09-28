@@ -56,13 +56,15 @@ chk_class <- function(x, classes, ..., null.ok = FALSE, ordered = FALSE) {
 
 #' @rdname chk_other
 #' @export
-chk_match <- function(x, values = NULL, ..., multiple = FALSE) {
+chk_match <- function(x, values = NULL, ..., multiple = NULL) {
 
   # Name to report the failure against, in place of `x` (not user-settable)
   error_arg = NULL
 
-  # Anything in the dots is a typo, not an extension
+  # Nothing is allowed in dots, we also verify the multiple flag
+  # We use shortcuts to speed up the default run of a chk function itself
   if (...length()) chk_dots_empty()
+  if (!is.null(multiple)) chk_flag(multiple)
 
   # If values are not passed, they must be derived from the enclosing formals,
   # and so x must be a symbol
@@ -72,13 +74,15 @@ chk_match <- function(x, values = NULL, ..., multiple = FALSE) {
     frame <- sys.parent()
 
     # A branch of chk_any() is evaluated in a frame of its own, built from a
-    # list, which has no function and no formals.
+    # list, which has no function and no formals. We try to navigate through
+    # parent frames to see if we find a relevant frame.
     if (chk_suppressed(env)) {
       while (chk_suppressed(env)) env <- parent.env(env)
       hit   <- which(vapply(sys.frames(), identical, logical(1L), env))
       frame <- if (length(hit) > 0L) hit[[length(hit)]] else 0L
     }
 
+    # Should be in the right frame, get formals into values or abort
     if (!is.symbol(sym) || frame == 0L)
       rlang::abort(
         c("`values` must be given unless `x` is an argument of the calling function.",
@@ -120,13 +124,15 @@ chk_match <- function(x, values = NULL, ..., multiple = FALSE) {
     res <- TRUE
   } else {
 
-    # A default that was never overridden arrives whole, and stands for its
-    # first value. The comparison is of sets, so that a default listed in
+    # If multiple is NULL we do special handling for setequal(x, values),
+    # because a default that was never overridden arrives whole, and stands for
+    # its first value. The comparison is of sets, so that a default listed in
     # another order is still a default.
-    if (!multiple && length(x) > 1L && setequal(x, values)) return(x[[1L]])
+    if (is.null(multiple) && length(x) > 1L && setequal(x, values)) return(x[[1L]])
 
+    # Only strict isTRUE(multiple) is TRUE, NULL or FALSE is FALSE
     bad <- x[!x %in% values]
-    if (multiple) {
+    if (isTRUE(multiple)) {
       if (length(bad) == 0L) return(x)
       res <- match_bullets(bad[[1L]], values)
     } else if (length(x) == 1L && length(bad) == 0L) {

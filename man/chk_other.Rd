@@ -17,7 +17,7 @@ chk_that(x, expr, ..., na.ok = FALSE, bindings = ".")
 
 chk_class(x, classes, ..., null.ok = FALSE, ordered = FALSE)
 
-chk_match(x, values = NULL, ..., multiple = FALSE)
+chk_match(x, values = NULL, ..., multiple = NULL)
 
 chk_dots_empty()
 
@@ -46,8 +46,13 @@ evaluating  \code{expr}.}
 \item{values}{Bare atomic vector of values which the object checked by
 \code{chk_match()} must be an element of.}
 
-\item{multiple}{Logical determining if the return value of \code{chk_match()} can
-contain more than one element.}
+\item{multiple}{Logical determining the argument (and return value) of
+\code{chk_match()} can contain more than one element. If \code{FALSE} the argument
+must be strictly of length 1. If \code{TRUE} the argument can be of any length
+as long as all elements are contained in \code{values}. If \code{NULL} the function
+follows the special handling that allows a vector containing all elements
+of \code{values} to pass, giving the same behavior as \code{match.arg} in order to
+allow default arguments to be correctly matched.}
 }
 \value{
 The original object if the check passes. \code{chk_match()} returns the
