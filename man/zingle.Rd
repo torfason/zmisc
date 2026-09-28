@@ -4,13 +4,11 @@
 \alias{zingle}
 \title{Return the single (unique) value found in a vector}
 \usage{
-zingle(
-  x,
-  ...,
-  empty.ok = FALSE,
+zingle(x, ...
+  empty.ok      = FALSE,
   na.ok.partial = FALSE,
-  na.ok.all = FALSE,
-  nan.ok.all = FALSE
+  na.ok.all     = FALSE,
+  nan.ok.all    = FALSE
 )
 }
 \arguments{

@@ -42,6 +42,13 @@ glue::glue_data
 #' @examples
 #'   letters |> glue_vector("Letters include {.} and {LETTERS}")
 #'
+#' @usage glue_vector(., template = "{.}",
+#'   ...,
+#'   .sep = "", .envir = parent.frame(), .open = "{", .close = "}",
+#'   .na = "NA", .null = character(), .comment = "#", .literal = FALSE,
+#'   .transformer = glue::identity_transformer, .trim = TRUE
+#' )
+#'
 #' @export
 glue_vector <- function(., template = "{.}", ...,
       .sep = "", .envir = parent.frame(), .open = "{", .close = "}",

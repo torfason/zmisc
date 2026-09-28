@@ -19,9 +19,11 @@
 #' Checks for scalars and atomic vectors
 #'
 #' @description
-#' Validity checks for atomic vectors. Each function below takes the same
-#' arguments -- `na.ok`, `null.ok`, `attr.ok`, and `length` or `range` where
-#' they apply.
+#' Validity checks for atomic vectors. See [chk_composite] for lists and other
+#' composite objects, and [chk_other] for various other checks.
+#'
+#' Each function below takes the same arguments whenever they apply, including
+#' `null.ok`, `na.ok`, `zero.ok`, `attr.ok`, `length` and `range`.
 #'
 #' They are meant to be cheap enough to leave at the top of any function, a
 #' passing value with default arguments tends to take under a microsecond on a

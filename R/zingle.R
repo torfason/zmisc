@@ -24,6 +24,13 @@
 #' zingle(c(NA, NA), na.ok.all = TRUE)
 #' zingle(c(NaN, NaN), nan.ok.all = TRUE)
 #'
+#' @usage
+#' zingle(x, ...
+#'   empty.ok      = FALSE,
+#'   na.ok.partial = FALSE,
+#'   na.ok.all     = FALSE,
+#'   nan.ok.all    = FALSE
+#' )
 #' @export
 zingle <- function(x, ...,
                    empty.ok      = FALSE,

@@ -34,7 +34,7 @@ VignetteBuilder:
 Encoding: UTF-8
 Language: en-US
 Config/testthat/edition: 3
-Roxygen: list(markdown = TRUE)
+Roxygen: list(markdown = TRUE, old_usage = TRUE)
 Config/roxygen2/version: 8.1.0
 Depends:
     R (>= 4.1.0)

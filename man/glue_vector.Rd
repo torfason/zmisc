@@ -4,20 +4,11 @@
 \alias{glue_vector}
 \title{Glue interpolation vectors in pipes}
 \usage{
-glue_vector(
-  .,
-  template = "{.}",
+glue_vector(., template = "{.}",
   ...,
-  .sep = "",
-  .envir = parent.frame(),
-  .open = "{",
-  .close = "}",
-  .na = "NA",
-  .null = character(),
-  .comment = "#",
-  .literal = FALSE,
-  .transformer = glue::identity_transformer,
-  .trim = TRUE
+  .sep = "", .envir = parent.frame(), .open = "{", .close = "}",
+  .na = "NA", .null = character(), .comment = "#", .literal = FALSE,
+  .transformer = glue::identity_transformer, .trim = TRUE
 )
 }
 \arguments{
