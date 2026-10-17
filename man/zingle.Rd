@@ -4,7 +4,7 @@
 \alias{zingle}
 \title{Return the single (unique) value found in a vector}
 \usage{
-zingle(x, ...
+zingle(x, ...,
   empty.ok      = FALSE,
   na.ok.partial = FALSE,
   na.ok.all     = FALSE,

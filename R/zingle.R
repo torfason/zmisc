@@ -25,7 +25,7 @@
 #' zingle(c(NaN, NaN), nan.ok.all = TRUE)
 #'
 #' @usage
-#' zingle(x, ...
+#' zingle(x, ...,
 #'   empty.ok      = FALSE,
 #'   na.ok.partial = FALSE,
 #'   na.ok.all     = FALSE,
