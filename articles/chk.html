@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">zmisc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -260,8 +260,10 @@ be applied to an object passing through a pipe. The value is bound to
 against the values in its own default, returning the match.
 <code><a href="../reference/chk_other.html">chk_match()</a></code> can be used <em>either</em> instead of
 <code><a href="https://rdrr.io/r/base/match.arg.html" class="external-link">match.arg()</a></code> for a choice style argument (in which case
-<code>x</code> must be a symbol), or as an way to check that an
-arbitrary <code>character</code> value is an element of a set.</p>
+<code>x</code> must be a symbol), or as a way to check that an arbitrary
+value is an element of a set. Any bare atomic type works, as long as
+<code>x</code> and the set have the same type (integer and double count
+as one).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot_kind</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">kind</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"scatter"</span>, <span class="st">"line"</span>, <span class="st">"bar"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">kind</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/chk_other.html">chk_match</a></span><span class="op">(</span><span class="va">kind</span><span class="op">)</span></span>

@@ -173,8 +173,10 @@ match.
 [`chk_match()`](https://torfason.github.io/zmisc/reference/chk_other.md)
 can be used *either* instead of
 [`match.arg()`](https://rdrr.io/r/base/match.arg.html) for a choice
-style argument (in which case `x` must be a symbol), or as an way to
-check that an arbitrary `character` value is an element of a set.
+style argument (in which case `x` must be a symbol), or as a way to
+check that an arbitrary value is an element of a set. Any bare atomic
+type works, as long as `x` and the set have the same type (integer and
+double count as one).
 
 ``` r
 

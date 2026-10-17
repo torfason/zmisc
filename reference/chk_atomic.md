@@ -1,8 +1,14 @@
 # Checks for scalars and atomic vectors
 
-Validity checks for atomic vectors. Each function below takes the same
-arguments – `na.ok`, `null.ok`, `attr.ok`, and `length` or `range` where
-they apply.
+Validity checks for atomic vectors. See
+[chk_composite](https://torfason.github.io/zmisc/reference/chk_composite.md)
+for lists and other composite objects, and
+[chk_other](https://torfason.github.io/zmisc/reference/chk_other.md) for
+various other checks.
+
+Each function below takes the same arguments whenever they apply,
+including `null.ok`, `na.ok`, `zero.ok`, `attr.ok`, `length` and
+`range`.
 
 They are meant to be cheap enough to leave at the top of any function, a
 passing value with default arguments tends to take under a microsecond
@@ -39,191 +45,68 @@ path, which runs once and then stops.
 ## Usage
 
 ``` r
-chk_flag(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
+chk_flag(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names")
 
-chk_logical(
-  x,
-  ...,
-  na.ok = TRUE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  length = NULL
-)
+chk_logical(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names",
+  length = NULL)
 
-chk_string(
-  x,
-  ...,
-  na.ok = FALSE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  range = NULL
-)
+chk_string(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names",
+  range = NULL)
 
-chk_character(
-  x,
-  ...,
-  na.ok = TRUE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  length = NULL,
-  range = NULL
-)
+chk_character(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names",
+  length = NULL, range = NULL)
 
-chk_number(
-  x,
-  ...,
-  na.ok = FALSE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  range = NULL
-)
+chk_number(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names",
+  range = NULL)
 
-chk_numeric(
-  x,
-  ...,
-  na.ok = TRUE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  length = NULL,
-  range = NULL
-)
+chk_numeric(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names",
+  length = NULL, range = NULL)
 
-chk_inumber(
-  x,
-  ...,
-  na.ok = FALSE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  range = NULL
-)
+chk_inumber(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names",
+  range = NULL)
 
-chk_integer(
-  x,
-  ...,
-  na.ok = TRUE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  length = NULL,
-  range = NULL
-)
+chk_integer(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names",
+  length = NULL, range = NULL)
 
-chk_dnumber(
-  x,
-  ...,
-  na.ok = FALSE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  range = NULL
-)
+chk_dnumber(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names",
+  range = NULL)
 
-chk_double(
-  x,
-  ...,
-  na.ok = TRUE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  length = NULL,
-  range = NULL
-)
+chk_double(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names",
+  length = NULL, range = NULL)
 
-chk_znumber(
-  x,
-  ...,
-  na.ok = FALSE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  range = NULL
-)
+chk_znumber(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names",
+  range = NULL)
 
-chk_integerish(
-  x,
-  ...,
-  na.ok = TRUE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  length = NULL,
-  range = NULL
-)
+chk_integerish(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names",
+  length = NULL, range = NULL)
 
-chk_count(
-  x,
-  ...,
-  na.ok = FALSE,
-  zero.ok = TRUE,
-  null.ok = FALSE,
-  attr.ok = "names"
-)
+chk_count(x, ..., null.ok = FALSE, na.ok = FALSE, zero.ok = TRUE,
+  attr.ok = "names")
 
-chk_naturalish(
-  x,
-  ...,
-  na.ok = TRUE,
-  zero.ok = TRUE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  length = NULL,
-  range = NULL
-)
+chk_naturalish(x, ..., null.ok = FALSE, na.ok = TRUE, zero.ok = TRUE,
+  attr.ok = "names", length = NULL, range = NULL)
 
-chk_factor(
-  x,
-  ...,
-  na.ok = TRUE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  length = NULL
-)
+chk_factor(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names",
+  length = NULL)
 
-chk_complex(
-  x,
-  ...,
-  na.ok = TRUE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  length = NULL
-)
+chk_complex(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names",
+  length = NULL)
 
 chk_raw(x, ..., null.ok = FALSE, attr.ok = "names", length = NULL)
 
-chk_day(
-  x,
-  ...,
-  na.ok = FALSE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  range = NULL
-)
+chk_day(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names",
+  range = NULL)
 
-chk_date(
-  x,
-  ...,
-  na.ok = TRUE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  length = NULL,
-  range = NULL
-)
+chk_date(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names",
+  length = NULL, range = NULL)
 
-chk_instant(
-  x,
-  ...,
-  na.ok = FALSE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  range = NULL
-)
+chk_instant(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names",
+  range = NULL)
 
-chk_posixct(
-  x,
-  ...,
-  na.ok = TRUE,
-  null.ok = FALSE,
-  attr.ok = "names",
-  length = NULL,
-  range = NULL
-)
+chk_posixct(x, ..., null.ok = FALSE, na.ok = TRUE, attr.ok = "names",
+  length = NULL, range = NULL)
 
-chk_scalar(x, ..., na.ok = FALSE, null.ok = FALSE, attr.ok = "names")
+chk_scalar(x, ..., null.ok = FALSE, na.ok = FALSE, attr.ok = "names")
 
 chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 ```
@@ -238,13 +121,13 @@ chk_atomic(x, ..., na.ok = TRUE, attr.ok = "names", length = NULL)
 
   These dots are for future extensions and must be empty.
 
-- na.ok:
-
-  Are missing values permitted?
-
 - null.ok:
 
   Is `NULL` permitted?
+
+- na.ok:
+
+  Are missing values permitted?
 
 - attr.ok:
 

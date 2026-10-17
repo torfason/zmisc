@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">zmisc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,11 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.3.0" id="zmisc-030">zmisc 0.3.0<a class="anchor" aria-label="anchor" href="#zmisc-030"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.3.0.9001" id="zmisc-0309001">zmisc 0.3.0.9001<a class="anchor" aria-label="anchor" href="#zmisc-0309001"></a></h2>
+<ul><li>Extends <code><a href="../reference/chk_other.html">chk_match()</a></code> to work with any bare atomic type, as long as <code>x</code> and <code>values</code> are of the same type. The extension applies regardless of whether <code>values</code> are explicitly provided or derived from <code>x</code> as a symbol and the formals of a function within which <code><a href="../reference/chk_other.html">chk_match()</a></code> is called.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.3.0" id="zmisc-030">zmisc 0.3.0<a class="anchor" aria-label="anchor" href="#zmisc-030"></a></h2><p class="text-muted">CRAN release: 2026-09-27</p>
 <div class="section level3">
 <h3 id="new-features-0-3-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-0"></a></h3>
 <ul><li><p>Adds argument check functions, <code>chk_*()</code>. The family covers the atomic types in both scalar and vector form (<code><a href="../reference/chk_atomic.html">chk_string()</a></code>, <code><a href="../reference/chk_atomic.html">chk_character()</a></code>, <code><a href="../reference/chk_atomic.html">chk_number()</a></code>, and so on), lists and composite objects (<code><a href="../reference/chk_composite.html">chk_list()</a></code>, <code><a href="../reference/chk_composite.html">chk_data_frame()</a></code>, <code><a href="../reference/chk_composite.html">chk_tibble()</a></code>, …), classes and arbitrary conditions (<code><a href="../reference/chk_other.html">chk_class()</a></code>, <code><a href="../reference/chk_other.html">chk_true()</a></code>, <code><a href="../reference/chk_other.html">chk_that()</a></code>), and <code><a href="../reference/chk_other.html">chk_any()</a></code> for a requirement that any one of several checks may satisfy. See <code><a href="../articles/chk.html">vignette("chk")</a></code>, and <code><a href="../reference/chk_atomic.html">?chk_atomic</a></code>, <code><a href="../reference/chk_composite.html">?chk_composite</a></code> and <code><a href="../reference/chk_other.html">?chk_other</a></code>.</p></li>

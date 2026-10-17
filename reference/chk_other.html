@@ -21,8 +21,9 @@ through a pipe.
 chk_class() provides a quick way to check the class of an object.
 chk_match() can be used either as an equivalent to rlang::arg_match() or
 match.arg() for checking a function argument against default values in a
-function, or to check that any (character) variable x is an element of a
-(character) vector of values. When used to select default value in a
+function, or to check that any variable x is an element of a vector of
+values. Both must be bare atomic vectors of the same type, except that
+integer and double count as one type. When used to select default value in a
 function, it must be called as arg &amp;lt;- chk_match(arg).
 chk_dots_empty() verifies that no arguments were passed to the ...
 parameters, similarly to rlang::check_dots_empty().
@@ -49,8 +50,9 @@ through a pipe.
 chk_class() provides a quick way to check the class of an object.
 chk_match() can be used either as an equivalent to rlang::arg_match() or
 match.arg() for checking a function argument against default values in a
-function, or to check that any (character) variable x is an element of a
-(character) vector of values. When used to select default value in a
+function, or to check that any variable x is an element of a vector of
+values. Both must be bare atomic vectors of the same type, except that
+integer and double count as one type. When used to select default value in a
 function, it must be called as arg &amp;lt;- chk_match(arg).
 chk_dots_empty() verifies that no arguments were passed to the ...
 parameters, similarly to rlang::check_dots_empty().
@@ -63,7 +65,7 @@ only if all constituent checks fail."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">zmisc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,8 +106,9 @@ through a pipe.</p>
 <p><code>chk_class()</code> provides a quick way to check the class of an object.</p>
 <p><code>chk_match()</code> can be used either as an equivalent to <code><a href="https://rlang.r-lib.org/reference/arg_match.html" class="external-link">rlang::arg_match()</a></code> or
 <code><a href="https://rdrr.io/r/base/match.arg.html" class="external-link">match.arg()</a></code> for checking a function argument against default values in a
-function, or to check that any (<code>character</code>) variable x is an element of a
-(<code>character</code>) vector of <code>values</code>. When used to select default value in a
+function, or to check that any variable x is an element of a vector of
+<code>values</code>. Both must be bare atomic vectors of the same type, except that
+integer and double count as one type. When used to select default value in a
 function, it must be called as <code>arg &lt;- chk_match(arg)</code>.</p>
 <p><code>chk_dots_empty()</code> verifies that no arguments were passed to the <code>...</code>
 parameters, similarly to <code><a href="https://rlang.r-lib.org/reference/check_dots_empty.html" class="external-link">rlang::check_dots_empty()</a></code>.</p>
@@ -121,7 +124,7 @@ only if all constituent checks fail.</p>
 <span></span>
 <span><span class="fu">chk_class</span><span class="op">(</span><span class="va">x</span>, <span class="va">classes</span>, <span class="va">...</span>, null.ok <span class="op">=</span> <span class="cn">FALSE</span>, ordered <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">chk_match</span><span class="op">(</span><span class="va">x</span>, values <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span>, multiple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">chk_match</span><span class="op">(</span><span class="va">x</span>, values <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span>, multiple <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">chk_dots_empty</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -168,13 +171,18 @@ evaluating  <code>expr</code>.</p></dd>
 
 
 <dt id="arg-values">values<a class="anchor" aria-label="anchor" href="#arg-values"></a></dt>
-<dd><p>Character vector of values which the object checked by
+<dd><p>Bare atomic vector of values which the object checked by
 <code>chk_match()</code> must be an element of.</p></dd>
 
 
 <dt id="arg-multiple">multiple<a class="anchor" aria-label="anchor" href="#arg-multiple"></a></dt>
-<dd><p>Logical determining if the return value of <code>chk_match()</code> can
-contain more than one element.</p></dd>
+<dd><p>Logical determining the argument (and return value) of
+<code>chk_match()</code> can contain more than one element. If <code>FALSE</code> the argument
+must be strictly of length 1. If <code>TRUE</code> the argument can be of any length
+as long as all elements are contained in <code>values</code>. If <code>NULL</code> the function
+follows the special handling that allows a vector containing all elements
+of <code>values</code> to pass, giving the same behavior as <code>match.arg</code> in order to
+allow default arguments to be correctly matched.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -223,6 +231,10 @@ for lists and composite objects.</p></div>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="fu">plot_kind</span><span class="op">(</span><span class="st">"pie"</span><span class="op">)</span>, error <span class="op">=</span> <span class="va">wrap_error</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #E&gt; Assertion on `kind` failed: <span style="color: #00BBBB;">•</span> Must be one</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> #E&gt; of "scatter", "line", or "bar", not "pie"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Any bare atomic type, with integer and double interchangeable</span></span></span>
+<span class="r-in"><span><span class="fu">chk_match</span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># chk_any() takes the first check that passes</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="st">"a"</span></span></span>

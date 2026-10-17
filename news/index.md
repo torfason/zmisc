@@ -1,6 +1,19 @@
 # Changelog
 
+## zmisc 0.3.0.9001
+
+- Extends
+  [`chk_match()`](https://torfason.github.io/zmisc/reference/chk_other.md)
+  to work with any bare atomic type, as long as `x` and `values` are of
+  the same type. The extension applies regardless of whether `values`
+  are explicitly provided or derived from `x` as a symbol and the
+  formals of a function within which
+  [`chk_match()`](https://torfason.github.io/zmisc/reference/chk_other.md)
+  is called.
+
 ## zmisc 0.3.0
+
+CRAN release: 2026-09-27
 
 ### New features
 

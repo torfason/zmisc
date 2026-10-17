@@ -10,13 +10,11 @@ unnamed, in line with other aggregation functions.
 ## Usage
 
 ``` r
-zingle(
-  x,
-  ...,
-  empty.ok = FALSE,
+zingle(x, ...,
+  empty.ok      = FALSE,
   na.ok.partial = FALSE,
-  na.ok.all = FALSE,
-  nan.ok.all = FALSE
+  na.ok.all     = FALSE,
+  nan.ok.all    = FALSE
 )
 ```
 

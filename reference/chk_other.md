@@ -29,8 +29,9 @@ an object passing through a pipe.
 [`rlang::arg_match()`](https://rlang.r-lib.org/reference/arg_match.html)
 or [`match.arg()`](https://rdrr.io/r/base/match.arg.html) for checking a
 function argument against default values in a function, or to check that
-any (`character`) variable x is an element of a (`character`) vector of
-`values`. When used to select default value in a function, it must be
+any variable x is an element of a vector of `values`. Both must be bare
+atomic vectors of the same type, except that integer and double count as
+one type. When used to select default value in a function, it must be
 called as `arg <- chk_match(arg)`.
 
 `chk_dots_empty()` verifies that no arguments were passed to the `...`
@@ -49,7 +50,7 @@ chk_that(x, expr, ..., na.ok = FALSE, bindings = ".")
 
 chk_class(x, classes, ..., null.ok = FALSE, ordered = FALSE)
 
-chk_match(x, values = NULL, ..., multiple = FALSE)
+chk_match(x, values = NULL, ..., multiple = NULL)
 
 chk_dots_empty()
 
@@ -95,13 +96,18 @@ chk_any(...)
 
 - values:
 
-  Character vector of values which the object checked by `chk_match()`
+  Bare atomic vector of values which the object checked by `chk_match()`
   must be an element of.
 
 - multiple:
 
-  Logical determining if the return value of `chk_match()` can contain
-  more than one element.
+  Logical determining the argument (and return value) of `chk_match()`
+  can contain more than one element. If `FALSE` the argument must be
+  strictly of length 1. If `TRUE` the argument can be of any length as
+  long as all elements are contained in `values`. If `NULL` the function
+  follows the special handling that allows a vector containing all
+  elements of `values` to pass, giving the same behavior as `match.arg`
+  in order to allow default arguments to be correctly matched.
 
 ## Value
 
@@ -156,6 +162,10 @@ plot_kind()
 tryCatch(plot_kind("pie"), error = wrap_error)
 #> #E> Assertion on `kind` failed: • Must be one
 #> #E> of "scatter", "line", or "bar", not "pie"
+
+# Any bare atomic type, with integer and double interchangeable
+chk_match(2, 1:3)
+#> [1] 2
 
 # chk_any() takes the first check that passes
 x <- "a"
